@@ -29,14 +29,14 @@ c.stroke(); */
 c.beginPath();
 
 //colunas
-for (var i = 0; i < canvas.width; i += 50)  //20 seria a escala (pixels)
+for (var i = 0; i < canvas.width; i += 50)  //50 seria a escala (pixels)
 {     
     c.moveTo(i , 0);  
     c.lineTo(i, canvas.height);  
 }
 
 //linhas
-for (var i = 0; i < canvas.height; i += 50) //20 seria a escala (pixels)
+for (var i = 0; i < canvas.height; i += 50) //50 seria a escala (pixels)
 {    
     c.moveTo(0, i);  
     c.lineTo(canvas.width, i);  
