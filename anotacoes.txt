@@ -1,0 +1,14 @@
+Dois pontos, um que passa pelo eixo X e outro pelo eixo Y
+Quando B for diferente de 0, os dois pontos escolhidos são diferentes.	          => Escala é a diferença entre os dois
+Quando B é igual a 0, será o mesmo ponto, logo, precisamos definir um outro ponto. => Escala é o próprio A
+
+Quando B for diferente de 0, os valores são determinados por uma P.A de razão A, em que o A1 é o B.
+=> P.A com A1 = B e Razão A. 
+Se B != 0 e A > 0 -> P.A com razão A1
+Se B != 0 e A < 0 -> P.A com razão -
+
+Outras formas de pensar: 
+Razão no eixo Y: valor de y em que a reta corta este eixo / 2
+Razão no eixo X: valor de x em que a reta corta este eixo / 2
+
+O espaçamento em pixels do quadriculado sempre será o mesmo, o que muda serão os valores  
