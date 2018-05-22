@@ -1,145 +1,232 @@
 var canvas = document.querySelector('canvas');
-
 var c = canvas.getContext('2d');
 
+var qtasLinhas = 12;
+var qtasColunas = 12;
+
+var larguraLinha = canvas.height / qtasLinhas;
+var larguraColuna = canvas.width / qtasColunas;
+
+// Desenhar a grade
 c.beginPath();
 c.strokeStyle = "rgb(169, 169, 169)";
 
-const qtasLinhas = 8;
-const qtasColunas = 8;
-
-const larguraLinha = canvas.height / qtasLinhas;
-const larguraColuna = canvas.width / qtasColunas;
-
-//Colunas
-for (var i = -1 * canvas.width; i < canvas.width; i += canvas.width / qtasColunas)  // canvas.width / qtasColunas é a escala das colunas
+//Grades das colunas do lado direito
+for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
 {     
     c.moveTo(i , 0);  
     c.lineTo(i, canvas.height); 
     c.stroke(); 
 }
 
-//Linhas
-for (var i = 0; i < canvas.height; i += canvas.width / qtasLinhas) // canvas.width / qtasLinhas é a escala das linhas
+//Grades das colunas do lado esquerdo
+for (var i = canvas.width / 2; i > 0; i -= larguraColuna)
+{     
+    c.moveTo(i , 0);  
+    c.lineTo(i, canvas.height); 
+    c.stroke(); 
+}
+
+//Grades das linhas de cima
+for (var i = canvas.height / 2; i > 0; i -= larguraLinha) 
 {    
     c.moveTo(0, i);  
     c.lineTo(canvas.width, i);  
     c.stroke();
 }
 
-// Desenha os eixos X e Y
+//Grades das linhas de baixo
+for (var i = canvas.height / 2; i < canvas.height; i += larguraLinha)
+{    
+    c.moveTo(0, i);  
+    c.lineTo(canvas.width, i);  
+    c.stroke();
+}
 
-//EIXO X
-c.beginPath();
-c.moveTo(0, canvas.height / 2);
-c.lineTo(canvas.width, canvas.height / 2);
-c.strokeStyle = "black";
-c.lineWidth = 3.5;
-c.stroke();
-
-//EIXO Y
-c.beginPath();
-c.moveTo(canvas.width / 2, 0);
-c.lineTo(canvas.width / 2, canvas.height);
-c.strokeStyle = "black";
-c.lineWidth = 3.5;
-c.stroke();
-/////////////////////////
-
-function desenharLinhas(ondeCruzaX, ondeCruzaY)
+// Desenha os eixos X e Y, assim como os pontos das abscissas e ordenadas
+function desenharEixos()
 {
     c.font = "17px Arial";
 
-    var escalaY;
-    var escalaX;
+    //EIXO X
+    c.beginPath();
+    c.moveTo(0, canvas.height / 2);
+    c.lineTo(canvas.width, canvas.height / 2);
+    c.strokeStyle = "black";
+    c.lineWidth = 3.5;
+    c.stroke();
 
-    // Escrevendo os pontos do eixo Y
-    var yTexto = 0;
-    while (yTexto < qtasLinhas)
-    {
-        var textoPonto;
-        if (ondeCruzaY == null || ondeCruzaY == 0)
-            textoPonto = (qtasLinhas/2 - yTexto).toString();
-        else
-        {
-            var numeroPonto = (qtasLinhas/2 - yTexto) * ondeCruzaY / 3;
-            if (numeroPonto % 1 != 0)
-                textoPonto = numeroPonto.toFixed(1);
-            else
-                textoPonto = numeroPonto;
+    //EIXO Y
+    c.beginPath();
+    c.moveTo(canvas.width / 2, 0);
+    c.lineTo(canvas.width / 2, canvas.height);
+    c.strokeStyle = "black";
+    c.lineWidth = 3.5;
+    c.stroke();
 
-        }
+    // Colocando os pontos
+    var pontoAtual = 0;
 
-        c.fillText(textoPonto, canvas.width / 2 * 0.97, yTexto * canvas.height / qtasLinhas - canvas.height / qtasLinhas * 0.06);
-        yTexto++;
+    // Coluna do lado direito
+    for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
+    {     
+        c.fillText(pontoAtual, i, canvas.height / 2 + 17);
+        pontoAtual++;
     }
+    
+    pontoAtual = -1;
 
-    //Escrevendo os pontos do eixo X
-    var xTexto = 0;
-    while (xTexto < qtasColunas)
-    {
-        var textoPonto;
-        if (ondeCruzaX == null || ondeCruzaX == 0)
-            textoPonto = (xTexto - qtasColunas / 2).toString();
-        else
-        {
-            var numeroPonto = (qtasColunas/2 - xTexto) * ondeCruzaX / 3;
-            if (numeroPonto % 1 != 0)
-                textoPonto = numeroPonto.toFixed(1);
-            else
-                textoPonto = numeroPonto;
-        }
+    //Colunas do lado esquerdo
+    for (var i = (canvas.width / 2 - larguraColuna); i > 0; i -= larguraColuna)
+    {     
+        c.fillText(pontoAtual, i, canvas.height / 2 + 17);
+        pontoAtual--;
+    }
+    
+    pontoAtual = 1;
 
-        if (qtasColunas / 2 - xTexto != 0)
-            c.fillText(textoPonto, xTexto * canvas.width / qtasColunas + canvas.width / qtasColunas * 0.06 , canvas.height / 2 * 1.03);
+    //Linhas de cima
+    for (var i = canvas.height / 2 - larguraLinha; i > 0; i -= larguraLinha) 
+    {    
+        c.fillText(pontoAtual, canvas.width / 2 - 17, i);
+        pontoAtual++;
+    }
+    
+    pontoAtual = -1;
 
-        xTexto++;
+    //Linhas de baixo
+    for (var i = canvas.height / 2 + larguraLinha; i < canvas.height; i += larguraLinha)
+    {    
+        c.fillText(pontoAtual, canvas.width / 2 - 21, i);
+        pontoAtual--;
     }
 }
-var xInicial;
-var yInicial;
 
+
+// Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
+var yAtual1;
+var xAtual1;
+
+var yAtual2;
+var xAtual2;
+
+var razaoX;
 var razaoY;
+
+var sentido;
 
 function desenharGrafico(a, b)
 {
-    var ondeCruzaX = -b/a;
-    var ondeCruzaY = b;
-    desenharLinhas(ondeCruzaX, ondeCruzaY);
+    var cruzaX = -b/a;
+    var cruzaY = b;
 
-  //  xInicial = canvas.width/2 + (ondeCruzaX * canvas.width/qtasColunas);
-  //  yInicial = canvas.height/2 + (ondeCruzaY * canvas.height/qtasLinhas);
-
-    yInicial = canvas.height / 2;
-    xInicial = canvas.width / qtasColunas;
-
-    var xPontoTeste  = ondeCruzaX * canvas.width / qtasColunas + canvas.width / 2;
-    var yPontoTeste  = ondeCruzaY * canvas.height / qtasLinhas + canvas.height / 2;
+    if(a < 0)
+        sentido = -1;
+    else
+        sentido = 1;
     
-    razaoY = (xPontoTeste - xInicial) / (yPontoTeste - yInicial);
-
-    desenharReta();
-}
-
-function desenharReta()
-{
-    requestAnimationFrame(desenharReta);
+    var diferencaDeX;
+    var diferencaDeY;
 
     c.beginPath();
-    c.lineWidth = 1;
-    c.arc(xInicial, yInicial, 5, Math.PI * 2, false)
+    
+    if (cruzaX != 0 && cruzaY != 0)
+    {
+        c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
+        c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
 
-    c.strokeStyle = "DodgerBlue";
-    c.fillStyle   = "DodgerBlue";
+        //Variáveis para fazer a animação
+
+        xAtual1 = canvas.width / 2 + cruzaX * larguraColuna;
+        yAtual1 = canvas.height / 2;
+
+        xAtual2 = xAtual1;
+        yAtual2 = yAtual1;
+
+        diferencaDeX = (canvas.width / 2 + cruzaX * larguraColuna) - (canvas.width / 2);
+
+        if (diferencaDeX < 0)
+            diferencaDeX *= -1;
+        
+        diferencaDeY = (canvas.height / 2 - cruzaY * larguraLinha) - (canvas.height / 2);
+
+        if (diferencaDeY < 0)
+            diferencaDeX *= -1;
+
+    }
+    else
+    {
+        c.moveTo(canvas.width / 2, canvas.height / 2);  // (0, 0)
+        var pontoY = a * 1 + b;
+        c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - larguraLinha * pontoY);
+
+        //Variáveis para fazer a animação
+
+        xAtual1 = canvas.width / 2;
+        yAtual1 = canvas.height / 2;
+
+        xAtual2 = xAtual1;
+        yAtual2 = yAtual1;
+
+        diferencaDeX = (canvas.width / 2 + larguraColuna) - (canvas.width / 2);
+
+        if (diferencaDeX < 0)
+            diferencaDeX *= -1;
+        
+        diferencaDeY = (canvas.height / 2 - larguraLinha * pontoY) - (canvas.height / 2);
+
+        if (diferencaDeY < 0)
+            diferencaDeX *= -1;
+    }
+    
+  /*  c.strokeStyle = "rgb(255, 0, 0)";
+    c.fillStyle   = "rgb(255, 0, 0)";
+
+    c.stroke(); */
+
+    razaoX = diferencaDeX / diferencaDeY;
+    razaoY = 1;
+
+    animarReta();
+}
+
+const velocidade = 3;
+
+function animarReta()
+{
+    var req = requestAnimationFrame(animarReta);
+
+    c.beginPath();
+    c.lineWidth = 0;
+    c.arc(xAtual1, yAtual1, 2, Math.PI * 2, false);
+
+    c.strokeStyle = "rgba(30, 174, 255, 0.6)";
+    c.fillStyle   = "rgba(30, 174, 255, 0.6)";
     c.fill();
 
     c.stroke();
 
-    if (yInicial <= canvas.height  && xInicial <= canvas.width)
+    c.beginPath();
+    c.lineWidth = 0;
+    c.arc(xAtual2, yAtual2, 2, Math.PI * 2, false);
+
+    c.strokeStyle = "rgba(30, 174, 255, 0.6)";
+    c.fillStyle   = "rgba(30, 174, 255, 0.6)";
+    c.fill();
+
+    c.stroke();
+
+    if (yAtual1 >= 0 && xAtual1 <= canvas.width)
     {
-        xInicial += 1;          // Aumentará x pixels (Razão = x/y)
-        yInicial -= razaoY;     // Aumentará y pixels
+        xAtual1 += sentido * razaoX * velocidade;   // Aumentará x pixels (Razão = x/y)
+        yAtual1 -= 1 * velocidade;                  // Aumentará y pixels
+
+        xAtual2 -= sentido * razaoX * velocidade;
+        yAtual2 += 1 * velocidade;
     }
+    else
+        cancelAnimationFrame(req);
 }
 
-desenharGrafico(2, 0);      //´PENSAR EM MUITOS IFs
+desenharEixos();
+desenharGrafico(2, 2);
