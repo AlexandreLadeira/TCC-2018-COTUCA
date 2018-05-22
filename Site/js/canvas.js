@@ -178,14 +178,17 @@ function desenharGrafico(a, b)
         if (diferencaDeY < 0)
             diferencaDeX *= -1;
     }
-    
-  /*  c.strokeStyle = "rgb(255, 0, 0)";
-    c.fillStyle   = "rgb(255, 0, 0)";
 
-    c.stroke(); */
-
-    razaoX = diferencaDeX / diferencaDeY;
-    razaoY = 1;
+    if (diferencaDeX > diferencaDeY)
+    {
+        razaoX = diferencaDeX / diferencaDeY;
+        razaoY = 1;
+    }
+    else
+    {
+        razaoX = 1;
+        razaoY = diferencaDeY / diferencaDeX;
+    }
 
     animarReta();
 }
@@ -219,14 +222,14 @@ function animarReta()
     if (yAtual1 >= 0 && xAtual1 <= canvas.width)
     {
         xAtual1 += sentido * razaoX * velocidade;   // Aumentará x pixels (Razão = x/y)
-        yAtual1 -= 1 * velocidade;                  // Aumentará y pixels
+        yAtual1 -= razaoY * velocidade;                  // Aumentará y pixels
 
         xAtual2 -= sentido * razaoX * velocidade;
-        yAtual2 += 1 * velocidade;
+        yAtual2 += razaoY * velocidade;
     }
     else
         cancelAnimationFrame(req);
 }
 
 desenharEixos();
-desenharGrafico(2, 2);
+desenharGrafico(5, 2);
