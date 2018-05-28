@@ -1,0 +1,7 @@
+Nome da empresa: A principio Mat3ch, mas queriamos encontra um nome que englobase mais a questão de ensinarmos funcoes de primeiro grau 
+Logotipo: Ainda não foi formulado, pois precisamos de mais tempo de desenvolvimento do projeto para defirnirmos a identidadde visual 
+	  dele. Porém ja definimos que as cores devem ser azul e branco, talvez detalhes em vermelho 
+Slogan: Nossa função é ensinar! 
+Personagem / Mascote : pensamos em um numero 1, caricaturizado para parecer um estuduioso da matemática antigo ( inspirções em Leibniz e Bernoulli)
+Vídeo:  Video que no começo apresenta que a empresa é um projeto de TCC do COTUCA,  mostrando a ideia inicial e motivos, e depois um tutorial 
+de como usar a ferramenta passo a passo. 
