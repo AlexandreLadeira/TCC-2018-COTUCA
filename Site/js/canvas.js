@@ -190,6 +190,27 @@ function desenharGrafico(a, b)
         razaoY = diferencaDeY / diferencaDeX;
     }
 
+    if(cruzaX < 0 && cruzaX < qtasColunas/2 * (-1))
+    {
+        qtsvezes = xAtual1 / (sentido * razaoX * velocidade);
+
+        if(qtsvezes < 0)
+            qtsvezes *= -1;
+
+        xAtual1 = 0;
+        yAtual1 -= (razaoY * velocidade) * qtsvezes;
+    }
+    else if(cruzaX > 0 && cruzaX > qtasColunas/2)
+    {
+        qtsvezes = yAtual1 / (razaoY * velocidade);
+
+        if(qtsvezes < 0)
+            qtsvezes *= -1;
+
+        yAtual1 = 0;
+        xAtual1 += sentido * razaoX * velocidade * qtsvezes;
+    }
+
     animarReta();
 }
 
@@ -232,4 +253,4 @@ function animarReta()
 }
 
 desenharEixos();
-desenharGrafico(5, 2);
+desenharGrafico(-0.1, 2);
