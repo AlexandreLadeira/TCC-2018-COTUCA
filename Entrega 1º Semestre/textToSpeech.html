@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Primeiro teste para ouvir texto</title>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+        <input type="text" name="text">
+
+        <button class="btnFalar">Ouvir texto</button>
+
+        <audio src="" class="falar" hidden></audio>
+        <script>
+            $(function() {
+              $('button.btnFalar').on('click',function(e){
+                  e.preventDefault();//certeza que a pagina fica aqui 
+                  var text = $('input[name="text"]').val();// pegando o valor digitado
+                  text     = encodeURIComponent(text);//trata os espaços da url
+                  
+                  //url que contem o audio 
+                  var url  = "http://translate.google.com/translate_tts?tl=pt&q="+ text +"&client=tw-ob"
+                  $('audio').attr('src',url).get(0).play();//play no audio 
+              });  
+            });
+        </script>
+    </body>
+</html>
