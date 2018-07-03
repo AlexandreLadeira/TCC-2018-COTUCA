@@ -4,12 +4,8 @@
         <meta charset="utf-8">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
         <link href="css/foundation.css" type="text/css" rel="stylesheet" />
-        <link href="css/app.css" type="text/css" rel="stylesheet" />
-        <style>
-            body{
-                font-family: 'Raleway', sans-serif;
-            }
-        </style>
+        <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
+        
     </head>
     <body>
 
@@ -30,7 +26,10 @@
             <div class="grid-x">
                 <input type="button" value="Passo Anterior" class="button primary"/>  
                 <input type="button" value="Próximo Passo"  class="button primary"/>
+                <input type="button" value="Alto Contrate"  class="button primary" onclick="trocaEstilo('css/altoContraste.css')" />
+                <label id="modo" hidden="true"></label>
             </div>
+
 
         </div>
 

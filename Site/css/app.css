@@ -8,3 +8,9 @@
 canvas{
     border: solid 1px black;
 }
+
+body {
+	background-color: white;
+	font-family: 'Raleway', sans-serif;
+
+}
