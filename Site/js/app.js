@@ -9,10 +9,10 @@ function trocaEstilo(arq) {
 	{
 		document.getElementById('estilo').setAttribute('href','css/app.css');
 		document.getElementById('modo').innerHTML = "";
-	}
+	}	
 
-	
-	
 
-	console.log(arq);
+
+
 }
+
