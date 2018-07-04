@@ -1,4 +1,12 @@
 body {
 	background-color: black;
+	color: yellow;
 }
 
+div{
+	color: yellow;
+}
+
+#contraste{
+	color: yellow;
+}
