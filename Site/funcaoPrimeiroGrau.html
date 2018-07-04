@@ -8,10 +8,16 @@
         
     </head>
     <body>
-
-        <div class="menu"> MENU </div>
         <div class="grid-container">
-            <h3 class="subheader"> Aprender a como gerar o gráfico de uma função de primeiro grau </h1>
+            <ul class="menu menu-hover-lines">
+                <li class="active"><a href="home.html">Home</a></li>
+                <li><a href="teoriaAfim.html">Teoria</a></li>
+                <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+            </ul>
+            <br>
+            <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
+                <br>
             <div class="grid-x">
                 <label> Está em dúvida? Confira a nossa <a href="#">teoria</a> interativa! </label>
             </div>
@@ -20,9 +26,11 @@
                 <input class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onclick="alertar()"/>    
             </div>
             <input type="button" value="Gerar Gráfico"  class="button primary"/> 
-            <div class="grid-x">
-                <canvas width="900" height="900"></canvas>
-            </div>
+            <center>
+                <div>
+                    <canvas width="900" height="900"></canvas>
+                </div>
+            </center>
             <div class="grid-x">
                 <input type="button" value="Passo Anterior" class="button primary"/>  
                 <input type="button" value="Próximo Passo"  class="button primary"/>
