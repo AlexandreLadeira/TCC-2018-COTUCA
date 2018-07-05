@@ -13,11 +13,17 @@
   position: absolute;
 }
 
-.definicao{
-  width: 50%;
+.tabelaExemplo
+{
+  font-size: 19px;  
+  text-align: center;
+}
+.fonte{
   font-size: 20px;
   text-align: justify;
 }
+
+
 
 canvas{
     border: solid 1px black;
