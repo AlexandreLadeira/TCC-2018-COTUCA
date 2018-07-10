@@ -16,3 +16,27 @@ function trocaEstilo(arq) {
 
 }
 
+function moeda(z){
+	v = z;
+	v = v.replace(",",".");	
+	return v;
+	}
+
+function CorridaUber(){
+	var bandeira 	= parseFloat(moeda(document.getElementById("bandeira").value));
+	var quilometro 	= parseFloat(moeda(document.getElementById("quilometro").value));
+	var distancia 	= parseFloat(moeda(document.getElementById("distancia").value));
+	
+	console.log(bandeira);
+	console.log(quilometro);
+	console.log(distancia);
+
+	var resultado = quilometro*distancia + bandeira;
+
+	resultado = parseFloat(resultado.toFixed(2)) + "";
+
+	resultado = resultado.replace(".",",");
+
+	document.getElementById("resultado").innerHTML = "R$" + resultado; 
+}
+
