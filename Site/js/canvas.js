@@ -253,4 +253,3 @@ function animarReta()
 }
 
 desenharEixos();
-desenharGrafico(-0.1, 2);

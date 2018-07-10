@@ -29,7 +29,7 @@
                 <label class="cell shrink" id="contraste"> Digite a função: </label>
                 <input class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onclick="alertar()"/>    
             </div>
-            <input type="button" value="Gerar Gráfico"  class="button primary"/> 
+            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="desenharGrafico(3, 2)"> 
             <center>
                 <div>
                     <canvas width="900" height="900"></canvas>
@@ -41,8 +41,6 @@
                 <input type="button" value="Alto Contrate"  class="button primary" onclick="trocaEstilo('css/altoContraste.css')" />
                 <label id="modo" hidden="true"></label>
             </div>
-
-
         </div>
 
         <script src="js/canvas.js"> </script>
