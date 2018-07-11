@@ -1,13 +1,15 @@
-function trocaEstilo(arq) {
+function trocaEstilo() {
 
 	if(document.getElementById('modo').innerHTML == "")
 	{
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
+		document.getElementById('found').setAttribute('href','css/foundation2.css');
 		document.getElementById('modo').innerHTML = "altoContraste";
 	}
 	else
 	{
 		document.getElementById('estilo').setAttribute('href','css/app.css');
+		document.getElementById('found').setAttribute('href','css/foundation.css');
 		document.getElementById('modo').innerHTML = "";
 	}	
 

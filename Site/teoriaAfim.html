@@ -3,7 +3,7 @@
         <title> Função de Primeiro Grau </title>
         <meta charset="utf-8">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
-        <link href="css/foundation.css" type="text/css" rel="stylesheet" />
+        <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found"/>
         <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
         <link rel="icon" href="logoFinal.png">
         
@@ -20,6 +20,7 @@
                 <li><a href="teoriaAfim.html">Teoria</a></li>
                 <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
                 <li><a href="#">Sobre Nós</a></li>
+                <li><a onclick="trocaEstilo()">Alto contraste</a></li>
             </ul>
             
             <div class="grid-x grid-margin-x">
@@ -113,7 +114,7 @@
                         </label>
                    </div>
                    <div class="cell medium-4">
-                        <input type="text" id="bandeira" ></input>
+                        <input type="text" id="bandeira"  ></input>
                    </div>
                    <div class="cell medium-6">
                         <br>
@@ -126,7 +127,7 @@
                         </label>
                    </div>
                    <div class="cell medium-4">
-                        <input type="text" id="quilometro" ></input>
+                        <input type="text" id="quilometro"  ></input>
                    </div>
 
                    <div class="cell medium-6">
@@ -147,7 +148,7 @@
                    </div>
 
                    <div class="cell medium-6">
-                        <input type="button" value="Checar" class="button primary" onclick="CorridaUber();"/>  
+                       <b><center><input type="button" value="Checar" style="width: 100%;" class="button primary tamanho" onclick="CorridaUber();"/> </center></b>
                    </div>
 
 
@@ -201,6 +202,7 @@
 
 
         </div>
+        <label id="modo" hidden="true"></label>
      
         <script src="js/vendor/jquery.js"></script>
         <script src="js/app.js">  </script>
