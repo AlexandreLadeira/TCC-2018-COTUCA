@@ -9,40 +9,41 @@
         
     </head>
     <body>
-            <div id="logo" class="logo">
-                    <img src="logoFinal.png">
-                </div>
+        <div id="logo" class="logo">
+            <img src="logoFinal.png">
+        </div>
         <div class="grid-container">
             <ul class="menu menu-hover-lines">
-                <li class="active"><a href="home.html">Home</a></li>
+                <li><a href="home.html">Home</a></li>
                 <li><a href="teoriaAfim.html">Teoria</a></li>
-                <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
+                <li class="active"><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
                 <li><a href="#">Sobre Nós</a></li>
                 <li><a onclick="trocaEstilo()">Alto contraste</a></li>
             </ul>
-            <br>
-            <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
-                <br>
+            <br />
             <div class="grid-x">
-                <label> Está em dúvida? Confira a nossa <a href="#">teoria</a> interativa! </label>
-
-            </div>
-            <div class="grid-x grid-margin-x" id="contraste">
-                <label class="cell shrink" id="contraste"> Digite a função: </label>
-                <input class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onclick="alertar()"/>    
-            </div>
-            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="desenharGrafico(3, 2)"> 
-            <center>
-                <div>
-                    <canvas width="900" height="900"></canvas>
+                <div class="cell medium-12">
+                    <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
                 </div>
-            </center>
-            <div class="grid-x">
-                <input type="button" value="Passo Anterior" class="button primary"/>  
-                <input type="button" value="Próximo Passo"  class="button primary"/>
-                <input type="button" value="Alto Contrate"  class="button primary" onclick="trocaEstilo('css/altoContraste.css')" />
-                <label id="modo" hidden="true"></label>
             </div>
+            <br />
+            <div class="grid-x">
+                <div class="cell medium-12">
+                    <span> Está em dúvida? Confira a nossa <a href="teoriaAfim.html">teoria interativa</a>! </span>
+                </div>
+            </div>
+            <br />
+
+            <div class="grid-x" id="contraste">
+                <span id="contraste"> Digite a função: </span>
+                <input type="text" placeholder="Formato: f(x) = ...x + ... ou y = ...x + ..." onclick="alertar()"/>
+            </div>
+
+            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="desenharGrafico(3, 2)" /> 
+            <div class="grid-x">
+                <canvas width="900" height="900"></canvas> 
+            </div>
+            <br 
         </div>
 
         <script src="js/canvas.js"> </script>
