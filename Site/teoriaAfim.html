@@ -29,7 +29,9 @@
                     </div>
 
                     <div class="cell medium-12">
-                        <h3>Introdução </h3>
+                        <h3>Introdução<a onclick="falar('Alexandre chamou um Uber para ir à casa de Matheus, onde iria' +
+                            'estudar para a prova de matemática com ele. Porém, ao usar o aplicativo  ele percebeu que o preço da corrida não foi exibido.'); ">(Ouvir Texto)</a>                  
+                        </h3>
                     </div>
                 
                     <div class="cell medium-6">
@@ -40,7 +42,7 @@
                             <br>
                             Alexandre chamou um Uber para ir à casa de Matheus, onde iria 
                             estudar para a prova de matemática com ele. Porém, ao usar o aplicativo
-                            ele percebeu que o preço da corrida não foi exibido! Então Alê teve ideia de pesquisar 
+                            ele percebeu que o preço da corrida não foi exibido. Então Alê teve ideia de pesquisar 
                             qual o valor do quilômetro em uma corrida de uber em sua cidade, e acabou descobrindo que 
                             é de R$1,50. 
                             Sabendo que a distância até a casa de Matheus é de 10km, qual o valor que ele 
@@ -203,10 +205,12 @@
 
         </div>
         <label id="modo" hidden="true"></label>
+        <audio id="som" src="" class="falar" hidden></audio>
      
         <script src="js/vendor/jquery.js"></script>
         <script src="js/app.js">  </script>
         <script src="js/vendor/foundation.js" >  </script>
         <script src="js/menu.js"> </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </body>
 </html>
