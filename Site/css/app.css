@@ -37,12 +37,13 @@ body {
 }
 
 a {
-  color: white;
+  color: black;
+  font-weight: bold;
   
 }
 
 a:hover{
-  color: lightcyan;
+  color: rgb(46, 42, 42);
 }
 
 

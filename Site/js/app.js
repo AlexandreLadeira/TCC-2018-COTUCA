@@ -13,9 +13,6 @@ function trocaEstilo() {
 		document.getElementById('modo').innerHTML = "";
 	}	
 
-
-
-
 }
 
 function moeda(z){
@@ -43,37 +40,27 @@ function CorridaUber(){
 }
 
 
-function isPlaying(audelem) { return !audelem.paused; }
-
-function falar(texto){       
+function falar(indice){   
 	
-	var vet   = texto.split("."); 
-	var i	  = 0;
-	var audio = document.getElementById('som');
-
+	var texto = document.getElementById("texto"+indice).textContent; // pega o texto com o id do indice	
+	var vet   = texto.split(".");// divide o texto em um vetor, a partir de cada ponto final
+	var i	  = 1;
+	var msg   = new SpeechSynthesisUtterance(vet[0]);	
 	
-	while (i < vet.length)
-	{
-		if(!(isPlaying(audio)))
-		{
-			audio.src = "http://translate.google.com/translate_tts?tl=pt&q="+ vet[i] +"&client=tw-ob";
-			audio.play(); // funciona 
-			i++;
-		}
+	msg.lang  = 'pt-BR';//garantindo que está em pt-br
+
+	window.speechSynthesis.speak(msg); // fala a primeira frase 
+	
+	
+	while (i < vet.length) // fala o vetor de frases inteiro
+	{		
+		msg = new SpeechSynthesisUtterance(vet[i]);
+		msg.lang = 'pt-BR';	//pt-br	
+		window.speechSynthesis.speak(msg);		
+		i++;		
 	}
 
-	//https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_event_ended
 	
-
-
-/*	while (i < vet.length)
-	{
-		
-			var url  = "http://translate.google.com/translate_tts?tl=pt&q="+ vet[i] +"&client=tw-ob";
-			$('audio').attr('src',url).get(0).play();//play no audio 
-			i++;
-		
-	} */
 
 }
 
