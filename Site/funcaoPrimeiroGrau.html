@@ -5,6 +5,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
         <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found"/>
         <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
+        <link href="https://fonts.googleapis.com/css?family=Archivo" rel="stylesheet">
         <link rel="icon" href="logoFinal.png">
         
     </head>
@@ -29,14 +30,15 @@
             </div>
             <div class="grid-x grid-margin-x" id="contraste">
                 <label class="cell shrink" id="contraste"> Digite a função: </label>
-                <input class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onclick="alertar()"/>    
+                <input id="funcao" class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
             </div>
-            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="desenharGrafico(3, 2)"> 
+            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
             <center>
                 <div>
                     <canvas width="900" height="900"></canvas>
                 </div>
             </center>
+            <span style="font-family: 'Archivo', cursive;">&nbsp;</span>
             <div class="grid-x">
                 <input type="button" value="Passo Anterior" class="button primary"/>  
                 <input type="button" value="Próximo Passo"  class="button primary"/>
