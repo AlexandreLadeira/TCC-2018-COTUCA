@@ -12,7 +12,7 @@
 
         <audio src="" class="falar" hidden></audio>
         <script>
-           /* $(function() {
+          /*  $(function() {
               $('button.btnFalar').on('click',function(e){
                   e.preventDefault();//certeza que a pagina fica aqui 
                   var text = $('input[name="text"]').val();// pegando o valor digitado
@@ -24,13 +24,12 @@
               });  
             });*/
 
-             function falar(){                
+            function falar(){
+                e.preventDefault(); 
                 var url  = "http://translate.google.com/translate_tts?tl=pt&q="+ "oiooioioio" +"&client=tw-ob"
                 $('audio').attr('src',url).get(0).play();//play no audio 
 
             }
-
-            
         </script>
     </body>
 </html>
