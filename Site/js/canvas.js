@@ -128,6 +128,10 @@ function desenharGrafico(a, b)
     var diferencaDeX;
     var diferencaDeY;
 
+    alert("Antes de desenhar uma reta, devemos determinar dois pontos. Para facilitar a compreensão, determinaremos um ponto aonde a reta cruzará o eixo X (y = a*0 + b => y = b) e um ponto onde a reta cruzará o eixo Y (0 = a*x + b => x = -b/a).");
+
+    alert("Na função escrita, o valor de a é " + a + " e o valor de b é " + b + ". Assim, a função é y = " + a + "x + " + b + ". De tal modo, ");
+
     c.beginPath();
     
     if (cruzaX != 0 && cruzaY != 0)
