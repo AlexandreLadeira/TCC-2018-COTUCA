@@ -135,7 +135,7 @@ function validarFuncao()
     desenharGrafico(2, 3);
 }
 
-function prosseguir(titulo, mensagem)
+function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 {
     var largura = canvas.width;
     var altura  = canvas.height;
@@ -147,21 +147,28 @@ function prosseguir(titulo, mensagem)
     var ondeComecarY = largura * 1/12;
 
     // Caixa de Título
+    
+    c.shadowColor = "black";
+    c.shadowBlur = 10;
     c.fillStyle = '#1779ba';
     c.fillRect(ondeComecarX, ondeComecarY, larguraMensagem, alturaTitulo);
     c.stroke;
 
     // Texto do Título
+    c.shadowBlur = 0;
     var margemTexto = 20;
     c.fillStyle = 'white';
     c.font = "40px Archivo";
     c.fillText(titulo, ondeComecarX + margemTexto, ondeComecarY + alturaTitulo - margemTexto, larguraMensagem - 2*margemTexto);
 
     // Caixa de Mensagem
+    c.shadowColor = "black";
+    c.shadowBlur = 10;
     var alturaMensagem = altura * 3/12;
     c.fillStyle = "white";
     c.fillRect(ondeComecarX, ondeComecarY + alturaTitulo, larguraMensagem, alturaMensagem);
     c.stroke;
+    c.shadowBlur = 0;
 
     // Texto da Mensagem
     c.fillStyle = "black";
@@ -183,18 +190,50 @@ function prosseguir(titulo, mensagem)
             y += alturaLinha;
         }
     }
+    c.fillText(linhaAtual, ondeComecarX + margemTexto, y, larguraMensagem - 2*margemTexto);
 
     // Caixas dos Botões
+    c.shadowColor = "black";
+    c.shadowBlur = 5;
+
     var alturaBotoes = alturaMensagem / 6;
     var larguraBotoes = larguraMensagem / 5;
     var paddingBotoes = 20;
     var ondeComecarBotaoX = larguraMensagem / 2;
     c.fillStyle = '#1779ba';
-    c.fillRect(ondeComecarBotaoX - larguraBotoes - paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
-    c.fillRect(ondeComecarBotaoX + larguraBotoes + paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
+    if (anteriorHabilitado)
+        c.fillRect(ondeComecarBotaoX - larguraBotoes - paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
+    
+    if(proximoHabilitado)
+        c.fillRect(ondeComecarBotaoX + larguraBotoes + paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
+    
     c.stroke;
+    c.shadowBlur = 0;
 
     // Texto dos Botões
+
+    // -- Anterior
+    c.font = "24px Archivo";
+    c.fillStyle = "white";
+
+    if (anteriorHabilitado)
+    {
+        var tamanhoAnterior = c.measureText("Anterior");
+        var widthAnterior = tamanhoAnterior.width;
+        var paddingTextoAnterior = (larguraBotoes - widthAnterior)/2;
+    
+        c.fillText("Anterior", ondeComecarBotaoX - larguraBotoes - paddingBotoes + paddingTextoAnterior, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
+    }
+    // -- Próximo
+
+    if (proximoHabilitado)
+    {
+        var tamanhoProximo = c.measureText("Próximo");
+        var widthProximo = tamanhoProximo.width;
+        var paddingTextoProximo = (larguraBotoes - widthProximo)/2;
+
+        c.fillText("Próximo",ondeComecarBotaoX + larguraBotoes + paddingBotoes + paddingTextoProximo, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
+    }
 }
 
 function desenharGrafico(a, b)
@@ -210,7 +249,7 @@ function desenharGrafico(a, b)
     var diferencaDeX;
     var diferencaDeY;
 
-    prosseguir("Etapa 1: Definir Dois Pontos", "O ano era 2005. O pernambucano Jocione Mendonça estava em uma praça de São Paulo quando um casal chegou até ele e fez um convite muito bom que mudaria a sua vida para seeeempre");
+    prosseguir("Título", "Mensagem", true, true);
 
     /*
     c.beginPath();
