@@ -7,42 +7,48 @@ var qtasColunas = 12;
 var larguraLinha = canvas.height / qtasLinhas;
 var larguraColuna = canvas.width / qtasColunas;
 
+var messageBoxProximoHabilitado = false;
+var messageBoxAnteriorHabilitado = false;
+
+var etapa = 0;
+
 // Desenhar a grade
-c.beginPath();
-c.strokeStyle = "rgb(169, 169, 169)";
+function desenharGrade()
+{
+    c.strokeStyle = "rgb(169, 169, 169)";
 
-//Grades das colunas do lado direito
-for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
-{     
-    c.moveTo(i , 0);  
-    c.lineTo(i, canvas.height); 
-    c.stroke(); 
+    //Grades das colunas do lado direito
+    for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
+    {     
+        c.moveTo(i , 0);  
+        c.lineTo(i, canvas.height); 
+        c.stroke(); 
+    }
+
+    //Grades das colunas do lado esquerdo
+    for (var i = canvas.width / 2; i > 0; i -= larguraColuna)
+    {     
+        c.moveTo(i , 0);  
+        c.lineTo(i, canvas.height); 
+        c.stroke(); 
+    }
+
+    //Grades das linhas de cima
+    for (var i = canvas.height / 2; i > 0; i -= larguraLinha) 
+    {    
+        c.moveTo(0, i);  
+        c.lineTo(canvas.width, i);  
+        c.stroke();
+    }
+
+    //Grades das linhas de baixo
+    for (var i = canvas.height / 2; i < canvas.height; i += larguraLinha)
+    {    
+        c.moveTo(0, i);  
+        c.lineTo(canvas.width, i);  
+        c.stroke();
+    }
 }
-
-//Grades das colunas do lado esquerdo
-for (var i = canvas.width / 2; i > 0; i -= larguraColuna)
-{     
-    c.moveTo(i , 0);  
-    c.lineTo(i, canvas.height); 
-    c.stroke(); 
-}
-
-//Grades das linhas de cima
-for (var i = canvas.height / 2; i > 0; i -= larguraLinha) 
-{    
-    c.moveTo(0, i);  
-    c.lineTo(canvas.width, i);  
-    c.stroke();
-}
-
-//Grades das linhas de baixo
-for (var i = canvas.height / 2; i < canvas.height; i += larguraLinha)
-{    
-    c.moveTo(0, i);  
-    c.lineTo(canvas.width, i);  
-    c.stroke();
-}
-
 // Desenha os eixos X e Y, assim como os pontos das abscissas e ordenadas
 function desenharEixos()
 {
@@ -132,19 +138,34 @@ function validarFuncao()
         alert("ta errado"); 
 
     */
-    desenharGrafico(2, 3);
+    etapa = 0;
+    desenharGrafico(2, 3, 0);
 }
+
+
+
+// VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
+var larguraMensagem;
+var alturaTitulo;
+var alturaMensagem;
+var ondeComecarX;
+var ondeComecarY;
+
+var alturaBotoes;
+var larguraBotoes;
+var paddingBotoes;
+var ondeComecarBotaoX;;
 
 function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 {
     var largura = canvas.width;
     var altura  = canvas.height;
 
-    var larguraMensagem = largura * 5/6;
-    var alturaTitulo = altura * 1/12;
+    larguraMensagem = largura * 5/6;
+    alturaTitulo = altura * 1/12;
 
-    var ondeComecarX = largura * 1/12;
-    var ondeComecarY = largura * 1/12;
+    ondeComecarX = largura * 1/12;
+    ondeComecarY = largura * 1/12;
 
     // Caixa de Título
     
@@ -164,7 +185,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     // Caixa de Mensagem
     c.shadowColor = "black";
     c.shadowBlur = 10;
-    var alturaMensagem = altura * 3/12;
+    alturaMensagem = altura * 3/12;
     c.fillStyle = "white";
     c.fillRect(ondeComecarX, ondeComecarY + alturaTitulo, larguraMensagem, alturaMensagem);
     c.stroke;
@@ -196,11 +217,13 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.shadowColor = "black";
     c.shadowBlur = 5;
 
-    var alturaBotoes = alturaMensagem / 6;
-    var larguraBotoes = larguraMensagem / 5;
-    var paddingBotoes = 20;
-    var ondeComecarBotaoX = larguraMensagem / 2;
+    alturaBotoes = alturaMensagem / 6;
+    larguraBotoes = larguraMensagem / 5;
+    paddingBotoes = 20;
+    ondeComecarBotaoX = larguraMensagem / 2;
+
     c.fillStyle = '#1779ba';
+
     if (anteriorHabilitado)
         c.fillRect(ondeComecarBotaoX - larguraBotoes - paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
     
@@ -218,16 +241,20 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     if (anteriorHabilitado)
     {
+        messageBoxAnteriorHabilitado = true;
+
         var tamanhoAnterior = c.measureText("Anterior");
         var widthAnterior = tamanhoAnterior.width;
         var paddingTextoAnterior = (larguraBotoes - widthAnterior)/2;
     
         c.fillText("Anterior", ondeComecarBotaoX - larguraBotoes - paddingBotoes + paddingTextoAnterior, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
     }
-    // -- Próximo
 
+    // -- Próximo
     if (proximoHabilitado)
     {
+        messageBoxProximoHabilitado = true;
+
         var tamanhoProximo = c.measureText("Próximo");
         var widthProximo = tamanhoProximo.width;
         var paddingTextoProximo = (larguraBotoes - widthProximo)/2;
@@ -236,8 +263,13 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
 }
 
-function desenharGrafico(a, b)
+function desenharGrafico(a, b, etapaAtual)
 {
+    canvas.width = canvas.width;    // Resetar o canvas
+
+    desenharGrade();
+    desenharEixos();
+
     var cruzaX = -b/a;
     var cruzaY = b;
 
@@ -249,95 +281,122 @@ function desenharGrafico(a, b)
     var diferencaDeX;
     var diferencaDeY;
 
-    prosseguir("Título", "Mensagem", true, true);
+    if (etapaAtual == 0)
+        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
 
-    /*
-    c.beginPath();
+    if (etapaAtual > 0)
+    {
+        c.beginPath();
+        c.arc(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, 8, 0, 360);      
+        c.fillStyle = '#1779ba';
+        c.fill();
+        c.lineWidth = 1;
+        c.strokeStyle = 'darkblue';
+        c.stroke();
+
+        c.beginPath();
+        c.arc(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, 8, 0, 360);        
+        c.fillStyle = '#1779ba';
+        c.fill();
+        c.lineWidth = 1;
+        c.strokeStyle = 'darkblue';
+        c.stroke();    
+    }
+
+    if (etapaAtual == 1)
+        prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true);
     
-    if (cruzaX != 0 && cruzaY != 0)
-    {
-        c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
-        c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
+    if (etapaAtual == 2)
+        prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
 
-        //Variáveis para fazer a animação
-
-        xAtual1 = canvas.width / 2 + cruzaX * larguraColuna;
-        yAtual1 = canvas.height / 2;
-
-        xAtual2 = xAtual1;
-        yAtual2 = yAtual1;
-
-        diferencaDeX = (canvas.width / 2 + cruzaX * larguraColuna) - (canvas.width / 2);
-
-        if (diferencaDeX < 0)
-            diferencaDeX *= -1;
+   
+        /*
+        c.beginPath();
         
-        diferencaDeY = (canvas.height / 2 - cruzaY * larguraLinha) - (canvas.height / 2);
+        if (cruzaX != 0 && cruzaY != 0)
+        {
+            c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
+            c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
 
-        if (diferencaDeY < 0)
-            diferencaDeX *= -1;
+            //Variáveis para fazer a animação
 
-    }
-    else
-    {
-        c.moveTo(canvas.width / 2, canvas.height / 2);  // (0, 0)
-        var pontoY = a * 1 + b;
-        c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - larguraLinha * pontoY);
+            xAtual1 = canvas.width / 2 + cruzaX * larguraColuna;
+            yAtual1 = canvas.height / 2;
 
-        //Variáveis para fazer a animação
+            xAtual2 = xAtual1;
+            yAtual2 = yAtual1;
 
-        xAtual1 = canvas.width / 2;
-        yAtual1 = canvas.height / 2;
+            diferencaDeX = (canvas.width / 2 + cruzaX * larguraColuna) - (canvas.width / 2);
 
-        xAtual2 = xAtual1;
-        yAtual2 = yAtual1;
+            if (diferencaDeX < 0)
+                diferencaDeX *= -1;
+            
+            diferencaDeY = (canvas.height / 2 - cruzaY * larguraLinha) - (canvas.height / 2);
 
-        diferencaDeX = (canvas.width / 2 + larguraColuna) - (canvas.width / 2);
+            if (diferencaDeY < 0)
+                diferencaDeX *= -1;
 
-        if (diferencaDeX < 0)
-            diferencaDeX *= -1;
-        
-        diferencaDeY = (canvas.height / 2 - larguraLinha * pontoY) - (canvas.height / 2);
+        }
+        else
+        {
+            c.moveTo(canvas.width / 2, canvas.height / 2);  // (0, 0)
+            var pontoY = a * 1 + b;
+            c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - larguraLinha * pontoY);
 
-        if (diferencaDeY < 0)
-            diferencaDeX *= -1;
-    }
+            //Variáveis para fazer a animação
 
-    if (diferencaDeX > diferencaDeY)
-    {
-        razaoX = diferencaDeX / diferencaDeY;
-        razaoY = 1;
-    }
-    else
-    {
-        razaoX = 1;
-        razaoY = diferencaDeY / diferencaDeX;
-    }
+            xAtual1 = canvas.width / 2;
+            yAtual1 = canvas.height / 2;
 
-    if(cruzaX < 0 && cruzaX < qtasColunas/2 * (-1))
-    {
-        qtsvezes = xAtual1 / (sentido * razaoX * velocidade);
+            xAtual2 = xAtual1;
+            yAtual2 = yAtual1;
 
-        if(qtsvezes < 0)
-            qtsvezes *= -1;
+            diferencaDeX = (canvas.width / 2 + larguraColuna) - (canvas.width / 2);
 
-        xAtual1 = 0;
-        yAtual1 -= (razaoY * velocidade) * qtsvezes;
-    }
-    else if(cruzaX > 0 && cruzaX > qtasColunas/2)
-    {
-        qtsvezes = yAtual1 / (razaoY * velocidade);
+            if (diferencaDeX < 0)
+                diferencaDeX *= -1;
+            
+            diferencaDeY = (canvas.height / 2 - larguraLinha * pontoY) - (canvas.height / 2);
 
-        if(qtsvezes < 0)
-            qtsvezes *= -1;
+            if (diferencaDeY < 0)
+                diferencaDeX *= -1;
+        }
 
-        yAtual1 = 0;
-        xAtual1 += sentido * razaoX * velocidade * qtsvezes;
-    }
+        if (diferencaDeX > diferencaDeY)
+        {
+            razaoX = diferencaDeX / diferencaDeY;
+            razaoY = 1;
+        }
+        else
+        {
+            razaoX = 1;
+            razaoY = diferencaDeY / diferencaDeX;
+        }
 
-    animarReta(); */
+        if(cruzaX < 0 && cruzaX < qtasColunas/2 * (-1))
+        {
+            qtsvezes = xAtual1 / (sentido * razaoX * velocidade);
+
+            if(qtsvezes < 0)
+                qtsvezes *= -1;
+
+            xAtual1 = 0;
+            yAtual1 -= (razaoY * velocidade) * qtsvezes;
+        }
+        else if(cruzaX > 0 && cruzaX > qtasColunas/2)
+        {
+            qtsvezes = yAtual1 / (razaoY * velocidade);
+
+            if(qtsvezes < 0)
+                qtsvezes *= -1;
+
+            yAtual1 = 0;
+            xAtual1 += sentido * razaoX * velocidade * qtsvezes;
+        }
+
+        animarReta(); */
 }
-
+/*
 const velocidade = 3;
 
 function animarReta()
@@ -374,6 +433,53 @@ function animarReta()
     }
     else
         cancelAnimationFrame(req);
-}
+} */
 
+desenharGrade();
 desenharEixos();
+
+// EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)
+
+var elem = document.getElementById('canvas'),
+elemLeft = elem.offsetLeft,
+elemTop = elem.offsetTop;
+
+elem.addEventListener('click', function(event) {
+    var x = event.pageX - elemLeft,
+        y = event.pageY - elemTop;
+    
+    if (messageBoxAnteriorHabilitado && (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes)
+     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+    {
+        messageBoxAnteriorHabilitado = false;
+        messageBoxProximoHabilitado  = false;
+        etapa--;
+        desenharGrafico(3, 3, etapa);
+    }
+    else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
+    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+    {
+        messageBoxProximoHabilitado  = false;
+        messageBoxAnteriorHabilitado = false;
+        etapa++;
+        desenharGrafico(3, 3, etapa);
+    }
+
+}, false);
+
+elem.onmousemove = movimentoMouse;
+
+function movimentoMouse(event)
+{    
+    var x = event.pageX - elemLeft,
+    y = event.pageY - elemTop;
+
+    if (messageBoxAnteriorHabilitado && (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes)
+    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+        elem.style.cursor = 'pointer';
+    else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
+    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+        elem.style.cursor = 'pointer';
+    else
+        elem.style.cursor = 'default';
+}
