@@ -36,7 +36,7 @@
                 
                     <div class="cell medium-6" id="texto1">
                         <label  class="fonte"> 
-                            <b><a onclick="falar(1);">(Ouvir Texto).</a>Vamos começar analisando um exemplo para entendermos 
+                            <b><a  id = "player" onclick="falar(1);">(Ouvir Texto).</a>Vamos começar analisando um exemplo para entendermos 
                             um pouco mais o conceito de função de primeiro grau.  </b>
                             <br>
                             <br>
@@ -160,10 +160,12 @@
                     </div>
               
                     <div class="cell medium-6" id="texto6">
-                         <label class="fonte"> <a onclick="falar(6);">(Ouvir Texto).</a>  Chama-se função polinominal do primeiro grau, ou função afim, qualquer função f de |R em |R dada por uma 
-                            lei da forma f(x) = ax + b, em que a e b são números reais dados a≠0. 
+                         <label class="fonte"> 
+                            <a onclick="falar(6);">(Ouvir Texto).</a>
+                            Chama-se função polinominal do primeiro grau, ou função afim, qualquer função f de |R em |R dada por uma 
+                            lei da forma f(x) = a<label hidden="true">vezes </label>x + b, em que a e b são números reais dados a≠0. 
                             <br>
-                            Na lei f(x) = ax + b, o número a é chamado de coeficiente de x e o número b é chamado termo constante ou 
+                            Na lei f(x) = a<label hidden="true">vezes </label>x + b, o número a é chamado de coeficiente de x e o número b é chamado termo constante ou 
                             independente.
                         </label>
                     </div>
@@ -196,7 +198,89 @@
                         </div>
                    
 
+                    <div class="cell medium-12" >
+                        <h3>Gráfico cartesiano</h3> 
+                    </div>  
+
+                    <div class="cell medium-6" id="texto8">
+                        <label class="fonte">
+                            <a onclick="falar(8);">(Ouvir Texto).</a>
+                            É um dos fatores mais importantes para entender a matéria de função de 1º grau. 
+                            <br>
+                            Ele possui dois eixos: o eixo das abcissas, que correspondem  ao valor de x e o eixo das ordenadas que corresponde ao valor de y.
+                            <br> 
+                            Existem 4 quadrantes: No 1º quadrante  x > 0 e y > 0. No 2º quadrante x < 0 e y > 0. 
+                            No 3º quadrante x < 0 e y < 0. No 4º quadrante x > 0 e y < 0.
+                            <br>
+                            Os pontos são formados por duas coordenadas : x e y. Com essas coordenadas podemos definir onde o ponto está no plano 
+                            (teste esse conceito no nosso módulo gráfico). A notação da coordenadas segue esse padrão: (valor de x, valor de y).
+                            <br>
+                            A função é representada por uma reta no gráfico, em que os pontos contidos nela nos fornecem as informações de que valores podem ser atribuídos a ela.
+                            
+                        </label>
+                    </div>
+
+                    <div class="cell medium-6">
+                            <img src="imagens/PlanoCartesiano.jpg">
+                    </div>
+                        
                     
+                    <div class="cell medium-12" >
+                        <h3>Casos particulares</h3> 
+                    </div> 
+
+                    <div class="cell medium-6" id="texto9">
+                        <label class="fonte">
+                            <a onclick="falar(9);">(Ouvir Texto).</a>
+                            Função linear: acontece quando b = 0, assim a lei de formação fica  f(x) = ax,  com f: R -> R.
+                            Nesse caso a reta do gráfico intercepta a origem do eixo cartesiano (ponto x=0 y=0). 
+                            <img src="imagens/Linear.jpg">                            
+                            <!-- Possivel imagem-->
+
+                        </label>
+                        
+                    </div>
+
+                    <div class="cell medium-6" id="texto12">
+                        <label class="fonte">                             
+                            Função constante: acontece quando a = 0, assim a lei de formação fica f(x) = b. com f:R -> R. 
+                            É importante lembrar que essa não é uma função afim, já que o a não é diferente de 0
+                            <img src="imagens/Constante.jpg">    
+                        </label>
+                    </div>
+                    
+                    <div class="cell medium-12" >
+                        <h3>Raiz da equação de 1º grau</h3> 
+                    </div>  
+                    
+                    <div class="cell medium-6" id="texto10">
+                        <label class="fonte">
+                            <a onclick="falar(10);">(Ouvir Texto).</a>
+                            A raiz da equação de 1º grau é o número real  X em que a reta cruza o eixo das abcissas (Y= 0).
+                            Ela é dada pela solução da função f(x) = a<label hidden="true">vezes </label>x + b, 
+                            portanto x = <label hidden="true">menos</label> -b ÷ a. 
+                                
+                        </label>
+                    </div>
+
+                    <div class="cell medium-12" >
+                        <h3>Coeficiente da função afim e inclinação da reta</h3> 
+                    </div> 
+                    
+                    <div class="cell medium-6" id="texto11">
+                            <label class="fonte">
+                                    <a onclick="falar(11);">(Ouvir Texto).</a>
+                                    O coeficiente de x (a) também é chamado de coeficiente angular, já que ele define a inclinação da reta no gráfico y = ax + b. 
+                                    <br>
+                                    Quando a é maior que 0 a função será crescente, já quando o a for menor que 0 a função será decrescente.
+                                    <br>
+                                    O termo constante (b) também é chamado de coeficiente linear, 
+                                    o valor dele representa o valor de Y em que a reta intercepta o eixo da ordenadas. 
+                                                                    
+                            </label>
+                        </div>
+                   
+                     
                    
                 <div>
 
@@ -211,7 +295,6 @@
         <script src="js/vendor/jquery.js"></script>
         <script src="js/app.js">  </script>
         <script src="js/vendor/foundation.js" >  </script>
-        <script src="js/menu.js"> </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="js/menu.js"> </script>      
     </body>
 </html>

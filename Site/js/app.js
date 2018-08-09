@@ -21,6 +21,7 @@ function moeda(z){
 	return v;
 }
 
+//exemplo na introdução de função
 function CorridaUber(){
 	var bandeira 	= parseFloat(moeda(document.getElementById("bandeira").value));
 	var quilometro 	= parseFloat(moeda(document.getElementById("quilometro").value));
@@ -42,11 +43,16 @@ function CorridaUber(){
 
 function falar(indice){   
 	
+	//document.getElementById("player").textContent = "Cancelar"; funciona
+	
+	window.speechSynthesis.cancel(); // reinicia se ja estiver tocando
+
 	var texto = document.getElementById("texto"+indice).textContent; // pega o texto com o id do indice	
 	var vet   = texto.split(".");// divide o texto em um vetor, a partir de cada ponto final
 	var i	  = 1;
-	var msg   = new SpeechSynthesisUtterance(vet[0]);	
+	var msg   = new SpeechSynthesisUtterance(vet[0]);		
 	
+
 	msg.lang  = 'pt-BR';//garantindo que está em pt-br
 
 	window.speechSynthesis.speak(msg); // fala a primeira frase 
