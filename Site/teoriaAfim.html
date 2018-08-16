@@ -5,23 +5,31 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
         <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found"/>
         <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="icon" href="logoFinal.png">
         
         
     </head>
-    <body>
-        <div class="logo">
-            <img src="logoFinal.png">
-        </div>
+    <body>           
+           
+        <div class="grid-x grid-margin-x">
+        <div class="cell medium-2">
+                <img src="logoFinal.png" class="logo">
+        </div>                   
+           
 
-        <div class="grid-container">
-            <ul class="menu menu-hover-lines">
-                <li class="active"><a href="home.html">Home</a></li>
-                <li><a href="teoriaAfim.html">Teoria</a></li>
-                <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
-                <li><a href="#">Sobre Nós</a></li>
-                <li><a onclick="trocaEstilo()">Alto contraste</a></li>
-            </ul>
+        <div class="cell medium-8">
+        <div class="grid-container">  
+                <div class="cell medium-8">
+                        
+                        <ul class="menu menu-hover-lines">
+                        <li class="active"><a href="home.html">Home</a></li>
+                        <li><a href="teoriaAfim.html">Teoria</a></li>
+                        <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a onclick="trocaEstilo()">Alto contraste</a></li>
+                    </div>
+                </ul>
             
             <div class="grid-x grid-margin-x">
                     <div class="cell medium-12">
@@ -36,7 +44,7 @@
                 
                     <div class="cell medium-6" id="texto1">
                         <label  class="fonte"> 
-                            <b><a  id = "player" onclick="falar(1);">(Ouvir Texto).</a>Vamos começar analisando um exemplo para entendermos 
+                            <b><a id = "player" onclick="falar(1);">(Ouvir Texto).</a>Vamos começar analisando um exemplo para entendermos 
                             um pouco mais o conceito de função de primeiro grau.  </b>
                             <br>
                             <br>
@@ -253,7 +261,7 @@
                         <h3>Raiz da equação de 1º grau</h3> 
                     </div>  
                     
-                    <div class="cell medium-6" id="texto10">
+                    <div class="cell medium-12" id="texto10">
                         <label class="fonte">
                             <a onclick="falar(10);">(Ouvir Texto).</a>
                             A raiz da equação de 1º grau é o número real  X em que a reta cruza o eixo das abcissas (Y= 0).
@@ -261,6 +269,10 @@
                             portanto x = <label hidden="true">menos</label> -b ÷ a. 
                                 
                         </label>
+                    </div>
+
+                    <div class="cell medium-12">
+                            <img src="imagens/Raiz.jpg">
                     </div>
 
                     <div class="cell medium-12" >
@@ -286,7 +298,9 @@
 
             </div>
         </div>
-
+       </div>
+                
+    </div>
 
         </div>
         <label id="modo" hidden="true"></label>
