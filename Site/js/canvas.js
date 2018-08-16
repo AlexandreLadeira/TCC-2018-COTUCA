@@ -16,6 +16,7 @@ var etapa = 0;
 function desenharGrade()
 {
     c.strokeStyle = "rgb(169, 169, 169)";
+    c.lineWidth = 1;
 
     //Grades das colunas do lado direito
     for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
@@ -59,7 +60,7 @@ function desenharEixos()
     c.moveTo(0, canvas.height / 2);
     c.lineTo(canvas.width, canvas.height / 2);
     c.strokeStyle = "black";
-    c.lineWidth = 3.5;
+    c.lineWidth = 2;
     c.stroke();
 
     //EIXO Y
@@ -67,7 +68,7 @@ function desenharEixos()
     c.moveTo(canvas.width / 2, 0);
     c.lineTo(canvas.width / 2, canvas.height);
     c.strokeStyle = "black";
-    c.lineWidth = 3.5;
+    c.lineWidth = 2;
     c.stroke();
 
     // Colocando os pontos
@@ -121,6 +122,8 @@ var razaoY;
 
 var sentido;
 
+var a = 1;
+var b = 1;
 function validarFuncao()
 {
     /*
@@ -139,7 +142,7 @@ function validarFuncao()
 
     */
     etapa = 0;
-    desenharGrafico(2, 3, 0);
+    desenharGrafico(0);
 }
 
 
@@ -263,7 +266,9 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
 }
 
-function desenharGrafico(a, b, etapaAtual)
+
+
+function desenharGrafico(etapaAtual)
 {
     canvas.width = canvas.width;    // Resetar o canvas
 
@@ -281,27 +286,50 @@ function desenharGrafico(a, b, etapaAtual)
     var diferencaDeX;
     var diferencaDeY;
 
-    if (etapaAtual == 0)
-        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
+    if (etapaAtual > 2)
+    {
+        c.beginPath();
+        c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
+        c.lineTo(canvas.width / 2 -100 * larguraColuna, canvas.height / 2 - (a*(-100) + b) * larguraLinha);
+        c.moveTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
+        c.lineTo(canvas.width / 2 + 100 * larguraColuna, canvas.height / 2 - (a*(100) + b) * larguraLinha);
+        c.strokeStyle = '#1779ba';
+        c.lineWidth = 5;
+        c.stroke();
+    }
+
+    if (etapaAtual > 1)
+    {
+        c.beginPath();
+        c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
+        c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
+        c.strokeStyle = '#1779ba';
+        c.lineWidth = 5;
+        c.stroke();
+    }
 
     if (etapaAtual > 0)
     {
         c.beginPath();
         c.arc(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, 8, 0, 360);      
-        c.fillStyle = '#1779ba';
+        c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
-        c.strokeStyle = 'darkblue';
+        c.strokeStyle = '#1779ba';
         c.stroke();
 
         c.beginPath();
         c.arc(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, 8, 0, 360);        
-        c.fillStyle = '#1779ba';
+        c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
-        c.strokeStyle = 'darkblue';
-        c.stroke();    
+        c.strokeStyle = '#1779ba';
+        c.stroke();
     }
+
+
+    if (etapaAtual == 0)
+        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
 
     if (etapaAtual == 1)
         prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true);
@@ -454,7 +482,7 @@ elem.addEventListener('click', function(event) {
         messageBoxAnteriorHabilitado = false;
         messageBoxProximoHabilitado  = false;
         etapa--;
-        desenharGrafico(3, 3, etapa);
+        desenharGrafico(etapa);
     }
     else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
@@ -462,7 +490,7 @@ elem.addEventListener('click', function(event) {
         messageBoxProximoHabilitado  = false;
         messageBoxAnteriorHabilitado = false;
         etapa++;
-        desenharGrafico(3, 3, etapa);
+        desenharGrafico(etapa);
     }
 
 }, false);
