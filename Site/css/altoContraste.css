@@ -30,13 +30,10 @@ a {
 
 
 
-.logo{
-	width: 100px;
-	height: 100px;
-	margin-left: 1%;
-	margin-top: 1%;
-	position: absolute;
-  }
+.logo{  
+  width: 200px;
+  height: 200px;  
+}
 
   .menu1{
     width: 100%;
@@ -45,13 +42,6 @@ a {
     color: white;
 }
 
-.logo{
-  width: 100px;
-  height: 100px;
-  margin-left: 1%;
-  margin-top: 1%;
-  position: absolute;
-}
 
 .tabelaExemplo
 {

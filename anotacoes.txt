@@ -11,4 +11,11 @@ Outras formas de pensar:
 Razão no eixo Y: valor de y em que a reta corta este eixo / 2
 Razão no eixo X: valor de x em que a reta corta este eixo / 2
 
-O espaçamento em pixels do quadriculado sempre será o mesmo, o que muda serão os valores  
+O espaçamento em pixels do quadriculado sempre será o mesmo, o que muda serão os valores
+
+________________________________________________________________________________________21/08/2018  
+Introdução: 
+Objetivo: 
+Metodologia:
+Resultados:
+Conclusões:
