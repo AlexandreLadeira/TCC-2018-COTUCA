@@ -122,8 +122,8 @@ var razaoY;
 
 var sentido;
 
-var a = 1;
-var b = 1;
+var a = 2;
+var b = -4;
 function validarFuncao()
 {
     /*
@@ -142,7 +142,7 @@ function validarFuncao()
 
     */
     etapa = 0;
-    desenharGrafico(0);
+    desenharGrafico(etapa);
 }
 
 
@@ -266,7 +266,63 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
 }
 
+var anguloAtual = 0;
+function desenharPontos(ondeCruzaX, ondeCruzaY)
+{
+    anguloAtual += 0.1;
+    c.beginPath();
+    c.arc(canvas.width / 2 + ondeCruzaX * larguraColuna, canvas.height / 2, 8, 0, anguloAtual);  
+    c.lineWidth = 0.05;
+    c.strokeStyle = '#1779ba';
+    c.stroke();
 
+    if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
+        requestAnimationFrame(function(){desenharPontos(ondeCruzaX, ondeCruzaY);});
+    else
+    {
+        c.beginPath();
+        c.arc(canvas.width / 2 + ondeCruzaX * larguraColuna, canvas.height / 2, 8, 0, 360);      
+        c.fillStyle = '#002699';
+        c.fill();
+        c.lineWidth = 1;
+        c.stroke();
+
+        anguloAtual = 0;
+        desenharPontoY(ondeCruzaY);
+    }
+}
+
+function desenharPontoY(ondeCruza)
+{    
+    anguloAtual += 0.1;
+    c.beginPath();
+    c.arc(canvas.width / 2, canvas.height / 2 - ondeCruza * larguraLinha, 8, 0, anguloAtual);  
+    c.lineWidth = 0.05;
+    c.strokeStyle = '#1779ba';
+    c.stroke();
+
+    if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
+        requestAnimationFrame(function(){desenharPontoY(ondeCruza);});
+    else
+    {
+        c.beginPath();
+        c.arc(canvas.width / 2, canvas.height / 2 - ondeCruza * larguraLinha, 8, 0, 360);     
+        c.fillStyle = '#002699';
+        c.fill();
+        c.lineWidth = 1;
+        c.stroke();
+
+        // PROSSEGUE PARA A PRÓXIMA ETAPA APÓS ANIMAR O DESENHO DOS PONTOS
+        setTimeout(function(){
+            prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true); 
+        }, 400);  
+    }
+}
+
+function desenharReta(ondeCruzaX, ondeCruzaY)
+{ 
+    
+}
 
 function desenharGrafico(etapaAtual)
 {
@@ -299,17 +355,16 @@ function desenharGrafico(etapaAtual)
     }
 
     if (etapaAtual > 1)
-    {
+    { 
+        // RETA
         c.beginPath();
         c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
         c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
         c.strokeStyle = '#1779ba';
         c.lineWidth = 5;
         c.stroke();
-    }
 
-    if (etapaAtual > 0)
-    {
+        //PONTO (X)
         c.beginPath();
         c.arc(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, 8, 0, 360);      
         c.fillStyle = '#002699';
@@ -318,150 +373,32 @@ function desenharGrafico(etapaAtual)
         c.strokeStyle = '#1779ba';
         c.stroke();
 
+        //PONTO (Y)
         c.beginPath();
         c.arc(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, 8, 0, 360);        
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
         c.strokeStyle = '#1779ba';
-        c.stroke();
+        c.stroke(); 
     }
 
 
     if (etapaAtual == 0)
         prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
-
-    if (etapaAtual == 1)
-        prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true);
-    
-    if (etapaAtual == 2)
-        prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
-
-   
-        /*
-        c.beginPath();
-        
-        if (cruzaX != 0 && cruzaY != 0)
-        {
-            c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
-            c.lineTo(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha);
-
-            //Variáveis para fazer a animação
-
-            xAtual1 = canvas.width / 2 + cruzaX * larguraColuna;
-            yAtual1 = canvas.height / 2;
-
-            xAtual2 = xAtual1;
-            yAtual2 = yAtual1;
-
-            diferencaDeX = (canvas.width / 2 + cruzaX * larguraColuna) - (canvas.width / 2);
-
-            if (diferencaDeX < 0)
-                diferencaDeX *= -1;
-            
-            diferencaDeY = (canvas.height / 2 - cruzaY * larguraLinha) - (canvas.height / 2);
-
-            if (diferencaDeY < 0)
-                diferencaDeX *= -1;
-
-        }
-        else
-        {
-            c.moveTo(canvas.width / 2, canvas.height / 2);  // (0, 0)
-            var pontoY = a * 1 + b;
-            c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - larguraLinha * pontoY);
-
-            //Variáveis para fazer a animação
-
-            xAtual1 = canvas.width / 2;
-            yAtual1 = canvas.height / 2;
-
-            xAtual2 = xAtual1;
-            yAtual2 = yAtual1;
-
-            diferencaDeX = (canvas.width / 2 + larguraColuna) - (canvas.width / 2);
-
-            if (diferencaDeX < 0)
-                diferencaDeX *= -1;
-            
-            diferencaDeY = (canvas.height / 2 - larguraLinha * pontoY) - (canvas.height / 2);
-
-            if (diferencaDeY < 0)
-                diferencaDeX *= -1;
-        }
-
-        if (diferencaDeX > diferencaDeY)
-        {
-            razaoX = diferencaDeX / diferencaDeY;
-            razaoY = 1;
-        }
-        else
-        {
-            razaoX = 1;
-            razaoY = diferencaDeY / diferencaDeX;
-        }
-
-        if(cruzaX < 0 && cruzaX < qtasColunas/2 * (-1))
-        {
-            qtsvezes = xAtual1 / (sentido * razaoX * velocidade);
-
-            if(qtsvezes < 0)
-                qtsvezes *= -1;
-
-            xAtual1 = 0;
-            yAtual1 -= (razaoY * velocidade) * qtsvezes;
-        }
-        else if(cruzaX > 0 && cruzaX > qtasColunas/2)
-        {
-            qtsvezes = yAtual1 / (razaoY * velocidade);
-
-            if(qtsvezes < 0)
-                qtsvezes *= -1;
-
-            yAtual1 = 0;
-            xAtual1 += sentido * razaoX * velocidade * qtsvezes;
-        }
-
-        animarReta(); */
-}
-/*
-const velocidade = 3;
-
-function animarReta()
-{
-    var req = requestAnimationFrame(animarReta);
-
-    c.beginPath();
-    c.lineWidth = 0;
-    c.arc(xAtual1, yAtual1, 2, Math.PI * 2, false);
-
-    c.strokeStyle = "rgba(30, 174, 255, 0.6)";
-    c.fillStyle   = "rgba(30, 174, 255, 0.6)";
-    c.fill();
-
-    c.stroke();
-
-    c.beginPath();
-    c.lineWidth = 0;
-    c.arc(xAtual2, yAtual2, 2, Math.PI * 2, false);
-
-    c.strokeStyle = "rgba(30, 174, 255, 0.6)";
-    c.fillStyle   = "rgba(30, 174, 255, 0.6)";
-    c.fill();
-
-    c.stroke();
-
-    if (yAtual1 >= 0 && xAtual1 <= canvas.width)
+    else if (etapaAtual == 1)
     {
-        xAtual1 += sentido * razaoX * velocidade;   // Aumentará x pixels (Razão = x/y)
-        yAtual1 -= razaoY * velocidade;                  // Aumentará y pixels
-
-        xAtual2 -= sentido * razaoX * velocidade;
-        yAtual2 += razaoY * velocidade;
+        anguloAtual = 0;
+        desenharPontos(cruzaX, cruzaY);
     }
-    else
-        cancelAnimationFrame(req);
-} */
+    else if (etapaAtual == 2)
+    {
+        desenharReta(cruzaX, cruzaY);
+        setTimeout(function(){
+            prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
+        }, 1000);
+    }
+}
 
 desenharGrade();
 desenharEixos();
@@ -483,6 +420,7 @@ elem.addEventListener('click', function(event) {
         messageBoxProximoHabilitado  = false;
         etapa--;
         desenharGrafico(etapa);
+        elem.style.cursor = 'default';
     }
     else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
@@ -491,6 +429,7 @@ elem.addEventListener('click', function(event) {
         messageBoxAnteriorHabilitado = false;
         etapa++;
         desenharGrafico(etapa);
+        elem.style.cursor = 'default';
     }
 
 }, false);
