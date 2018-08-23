@@ -122,8 +122,8 @@ var razaoY;
 
 var sentido;
 
-var a = 2;
-var b = -4;
+var a = 1;
+var b = 1;
 function validarFuncao()
 {
     /*
@@ -319,9 +319,63 @@ function desenharPontoY(ondeCruza)
     }
 }
 
-function desenharReta(ondeCruzaX, ondeCruzaY)
+var xAtual, yAtual, aumentoX;
+function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
 { 
-    
+    var deltaX = Math.abs(xFinal - xInicial);
+    var deltaY = Math.abs(yFinal - yInicial);
+
+    aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
+
+    xAtual = xInicial + 5;
+    yAtual = yInicial - 5;
+
+    var intervalo = setInterval(function(){
+
+        c.beginPath();
+        c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);
+
+        xAtual += aumentoX;
+        yAtual -= 1;
+        
+      /*  if (xInicial < xFinal)
+            xAtual += aumentoX;
+        else
+            xAtual -= aumentoX;
+
+        if (yInicial < yFinal)
+            yAtual += 1;
+        else
+            yAtual -= 1;
+        */
+
+        c.fillStyle ='#1779ba';
+        c.fill();
+        c.strokeStyle = '#1779ba';
+        c.stroke();
+
+        if (xInicial < xFinal && (xAtual >= xFinal - 5 || xAtual < 0 || xAtual > canvas.width))
+        {
+            clearInterval(intervalo);
+            if (etapa == 2)
+                setTimeout(function()
+                {
+                    prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
+                }, 400);
+        }
+        
+        if (xInicial > xFinal && (xAtual <= xFinal + 5 || xAtual < 0 || xAtual > canvas.width))
+        {
+            clearInterval(intervalo);
+            if (etapa == 2)
+                setTimeout(function()
+                {
+                    prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
+                }, 400);
+        }
+
+
+    }, velocidade);
 }
 
 function desenharGrafico(etapaAtual)
@@ -342,8 +396,9 @@ function desenharGrafico(etapaAtual)
     var diferencaDeX;
     var diferencaDeY;
 
-    if (etapaAtual > 2)
+    if (etapaAtual > 3)
     {
+        // Prolonga a reta
         c.beginPath();
         c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
         c.lineTo(canvas.width / 2 -100 * larguraColuna, canvas.height / 2 - (a*(-100) + b) * larguraLinha);
@@ -354,8 +409,9 @@ function desenharGrafico(etapaAtual)
         c.stroke();
     }
 
-    if (etapaAtual > 1)
-    { 
+    if (etapaAtual > 2)
+    {
+        
         // RETA
         c.beginPath();
         c.moveTo(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2);
@@ -363,7 +419,10 @@ function desenharGrafico(etapaAtual)
         c.strokeStyle = '#1779ba';
         c.lineWidth = 5;
         c.stroke();
+    }
 
+    if (etapaAtual > 1)
+    {  
         //PONTO (X)
         c.beginPath();
         c.arc(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, 8, 0, 360);      
@@ -393,11 +452,13 @@ function desenharGrafico(etapaAtual)
     }
     else if (etapaAtual == 2)
     {
-        desenharReta(cruzaX, cruzaY);
-        setTimeout(function(){
-            prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
-        }, 1000);
+        animarReta(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, 25 );
     }
+    else if (etapaAtual == 3)
+    {
+        animarReta(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, canvas.width / 2 -100 * larguraColuna, canvas.height / 2 - (a*(-100) + b) * larguraLinha, 10);
+        animarReta(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, canvas.width / 2 + 100 * larguraColuna, canvas.height / 2 - (a*(100) + b) * larguraLinha, 10);
+    } 
 }
 
 desenharGrade();
