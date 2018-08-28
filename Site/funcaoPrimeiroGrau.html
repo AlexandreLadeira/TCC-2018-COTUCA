@@ -10,28 +10,36 @@
         
     </head>
     <body>
-            <div id="logo" class="logo">
-                    <img src="logoFinal.png">
-                </div>
-        <div class="grid-container">
-            <ul class="menu menu-hover-lines">
-                <li class="active"><a href="home.html">Home</a></li>
-                <li><a href="teoriaAfim.html">Teoria</a></li>
-                <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
-                <li><a href="#">Sobre Nós</a></li>
-                <li><a onclick="trocaEstilo()">Alto contraste</a></li>
-            </ul>
+        <div class="grid-x grid-margin-x">
+            <div class="cell medium-2">
+                    <img src="logoFinal.png" class="logo">
+            </div>                   
+               
+    
+            <div class="cell medium-8">
+            <div class="grid-container">  
+                    <div class="cell medium-8">
+                            
+                            <ul class="menu menu-hover-lines">
+                            <li class="active"><a href="home.html">Home</a></li>
+                            <li><a href="teoriaAfim.html">Teoria</a></li>
+                            <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
+                            <li><a href="#">Sobre Nós</a></li>
+                            <li><a onclick="trocaEstilo()">Alto contraste</a></li>
+                        </div>
+                    </ul>
             <br>
             <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
-                <br>
+            <br>
             <div class="grid-x">
                 <label> Está em dúvida? Confira a nossa <a href="#">teoria</a> interativa! </label>
-
             </div>
+
             <div class="grid-x grid-margin-x" id="contraste">
                 <label class="cell shrink" id="contraste"> Digite a função: </label>
                 <input id="funcao" class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
             </div>
+            
             <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
             <center>
                 <div>
