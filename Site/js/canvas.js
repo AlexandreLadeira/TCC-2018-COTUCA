@@ -327,55 +327,61 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
 
     aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
 
-    xAtual = xInicial + 5;
-    yAtual = yInicial - 5;
+    xAtual = xInicial;
+    yAtual = yInicial;
 
     var intervalo = setInterval(function(){
 
         c.beginPath();
-        c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);
+        c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);   // Raio = 2;
 
-        xAtual += aumentoX;
-        yAtual -= 1;
+       // xAtual += aumentoX;
+       // yAtual -= 1;
         
-      /*  if (xInicial < xFinal)
+        if (xInicial < xFinal)
             xAtual += aumentoX;
-        else
+        else if (xInicial > xFinal)
             xAtual -= aumentoX;
 
         if (yInicial < yFinal)
             yAtual += 1;
-        else
-            yAtual -= 1;
-        */
+        else if (yInicial > yFinal)
+            yAtual -= 1; 
+        
 
         c.fillStyle ='#1779ba';
         c.fill();
         c.strokeStyle = '#1779ba';
         c.stroke();
 
-        if (xInicial < xFinal && (xAtual >= xFinal - 5 || xAtual < 0 || xAtual > canvas.width))
+        if (xInicial < xFinal && (xAtual >= xFinal - 4 || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
             if (etapa == 2)
                 setTimeout(function()
                 {
-                    prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
+                    prosseguirEtapa();
                 }, 400);
         }
         
-        if (xInicial > xFinal && (xAtual <= xFinal + 5 || xAtual < 0 || xAtual > canvas.width))
+        if (xInicial > xFinal && (xAtual <= xFinal + 4 || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
             if (etapa == 2)
                 setTimeout(function()
                 {
-                    prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
+                    prosseguirEtapa();
                 }, 400);
         }
 
 
     }, velocidade);
+}
+
+function prosseguirEtapa()
+{
+    if (etapa == 2)
+        prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
 }
 
 function desenharGrafico(etapaAtual)
