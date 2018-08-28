@@ -11,19 +11,19 @@ var messageBoxProximoHabilitado = false;
 var messageBoxAnteriorHabilitado = false;
 
 var etapa = 0;
+var razaoLabels = 1;    // Determinar de qto em qto os labels irão (1 em 1 / 5 em 5 / 10 em 10 / ...)
 
 // Desenhar a grade
 function desenharGrade()
 {
     c.strokeStyle = "rgb(169, 169, 169)";
-    c.lineWidth = 1;
+    c.lineWidth = 1.5;
 
     //Grades das colunas do lado direito
     for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
     {     
         c.moveTo(i , 0);  
         c.lineTo(i, canvas.height); 
-        c.stroke(); 
     }
 
     //Grades das colunas do lado esquerdo
@@ -31,15 +31,13 @@ function desenharGrade()
     {     
         c.moveTo(i , 0);  
         c.lineTo(i, canvas.height); 
-        c.stroke(); 
     }
 
     //Grades das linhas de cima
     for (var i = canvas.height / 2; i > 0; i -= larguraLinha) 
     {    
         c.moveTo(0, i);  
-        c.lineTo(canvas.width, i);  
-        c.stroke();
+        c.lineTo(canvas.width, i); 
     }
 
     //Grades das linhas de baixo
@@ -47,8 +45,8 @@ function desenharGrade()
     {    
         c.moveTo(0, i);  
         c.lineTo(canvas.width, i);  
-        c.stroke();
     }
+    c.stroke();
 }
 // Desenha os eixos X e Y, assim como os pontos das abscissas e ordenadas
 function desenharEixos()
@@ -122,7 +120,7 @@ var razaoY;
 
 var sentido;
 
-var a = 1;
+var a = 2;
 var b = 1;
 function validarFuncao()
 {
@@ -142,6 +140,7 @@ function validarFuncao()
 
     */
     etapa = 0;
+
     desenharGrafico(etapa);
 }
 
@@ -314,35 +313,30 @@ function desenharPontoY(ondeCruza)
 
         // PROSSEGUE PARA A PRÓXIMA ETAPA APÓS ANIMAR O DESENHO DOS PONTOS
         setTimeout(function(){
-            prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true); 
+            prosseguirEtapa(); 
         }, 400);  
     }
 }
 
-var xAtual, yAtual, aumentoX;
 function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
 { 
     var deltaX = Math.abs(xFinal - xInicial);
     var deltaY = Math.abs(yFinal - yInicial);
 
-    aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
+    var aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
 
-    xAtual = xInicial;
-    yAtual = yInicial;
+    var xAtual = xInicial;
+    var yAtual = yInicial;
 
     var intervalo = setInterval(function(){
 
         c.beginPath();
         c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);   // Raio = 2;
-
-       // xAtual += aumentoX;
-       // yAtual -= 1;
         
         if (xInicial < xFinal)
             xAtual += aumentoX;
         else if (xInicial > xFinal)
             xAtual -= aumentoX;
-
         if (yInicial < yFinal)
             yAtual += 1;
         else if (yInicial > yFinal)
@@ -354,7 +348,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
         c.strokeStyle = '#1779ba';
         c.stroke();
 
-        if (xInicial < xFinal && (xAtual >= xFinal - 4 || xAtual < 0 || xAtual > canvas.width))
+        if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
             if (etapa == 2)
@@ -364,7 +358,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
                 }, 400);
         }
         
-        if (xInicial > xFinal && (xAtual <= xFinal + 4 || xAtual < 0 || xAtual > canvas.width))
+        if (xInicial > xFinal && (xAtual <= xFinal || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
             if (etapa == 2)
@@ -373,14 +367,16 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
                     prosseguirEtapa();
                 }, 400);
         }
-
-
     }, velocidade);
 }
 
 function prosseguirEtapa()
 {
-    if (etapa == 2)
+    if (etapa == 0)
+        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
+    else if (etapa == 1)
+        prosseguir("Etapa 2: Traçar a Reta", "Agora, nós devemos traçar a reta.", true, true);
+    else if (etapa == 2)
         prosseguir("Etapa 3: Prolongar a Reta", "Tudo o que devemos fazer agora é prolongar a reta!", true, true);
 }
 
@@ -450,7 +446,7 @@ function desenharGrafico(etapaAtual)
 
 
     if (etapaAtual == 0)
-        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo é desenhar dois pontos.", false, true);
+        prosseguirEtapa();
     else if (etapaAtual == 1)
     {
         anguloAtual = 0;
@@ -462,8 +458,35 @@ function desenharGrafico(etapaAtual)
     }
     else if (etapaAtual == 3)
     {
-        animarReta(canvas.width / 2 + cruzaX * larguraColuna, canvas.height / 2, canvas.width / 2 -100 * larguraColuna, canvas.height / 2 - (a*(-100) + b) * larguraLinha, 10);
-        animarReta(canvas.width / 2, canvas.height / 2 - cruzaY * larguraLinha, canvas.width / 2 + 100 * larguraColuna, canvas.height / 2 - (a*(100) + b) * larguraLinha, 10);
+         var xInicial = canvas.width / 2 + cruzaX * larguraColuna;
+         var yInicial = canvas.height / 2;
+         var xFinal, yFinal;
+         if (a > 0)
+         {
+            xFinal   = canvas.width / 2 - 100 * larguraColuna;
+            yFinal   = canvas.height / 2 - (a*(-100) + b) * larguraLinha;
+         }
+         else
+         {
+            xFinal   = canvas.width / 2 + 100 * larguraColuna;
+            yFinal   = canvas.height / 2 - (a*(100) + b) * larguraLinha;
+         }
+         var velocidade = 6;
+        animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
+
+        xInicial = canvas.width / 2;
+        yInicial = canvas.height / 2 - cruzaY * larguraLinha;
+        if (a > 0)
+        {
+            xFinal   = canvas.width / 2 + 100 * larguraColuna;
+            yFinal   = canvas.height / 2 - (a*(100) + b) * larguraLinha;
+        }
+        else
+        {
+            xFinal   = canvas.width / 2 - 100 * larguraColuna;
+            yFinal   = canvas.height / 2 - (a*(-100) + b) * larguraLinha;
+        }
+        animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
     } 
 }
 
