@@ -2520,11 +2520,13 @@ ul.no-bullet, ol.no-bullet {
     margin-right: 0;
     margin-left: 0; }
   .button.primary {
-    background-color: green;
-    color: black; }
+    background-color: black;
+    color: yellow;
+    border-color: yellow; }
     .button.primary:hover, .button.primary:focus {
-      background-color: green;
-      color: black; }
+      background-color: rgb(36, 30, 30);
+      color: yellow;
+      border-color: yellow; }
   .button.secondary {
     background-color: #767676;
     color: #fefefe; }
