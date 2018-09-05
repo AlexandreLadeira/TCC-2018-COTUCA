@@ -9,6 +9,7 @@ var larguraColuna = canvas.width / qtasColunas;
 
 var messageBoxProximoHabilitado = false;
 var messageBoxAnteriorHabilitado = false;
+var messageBoxHabilitado = false;
 
 var etapa = 0;
 
@@ -154,6 +155,8 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     var largura = canvas.width;
     var altura  = canvas.height;
 
+    messageBoxHabilitado = true;
+
     larguraMensagem = largura * 5/6;
     alturaTitulo = altura * 1/12;
 
@@ -231,7 +234,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     // Imagem do som
     var imagem = new Image;
     imagem.src = "imagens/IconeSom.png";
-    c.drawImage(imagem, canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
+    c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
 
 
     // Texto dos Botões
@@ -400,6 +403,27 @@ function prosseguirEtapa()
         + "nova linha até atingir os limites do gráfico.", true, true);
 }
 
+function textoDaEtapa(etapaAtual)
+{    
+    if (etapa == 0)
+    return "Etapa 1: Definição de Dois Pontos. O primeiro passo para determinar o gráfico da função"
+    + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
+    + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar o ponto no qual a reta cruzará "
+    + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
+    + "valor de x (que será, na função dada, igual a " + cruzaX + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
+    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
+    + "de acordo com a função dada, será " + cruzaY + ".";
+else if (etapa == 1)
+    return "Etapa 2: Traçar a Reta. O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
+    + "seus dois pontos, anteriormente definidos (pontos (0, "+ cruzaY +") e ("+ cruzaX + ", 0)). Para isso, basta "
+    + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
+else if (etapa == 2)
+    return "Etapa 3: Prolongar a Reta. O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
+    + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
+    + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
+    + "nova linha até atingir os limites do gráfico.";
+}
+
 
 function encontrarRazaoLabels(ondeCruzaX, ondeCruzaY)
 {    
@@ -558,6 +582,7 @@ elem.addEventListener('click', function(event) {
     {
         messageBoxAnteriorHabilitado = false;
         messageBoxProximoHabilitado  = false;
+        messageBoxHabilitado = false;
         etapa--;
         desenharGrafico(etapa);
         elem.style.cursor = 'default';
@@ -567,10 +592,42 @@ elem.addEventListener('click', function(event) {
     {
         messageBoxProximoHabilitado  = false;
         messageBoxAnteriorHabilitado = false;
+        messageBoxHabilitado = false;
         etapa++;
         desenharGrafico(etapa);
         elem.style.cursor = 'default';
     }
+    else if (messageBoxHabilitado 
+    && (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) 
+    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40) )
+    {
+        if(window.speechSynthesis.speaking)	
+		window.speechSynthesis.cancel(); // reinicia se ja estiver tocando
+        else
+        {
+            var texto = textoDaEtapa(etapa);
+            var vet   = texto.split(",");
+            var i	  = 1;
+            var msg   = new SpeechSynthesisUtterance(vet[0]);		
+            
+            console.log(vet);
+
+            msg.lang  = 'pt-BR';//garantindo que está em pt-br
+
+            window.speechSynthesis.speak(msg); // fala a primeira frase 
+            
+            
+            while (i < vet.length) // fala o vetor de frases inteiro
+            {		
+                msg = new SpeechSynthesisUtterance(vet[i]);
+                msg.lang = 'pt-BR';	//pt-br	
+                window.speechSynthesis.speak(msg);		
+                i++;		
+            }
+
+        }
+    }
+    
 
 }, false);
 
@@ -581,11 +638,18 @@ function movimentoMouse(event)
     var x = event.pageX - elemLeft,
     y = event.pageY - elemTop;
 
+    // Botão Anterior
     if (messageBoxAnteriorHabilitado && (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes)
     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
         elem.style.cursor = 'pointer';
+    //Botão Próximo
     else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+        elem.style.cursor = 'pointer';
+    // Botão de Som
+    else if (messageBoxHabilitado 
+    && (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) 
+    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40) )
         elem.style.cursor = 'pointer';
     else
         elem.style.cursor = 'default';
