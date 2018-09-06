@@ -110,8 +110,8 @@ function desenharEixos(razaoLabels)
 
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
-var a = 2/100;
-var b = 15;
+var a = 2;
+var b = 1;
 var funcao = "";
 function validarFuncao()
 {
@@ -131,7 +131,10 @@ function validarFuncao()
 
     */
     funcao = document.getElementById("funcao").value;
-    etapa  = 0;
+    if (b == 0)
+        etapa = 0.5;
+    else
+        etapa  = 0;
 
     desenharGrafico(etapa);
 }
@@ -268,32 +271,32 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 }
 
 var anguloAtual = 0;
-function desenharPontos(ondeCruzaX, ondeCruzaY)
+function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para receber quatro parâmetros 
 {
     anguloAtual += 0.1;
     c.beginPath();
-    c.arc(canvas.width / 2 + (ondeCruzaX * larguraColuna)/razaoLabels, canvas.height / 2, 8, 0, anguloAtual);  
+    c.arc(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 8, 0, anguloAtual);  
     c.lineWidth = 0.05;
     c.strokeStyle = '#1779ba';
     c.stroke();
 
     if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
-        requestAnimationFrame(function(){desenharPontos(ondeCruzaX, ondeCruzaY);});
+        requestAnimationFrame(function(){desenharPontos(x1, y1, x2, y2);});
     else
     {
         c.beginPath();
-        c.arc(canvas.width / 2 + (ondeCruzaX * larguraColuna)/razaoLabels, canvas.height / 2, 8, 0, 360);      
+        c.arc(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 8, 0, 360);      
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
         c.stroke();
 
         anguloAtual = 0;
-        desenharPontoY(ondeCruzaY);
+        desenharPonto2(y1);
     }
 }
 
-function desenharPontoY(ondeCruza)
+function desenharPonto2(ondeCruza)
 {    
     anguloAtual += 0.1;
     c.beginPath();
@@ -303,7 +306,7 @@ function desenharPontoY(ondeCruza)
     c.stroke();
 
     if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
-        requestAnimationFrame(function(){desenharPontoY(ondeCruza);});
+        requestAnimationFrame(function(){desenharPonto2(ondeCruza);});
     else
     {
         c.beginPath();
@@ -384,68 +387,82 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
 
 function prosseguirEtapa()
 {
+    var 
+    botaoAnterior = true,
+    botaoProximo = true;
+
+    if (etapa == 0 || etapa == 0.5)
+        botaoAnterior = false;
+
+    prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), botaoAnterior, botaoProximo);
+}
+
+function getTituloDaEtapa(etapaAtual)
+{
+    if (etapa == 0 || etapa == 0.5)
+        return "Etapa 1: Definição de Dois Pontos";
+    else if (etapa == 1)
+        return "Etapa 2: Traçar a Reta";
+    else if (etapa == 2)
+        return "Etapa 3: Prolongar a Reta";
+    else
+        return "";
+}
+
+function getTextoDaEtapa(etapaAtual)
+{
     if (etapa == 0)
-        prosseguir("Etapa 1: Definição de Dois Pontos", "O primeiro passo para determinar o gráfico da função "
+        return "O primeiro passo para determinar o gráfico da função "
         + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
-        + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar o ponto no qual a reta cruzará "
+        + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
         + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
         + "valor de x (que será, na função dada, igual a " + cruzaX + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
         + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-        + "de acordo com a função dada, será " + cruzaY + ". ", false, true);
+        + "de acordo com a função dada, será " + cruzaY + ".";
+    else if (etapa == 0.5)  // Passa por (0, 0)
+        return "O primeiro passo para determinar o gráfico da função "
+        + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
+        + "posições pelas quais a reta passará pelos eixos ordenados, pois esses dois pontos serão na mesma posição (0, 0). "
+        + "Assim, devemos determinar um ponto a mais qualquer, escolhendo um valor de x aleatório e encontrando o seu y. "
+        + "Para não encontrarmos um valor muito diferente entre x e y, escolheremos o valor de x com base no primeiro ponto "
+        + "que marcamos no gráfico (ponto ("+ razaoLabels +", 0)), e substituindo x na função por esse valor, encontramos o ponto "
+        + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
     else if (etapa == 1)
-        prosseguir("Etapa 2: Traçar a Reta", "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
+        return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
         + "seus dois pontos, anteriormente definidos (pontos (0, "+ cruzaY +") e ("+ cruzaX + ", 0)). Para isso, basta "
-        + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.", true, true);
+        + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
     else if (etapa == 2)
-        prosseguir("Etapa 3: Prolongar a Reta", "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
+        return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
         + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
         + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
-        + "nova linha até atingir os limites do gráfico.", true, true);
+        + "nova linha até atingir os limites do gráfico.";
+    else
+        return "";
+
 }
 
-function textoDaEtapa(etapaAtual)
-{    
-    if (etapa == 0)
-    return "Etapa 1: Definição de Dois Pontos. O primeiro passo para determinar o gráfico da função"
-    + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
-    + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar o ponto no qual a reta cruzará "
-    + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-    + "valor de x (que será, na função dada, igual a " + cruzaX + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
-    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-    + "de acordo com a função dada, será " + cruzaY + ".";
-else if (etapa == 1)
-    return "Etapa 2: Traçar a Reta. O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
-    + "seus dois pontos, anteriormente definidos (pontos (0, "+ cruzaY +") e ("+ cruzaX + ", 0)). Para isso, basta "
-    + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
-else if (etapa == 2)
-    return "Etapa 3: Prolongar a Reta. O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
-    + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
-    + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
-    + "nova linha até atingir os limites do gráfico.";
-}
-
-
-function encontrarRazaoLabels(ondeCruzaX, ondeCruzaY)
+function encontrarRazaoLabels(pontoX, pontoY)
 {    
     var maiorPonto;
     
-    if (Math.abs(ondeCruzaX) > Math.abs(ondeCruzaY))
-        maiorPonto = Math.abs(ondeCruzaX);
+    if (Math.abs(pontoX) > Math.abs(pontoY))
+        maiorPonto = Math.abs(pontoX);
     else
-        maiorPonto = Math.abs(ondeCruzaY);
+        maiorPonto = Math.abs(pontoY);
     
     var achouRazao = false;
     var razaoLabels = 1;
+    var deQuantoEmQuanto = 5;
     while (!achouRazao)
     {
-        if (maiorPonto / razaoLabels <= 5)
+        if (maiorPonto / razaoLabels <= deQuantoEmQuanto)
             achouRazao = true;
         else
         {
             if (razaoLabels == 1)
-                razaoLabels = 5;
+                razaoLabels = deQuantoEmQuanto;
             else
-                razaoLabels += 5;
+                razaoLabels += deQuantoEmQuanto;
         }
     }
 
@@ -464,33 +481,26 @@ function desenharGrafico(etapaAtual)
     cruzaY = b;
 
     if (etapaAtual == 0)
-        razaoLabels = encontrarRazaoLabels(cruzaX, cruzaY);
-
-    desenharEixos(razaoLabels);
-    
-    var diferencaDeX;
-    var diferencaDeY;
-
-    if (etapaAtual > 3)
     {
-        // Prolonga a reta
-        c.beginPath();
-        c.moveTo(canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels, canvas.height / 2);
-        c.lineTo(canvas.width / 2 - (Number.MAX_SAFE_INTEGER * larguraColuna)/razaoLabels, canvas.height / 2 - ( (a*(-Number.MAX_SAFE_INTEGER) + b) * larguraLinha) /razaoLabels);
-        c.moveTo(canvas.width / 2, canvas.height / 2 - (cruzaY * larguraLinha))/razaoLabels;
-        c.lineTo(canvas.width / 2 + (Number.MAX_SAFE_INTEGER * larguraColuna)/razaoLabels, canvas.height / 2 - ( (a*(Number.MAX_SAFE_INTEGER) + b) * larguraLinha) /razaoLabels);
-        c.strokeStyle = '#1779ba';
-        c.lineWidth = 5;
-        c.stroke();
+        if (cruzaX != cruzaY)
+            razaoLabels = encontrarRazaoLabels(cruzaX, cruzaY);
     }
 
+    desenharEixos(razaoLabels);
     if (etapaAtual > 2)
     {
-        
         // RETA
         c.beginPath();
-        c.moveTo(canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels, canvas.height / 2);
-        c.lineTo(canvas.width / 2, canvas.height / 2 - (cruzaY * larguraLinha)/razaoLabels);
+        if (b != 0)
+        {
+            c.moveTo(canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels, canvas.height / 2);
+            c.lineTo(canvas.width / 2, canvas.height / 2 - (cruzaY * larguraLinha)/razaoLabels);
+        }
+        else
+        {
+            c.moveTo(canvas.width / 2, canvas.height / 2);  // Ponto (0,0)
+            c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - razaoLabels * a * larguraLinha);
+        }
         c.strokeStyle = '#1779ba';
         c.lineWidth = 5;
         c.stroke();
@@ -518,12 +528,18 @@ function desenharGrafico(etapaAtual)
     }
 
 
-    if (etapaAtual == 0)
+    if (etapaAtual == 0 || etapaAtual == 0.5)
         prosseguirEtapa();
     else if (etapaAtual == 1)
     {
         anguloAtual = 0;
-        desenharPontos(cruzaX, cruzaY);
+        if (b != 0)
+            desenharPontos(cruzaX, 0, 0, cruzaY);
+        else
+        {
+            desenharPontos(0, 0, canvas.width / 2 + razaoLabels, canvas.height / 2 - razaoLabels * a);
+            console.log("a");
+        }
     }
     else if (etapaAtual == 2)
     {
@@ -573,56 +589,90 @@ var elem = document.getElementById('canvas'),
 elemLeft = elem.offsetLeft,
 elemTop = elem.offsetTop;
 
+
+function mouseSobreAnterior(x, y)
+{
+    return messageBoxAnteriorHabilitado && 
+    (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes) && // Coordenada X
+    (   
+    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&  // Coordenada Y
+    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes)                    // Coordenada Y
+    );
+}
+
+function mouseSobreProximo(x, y)
+{
+    return messageBoxProximoHabilitado && 
+    (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) && // Coord. X
+    (
+    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&    // Coordenada Y
+    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes)                      // Coordenada Y
+    );
+}
+
+function mouseSobreAudio(x, y)
+{
+    return messageBoxHabilitado && 
+    (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) && // Coordenada X
+    (
+    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&    // Coordenada Y
+    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40)  // Coordenada Y
+    );
+
+}
+
 elem.addEventListener('click', function(event) {
     var x = event.pageX - elemLeft,
         y = event.pageY - elemTop;
-    
-    if (messageBoxAnteriorHabilitado && (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes)
-     && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+   if (mouseSobreAnterior(x, y))
     {
         messageBoxAnteriorHabilitado = false;
         messageBoxProximoHabilitado  = false;
         messageBoxHabilitado = false;
-        etapa--;
+
+        if (b == 0 && etapa == 1)
+            etapa -= 0.5;
+        else
+            etapa--;
+
         desenharGrafico(etapa);
         elem.style.cursor = 'default';
+        window.speechSynthesis.cancel();
     }
-    else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
-    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+   else if (mouseSobreProximo(x, y))
     {
         messageBoxProximoHabilitado  = false;
         messageBoxAnteriorHabilitado = false;
         messageBoxHabilitado = false;
-        etapa++;
+
+        if (etapa == 0.5)
+            etapa+= 0.5;
+        else
+            etapa++;
+
         desenharGrafico(etapa);
         elem.style.cursor = 'default';
+        window.speechSynthesis.cancel();
     }
-    else if (messageBoxHabilitado 
-    && (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) 
-    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40) )
+    else if (mouseSobreAudio(x, y))
     {
         if(window.speechSynthesis.speaking)	
-		window.speechSynthesis.cancel(); // reinicia se ja estiver tocando
+		window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
-            var texto = textoDaEtapa(etapa);
-            var vet   = texto.split(",");
-            var i	  = 1;
-            var msg   = new SpeechSynthesisUtterance(vet[0]);		
-            
-            console.log(vet);
+            var texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
+            var msg   = new SpeechSynthesisUtterance(texto);
+            msg.lang = 'pt-BR';	                    // Coloca a mensagem em português
+            window.speechSynthesis.speak(msg);      // Fala o título
 
-            msg.lang  = 'pt-BR';//garantindo que está em pt-br
+            texto = getTextoDaEtapa(etapa);
+            var vet   = texto.split(",").join(".").split(".");
 
-            window.speechSynthesis.speak(msg); // fala a primeira frase 
-            
-            
-            while (i < vet.length) // fala o vetor de frases inteiro
-            {		
+            for (var i = 0; i < vet.length; i++)
+            {
                 msg = new SpeechSynthesisUtterance(vet[i]);
-                msg.lang = 'pt-BR';	//pt-br	
-                window.speechSynthesis.speak(msg);		
-                i++;		
+                msg.lang = 'pt-BR';
+                window.speechSynthesis.speak(msg);
             }
 
         }
@@ -632,24 +682,20 @@ elem.addEventListener('click', function(event) {
 }, false);
 
 elem.onmousemove = movimentoMouse;
-
 function movimentoMouse(event)
 {    
-    var x = event.pageX - elemLeft,
+    var 
+    x = event.pageX - elemLeft,
     y = event.pageY - elemTop;
 
     // Botão Anterior
-    if (messageBoxAnteriorHabilitado && (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes)
-    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+    if (mouseSobreAnterior(x, y))
         elem.style.cursor = 'pointer';
     //Botão Próximo
-    else if (messageBoxProximoHabilitado && (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) 
-    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes))
+    else if (mouseSobreProximo(x, y))
         elem.style.cursor = 'pointer';
     // Botão de Som
-    else if (messageBoxHabilitado 
-    && (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) 
-    && (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes && y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40) )
+    else if (mouseSobreAudio(x, y))
         elem.style.cursor = 'pointer';
     else
         elem.style.cursor = 'default';
