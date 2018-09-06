@@ -19,3 +19,43 @@ Objetivo:
 Metodologia:
 Resultados:
 Conclusões:
+________________________________________________________________________________________
+Video 2: 
+Respondendo mais algumas perguntas, o assunto n os toca pois somos alunos 
+do 3º ano do ensino médio e sempre estudamos essa matérias, tambem 
+todos nós usamos oculos com graus avancados e sabemos minimamento 
+como é dificil nao enxergar bem. Por isso gostamos muito da ideia de 
+adapatar o nosso site para incluir pessoas com baixa visão. 
+Um dos maiores desafios que encontramos foi criar um site com funcionalidade de 
+inclusão visual, porque não existem muitas tecnologias já disponiveis nma internete
+mas nós conseguimos nos superar e programar essas utilidades , no caso 
+o alto contraste os textos falados e os zooms depois de pesquisar e combinar
+diversas tecnologias, como o google tradutor e o frameork para criar sites 
+que se adapatam a telas de diferentes tamanhos, o foundation   
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
