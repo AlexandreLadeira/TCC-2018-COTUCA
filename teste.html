@@ -1,0 +1,83 @@
+<html>
+    <head></head>
+    <script>
+        function getAeBdaFuncao(x)
+        {           
+            var achou = false;
+            var ehX   = false;
+
+            var a   = "";
+            var b   = "";
+            var aux = "";
+            
+            var qtsNumerosAchou = 0;
+            var indiceIgual = x.indexOf("=");
+
+            //Tira a parte "f(x) =" ou a parte "y ="da expressao.
+            x = x.substring(indiceIgual+1, x.length).trim();
+
+            for(i = 0; i < x.length; i++)
+            {
+                var s = x.charAt(i);
+
+                if(s != " ")
+                {  
+                    if(!isNaN(s)) //Se for numero
+                    {
+                        aux += s; // concatena o numero
+                        
+                        if(!achou)
+                        {
+                            achou = true;
+                            qtsNumerosAchou++;
+                        }
+                    }
+                    else
+                        if(s == 'x') // nesse caso o numero é o a
+                        {
+                            if(!achou)// não existe numero antes de x
+                            {
+                                a = "1";
+                                qtsNumerosAchou++;
+                            }
+                            else
+                                ehX = true;
+                        }
+                        else
+                            if(achou) // verifica se é o termo a ou b
+                            {
+                                if(!ehX) // é o termo b e não o a
+                                    b = aux
+                                else
+                                {
+                                    a   = aux;
+                                    ehX = false;
+                                }
+
+                                aux   = "";
+                                achou = false;
+                            }
+                }
+            }
+            
+            //No caso de b nao ter sido fornecido
+            if(qtsNumerosAchou == 1)
+            {
+                b = "0";
+                if(a == "") //se não existe numero antes de x
+                    a = aux;
+            }
+            else
+                if(qtsNumerosAchou == 2 && !ehX)
+                    b = aux;
+                else
+                    a = aux;
+            
+            return [a, b];
+            
+        }
+    </script>
+    <body>
+        
+    </body>
+</html>
