@@ -1,8 +1,8 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-var qtasLinhas = 12;
-var qtasColunas = 12;
+var qtasLinhas = 16;
+var qtasColunas = 16;
 
 var larguraLinha = canvas.height / qtasLinhas;
 var larguraColuna = canvas.width / qtasColunas;
@@ -17,129 +17,179 @@ var etapa = 0;
 function desenharGrade()
 {
     c.strokeStyle = "rgb(169, 169, 169)";
-    c.lineWidth = 1.5;
+    c.lineWidth = 1.2;
 
-    //Grades das colunas do lado direito
-    for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
-    {     
-        c.moveTo(i , 0);  
-        c.lineTo(i, canvas.height); 
+    // Colunas
+    for (var i = larguraColuna; i < canvas.width; i += larguraColuna)
+    {
+        c.beginPath();
+        c.moveTo(i, 0);
+        c.lineTo(i, canvas.height);
+        c.stroke();
     }
 
-    //Grades das colunas do lado esquerdo
-    for (var i = canvas.width / 2; i > 0; i -= larguraColuna)
-    {     
-        c.moveTo(i , 0);  
-        c.lineTo(i, canvas.height); 
+    // Linhas
+    for (var i = larguraLinha; i < canvas.height; i += larguraLinha)
+    {
+        c.beginPath();
+        c.moveTo(0, i);
+        c.lineTo(canvas.width, i);
+        c.stroke();
     }
-
-    //Grades das linhas de cima
-    for (var i = canvas.height / 2; i > 0; i -= larguraLinha) 
-    {    
-        c.moveTo(0, i);  
-        c.lineTo(canvas.width, i); 
-    }
-
-    //Grades das linhas de baixo
-    for (var i = canvas.height / 2; i < canvas.height; i += larguraLinha)
-    {    
-        c.moveTo(0, i);  
-        c.lineTo(canvas.width, i);  
-    }
-    c.stroke();
 }
+
 // Desenha os eixos X e Y, assim como os pontos das abscissas e ordenadas
 function desenharEixos(razaoLabels)
 {
     razaoLabels = razaoLabels || 1;
-    c.font = "17px Arial";
 
     c.beginPath();
+    c.lineWidth = 2;
+    c.strokeStyle = "rgb(54, 54, 54)";
+
     //EIXO X
     c.moveTo(0, canvas.height / 2);
     c.lineTo(canvas.width, canvas.height / 2);
-    c.strokeStyle = "black";
-    c.lineWidth = 1;
 
     //EIXO Y
     c.moveTo(canvas.width / 2, 0);
     c.lineTo(canvas.width / 2, canvas.height);
-    c.strokeStyle = "black";
-    c.lineWidth = 1;
 
     c.stroke();
 
-    // Colocando os pontos
-    var pontoAtual = 0;
+    // Colocando os pontos:
+    c.beginPath();
+    c.font = "16px Arial";
 
-    // Coluna do lado direito
-    for (var i = canvas.width / 2; i < canvas.width; i += larguraColuna) 
-    {     
+    // Eixo X
+    var pontoAtual = (qtasColunas - 2) / -2;    // -2 para retirar os pontos da borda
+    for (var i = larguraColuna; i < canvas.width; i += larguraColuna)
+    {
         c.fillText(pontoAtual * razaoLabels, i, canvas.height / 2);
         pontoAtual++;
     }
     
-    pontoAtual = -1;
+    // Eixo Y
+    pontoAtual = (qtasLinhas - 2) / 2;          // -2 para retirar os pontos da borda
+    for (var i = larguraLinha; i < canvas.height; i += larguraLinha)
+    {
+        if (pontoAtual != 0)
+            c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i);
 
-    //Colunas do lado esquerdo
-    for (var i = (canvas.width / 2 - larguraColuna); i > 0; i -= larguraColuna)
-    {     
-        c.fillText(pontoAtual * razaoLabels, i, canvas.height / 2);
         pontoAtual--;
     }
-    
-    pontoAtual = 1;
-
-    //Linhas de cima
-    for (var i = canvas.height / 2 - larguraLinha; i > 0; i -= larguraLinha) 
-    {    
-        c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i);
-        pontoAtual++;
-    }
-    
-    pontoAtual = -1;
-
-    //Linhas de baixo
-    for (var i = canvas.height / 2 + larguraLinha; i < canvas.height; i += larguraLinha)
-    {    
-        c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i);
-        pontoAtual--;
-    }
+    c.stroke();
 }
 
 
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
-var a = 2;
-var b = 1;
+var a;
+var b;
 var funcao = "";
+function getAeBdaFuncao(x)
+{           
+    var achou = false;
+    var ehX   = false;
+
+    var a   = "";
+    var b   = "";
+    var aux = "";
+    
+    var qtsNumerosAchou = 0;
+    var indiceIgual = x.indexOf("=");
+
+    //Tira a parte "f(x) =" ou a parte "y ="da expressao.
+    x = x.substring(indiceIgual+1, x.length).trim();
+
+    for(i = 0; i < x.length; i++)
+    {
+        var s = x.charAt(i);
+
+        if(s != " ")
+        {  
+            if(!isNaN(s)) //Se for numero
+            {
+                aux += s; // concatena o numero
+                
+                if(!achou)
+                {
+                    achou = true;
+                    qtsNumerosAchou++;
+                }
+            }
+            else if(s == 'x') // nesse caso o numero é o a
+            {
+                if(!achou)// não existe numero antes de x
+                {
+                    a = "1";
+                    qtsNumerosAchou++;
+                }
+                else
+                    ehX = true;
+            }
+            else if(achou) // verifica se é o termo a ou b
+            {
+                if(!ehX) // é o termo b e não o a
+                    b = aux
+                else
+                {
+                    a   = aux;
+                    ehX = false;
+                }
+
+                aux   = "";
+                achou = false;
+            }
+        }
+    }
+    
+    //No caso de b nao ter sido fornecido
+    if(qtsNumerosAchou == 1)
+    {
+        b = "0";
+        if(a == "") //se não existe numero antes de x
+            a = aux;
+    }
+    else
+        if(qtsNumerosAchou == 2 && !ehX)
+            b = aux;
+        else
+            a = aux;
+    
+    return [a, b];
+}
+
 function validarFuncao()
 {
-    /*
+    
+    funcao = document.getElementById("funcao").value;
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
     var expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;   
 
     // expressao regular para validar uma funcao afim na for f(x) = b + ax
     var expressaoReg2 = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?\s*\d+((\,|\/)\d+)?\s*(\-|\+)\s*(\d+(\,|\/)\d+)?\d*[a-z]{1}$/;
 
-    if (expressaoReg.test(document.getElementById("funcao").value) || expressaoReg2.test(document.getElementById("funcao").value))
+    if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
     {
-        alert("TA SERTO");
+
+        var valores = getAeBdaFuncao(funcao);
+        a = valores[0];
+        b = valores[1];
+
+        if (b == 0)
+            etapa = 0.5;
+        else
+            etapa  = 0;
+    
+        desenharGrafico(etapa);
     }
     else
-        alert("ta errado"); 
-
-    */
-    funcao = document.getElementById("funcao").value;
-    if (b == 0)
-        etapa = 0.5;
-    else
-        etapa  = 0;
-
-    desenharGrafico(etapa);
+    {
+        alert("ta errado");
+        return; 
+    }
 }
-
-
 
 // VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
 var larguraMensagem;
@@ -155,31 +205,33 @@ var ondeComecarBotaoX;
 
 function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 {
-    var largura = canvas.width;
-    var altura  = canvas.height;
+    var larguraDoCanvas = canvas.width;
+    var alturaDoCanvas  = canvas.height;
 
     messageBoxHabilitado = true;
 
-    larguraMensagem = largura * 5/6;
-    alturaTitulo = altura * 1/12;
+    larguraMensagem = larguraDoCanvas * 5/6;
+    alturaTitulo    = alturaDoCanvas  * 1/12;
 
-    ondeComecarX = largura * 1/12;
-    ondeComecarY = largura * 1/12;
+    ondeComecarX = larguraDoCanvas * 1/12;
+    ondeComecarY = larguraDoCanvas * 1/12;
 
     // Caixa de Título
-    
+    c.beginPath();
     c.shadowColor = "black";
     c.shadowBlur = 10;
     c.fillStyle = '#1779ba';
     c.fillRect(ondeComecarX, ondeComecarY, larguraMensagem, alturaTitulo);
-    c.stroke;
+    c.stroke();
 
     // Texto do Título
+    c.beginPath();
     c.shadowBlur = 0;
     var margemTexto = 20;
     c.fillStyle = 'white';
-    c.font = "40px Archivo";
+    c.font = "36px Montserrat";
     c.fillText(titulo, ondeComecarX + margemTexto, ondeComecarY + alturaTitulo - margemTexto, larguraMensagem - 2*margemTexto);
+    c.stroke();
 
     // Caixa de Mensagem
     c.shadowColor = "black";
@@ -196,7 +248,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     // Texto da Mensagem
     c.fillStyle = "black";
-    c.font = "24px Archivo";
+    c.font = "24px Montserrat";
 
     var palavras = mensagem.split(' ');
     var linhaAtual = '';
@@ -243,7 +295,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     // Texto dos Botões
 
     // -- Anterior
-    c.font = "24px Archivo";
+    c.font = "24px Montserrat";
     c.fillStyle = "white";
 
     if (anteriorHabilitado)
@@ -275,7 +327,7 @@ function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para re
 {
     anguloAtual += 0.1;
     c.beginPath();
-    c.arc(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 8, 0, anguloAtual);  
+    c.arc(x1, y1, 8, 0, anguloAtual);  
     c.lineWidth = 0.05;
     c.strokeStyle = '#1779ba';
     c.stroke();
@@ -285,32 +337,32 @@ function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para re
     else
     {
         c.beginPath();
-        c.arc(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 8, 0, 360);      
+        c.arc(x1, y1, 8, 0, 360);      
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
-        c.stroke();
+        c.stroke;
 
         anguloAtual = 0;
-        desenharPonto2(y1);
+        desenharPonto2(x2, y2);
     }
 }
 
-function desenharPonto2(ondeCruza)
+function desenharPonto2(x2, y2)
 {    
     anguloAtual += 0.1;
     c.beginPath();
-    c.arc(canvas.width / 2, canvas.height / 2 - (ondeCruza * larguraLinha)/razaoLabels, 8, 0, anguloAtual);  
+    c.arc(x2, y2, 8, 0, anguloAtual);  
     c.lineWidth = 0.05;
     c.strokeStyle = '#1779ba';
     c.stroke();
 
     if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
-        requestAnimationFrame(function(){desenharPonto2(ondeCruza);});
+        requestAnimationFrame(function(){desenharPonto2(x2, y2);});
     else
     {
         c.beginPath();
-        c.arc(canvas.width / 2, canvas.height / 2 - (ondeCruza * larguraLinha)/razaoLabels, 8, 0, 360);     
+        c.arc(x2, y2, 8, 0, 360);     
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
@@ -387,9 +439,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
 
 function prosseguirEtapa()
 {
-    var 
-    botaoAnterior = true,
-    botaoProximo = true;
+    var botaoAnterior = true, botaoProximo = true;
 
     if (etapa == 0 || etapa == 0.5)
         botaoAnterior = false;
@@ -416,9 +466,9 @@ function getTextoDaEtapa(etapaAtual)
         + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
         + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
         + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-        + "valor de x (que será, na função dada, igual a " + cruzaX + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
+        + "valor de x (que será, na função dada, igual a " + x1 + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
         + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-        + "de acordo com a função dada, será " + cruzaY + ".";
+        + "de acordo com a função dada, será " + y2 + ".";
     else if (etapa == 0.5)  // Passa por (0, 0)
         return "O primeiro passo para determinar o gráfico da função "
         + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
@@ -429,7 +479,7 @@ function getTextoDaEtapa(etapaAtual)
         + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
     else if (etapa == 1)
         return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
-        + "seus dois pontos, anteriormente definidos (pontos (0, "+ cruzaY +") e ("+ cruzaX + ", 0)). Para isso, basta "
+        + "seus dois pontos, anteriormente definidos (pontos (0, "+ y2 +") e ("+ x1 + ", 0)). Para isso, basta "
         + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
     else if (etapa == 2)
         return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
@@ -470,20 +520,37 @@ function encontrarRazaoLabels(pontoX, pontoY)
 }
 
 var razaoLabels = 1;
-var cruzaX, cruzaY;
+var x1, x2, y1, y2;
+var textoX1 = 0, textoX2 = 0, textoY1 = 0, textoY2 = 0;
 function desenharGrafico(etapaAtual)
 {
     canvas.width = canvas.width;    // Resetar o canvas
 
     desenharGrade();
 
-    cruzaX = -b/a;
-    cruzaY = b;
+    x1 = -b/a;
+    y2 = b;
 
-    if (etapaAtual == 0)
+    if (etapaAtual == 0 || etapaAtual == 0.5)
     {
-        if (cruzaX != cruzaY)
-            razaoLabels = encontrarRazaoLabels(cruzaX, cruzaY);
+        if (b != 0)
+            razaoLabels = encontrarRazaoLabels(x1, y2);
+        else
+            razaoLabels = encontrarRazaoLabels(0, a);
+    }
+
+    if (b != 0) // Não cruza no (0, 0)
+    {
+        y1 = 0;
+        x2 = 0;
+    }
+    else
+    {
+        y1 = 0;     // Ponto (0, 0)
+
+        x2 = razaoLabels;
+
+        y2 = a * razaoLabels;
     }
 
     desenharEixos(razaoLabels);
@@ -491,16 +558,9 @@ function desenharGrafico(etapaAtual)
     {
         // RETA
         c.beginPath();
-        if (b != 0)
-        {
-            c.moveTo(canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels, canvas.height / 2);
-            c.lineTo(canvas.width / 2, canvas.height / 2 - (cruzaY * larguraLinha)/razaoLabels);
-        }
-        else
-        {
-            c.moveTo(canvas.width / 2, canvas.height / 2);  // Ponto (0,0)
-            c.lineTo(canvas.width / 2 + larguraColuna, canvas.height / 2 - razaoLabels * a * larguraLinha);
-        }
+
+        c.moveTo(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels);
+        c.lineTo(canvas.width / 2 + (x2 * larguraLinha) /razaoLabels, canvas.height / 2 - (y2 * larguraLinha)/razaoLabels);
         c.strokeStyle = '#1779ba';
         c.lineWidth = 5;
         c.stroke();
@@ -510,7 +570,8 @@ function desenharGrafico(etapaAtual)
     {  
         //PONTO (X)
         c.beginPath();
-        c.arc(canvas.width / 2 + (cruzaX * larguraColuna) / razaoLabels, canvas.height / 2, 8, 0, 360);      
+
+        c.arc(canvas.width / 2 + (x1 * larguraColuna) / razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels, 8, 0, 360);      
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
@@ -519,7 +580,7 @@ function desenharGrafico(etapaAtual)
 
         //PONTO (Y)
         c.beginPath();
-        c.arc(canvas.width / 2, canvas.height / 2 - ( cruzaY * larguraLinha) / razaoLabels, 8, 0, 360);        
+        c.arc(canvas.width / 2 + (x2 * larguraColuna)/razaoLabels, canvas.height / 2 - ( y2 * larguraLinha) / razaoLabels, 8, 0, 360);      
         c.fillStyle = '#002699';
         c.fill();
         c.lineWidth = 1;
@@ -533,24 +594,25 @@ function desenharGrafico(etapaAtual)
     else if (etapaAtual == 1)
     {
         anguloAtual = 0;
-        if (b != 0)
-            desenharPontos(cruzaX, 0, 0, cruzaY);
-        else
-        {
-            desenharPontos(0, 0, canvas.width / 2 + razaoLabels, canvas.height / 2 - razaoLabels * a);
-            console.log("a");
-        }
+        desenharPontos(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, 
+        canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
+        canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
+        canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels);   
     }
     else if (etapaAtual == 2)
     {
-        animarReta(canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels, canvas.height / 2, canvas.width / 2, canvas.height / 2 - (cruzaY * larguraLinha)/razaoLabels, 25 );
+        animarReta(canvas.width / 2 + (x1 * larguraColuna) / razaoLabels, 
+        canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 
+        canvas.width  / 2 + (x2 * larguraLinha) / razaoLabels, 
+        canvas.height / 2 - (y2 * larguraLinha) / razaoLabels, 10 );
     }
     else if (etapaAtual == 3)
     {
-         var xInicial = canvas.width / 2 + (cruzaX * larguraColuna)/razaoLabels;
-         var yInicial = canvas.height / 2;
+         var xInicial = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
+         var yInicial = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
          var xFinal, yFinal;
-         var velocidade = 6;
+         var velocidade = 1;
+
 
          if (a > 0)
          {
@@ -561,12 +623,13 @@ function desenharGrafico(etapaAtual)
          {
             xFinal   = canvas.width / 2  + ( Number.MAX_SAFE_INTEGER * larguraColuna ) / razaoLabels;
             yFinal   = canvas.height / 2 - ( (a*(Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) / razaoLabels;
-         } 
+         }  
          
         animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
 
-        xInicial = canvas.width / 2;
-        yInicial = canvas.height / 2 - (cruzaY * larguraLinha)/razaoLabels;
+        xInicial = canvas.width / 2  + (x2 * larguraLinha) / razaoLabels;
+        yInicial = canvas.height / 2 - (y2 * larguraLinha) / razaoLabels;
+
         if (a > 0)
         {
             xFinal   = canvas.width / 2 + (Number.MAX_SAFE_INTEGER * larguraColuna)/razaoLabels;
@@ -576,7 +639,7 @@ function desenharGrafico(etapaAtual)
         {
             xFinal   = canvas.width / 2  - ( Number.MAX_SAFE_INTEGER * larguraColuna ) / razaoLabels;
             yFinal   = canvas.height / 2 - ( (a*(-Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) / razaoLabels;
-        }
+        } 
         animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
     } 
 }
