@@ -3,86 +3,81 @@
     <script>
         function getAeBdaFuncao(x)
         {           
-            var achou   = false;
-            var ehX     = false;
-            var ehMenos = false;
+            var achou   = false; // Determina se achou um dos termos
 
-            var a   = "";
-            var b   = "";
-            var aux = "";
+            var a   = ""; // Termo "a" da função
+            var b   = ""; // Termo "b" da função
+            var aux = ""; // Auxiliar para a leitura
             
-            var qtsNumerosAchou = 0;
-            var indiceIgual = x.indexOf("=");
+            var qtsNumerosAchou = 0; // Verifica se já achou "a" e "b" ou apenas um deles
 
-            //Tira a parte "f(x) =" ou a parte "y ="da expressao.
-            x = x.substring(indiceIgual+1, x.length).trim();
+            var indiceIgual = x.indexOf("="); // Pega o indíce do character "=", para poder cortar a string
 
-            for(i = 0; i < x.length; i++)
+            x = x.substring(indiceIgual+1, x.length).trim(); // Tira a parte "f(x) =" ou a parte "y ="da expressão
+
+            for(i = 0; i < x.length; i++) // Percorre a string até o fim
             {
-                var s = x.charAt(i);
+                var s = x.charAt(i); // Pega um character
 
-                if(s != " ")
+                if(s != " ") // Ignora espaço em branco
                 {  
-                    if( s == "-"){
-                        if(!achou)
+                    if(s == "-")
+                    {
+                        if(!achou) // Se ainda não achou, o número q será lido é negativo
                             aux = "-";
-                        else 
-                            ehMenos = true;
+                        else // Se já achou, negativo não será o que está no aux, mas sim o próximo
+                            a = "-"; // Só cairá nesse if se o segundo número for o termo de "a"
+
                     }
 
-                    if(!isNaN(s)) //Se for numero
+                    if(!isNaN(s) || s == "/") //Se for numero ou barra de divisão
                     {
-                        aux += s; // concatena o numero
+                        aux += s; // Concatena o numero ou a barra de divisão
                         
-                        if(!achou)
+                        if(!achou) // Ainda não tinha achado um número
                         {
                             achou = true;
                             qtsNumerosAchou++;
                         }
                     }
                     else
-                        if(s == 'x') // nesse caso o numero é o a
+                        if(s == 'x') // Nesse caso o numero é o a
                         {
-                            if(!achou)// não existe numero antes de x
+                            if(!achou) // Não existe numero antes de x
                             {
-                                a = "1";
+                                a = aux + "1"; // O aux terá "-" caso o termo seja negativa e estará vazio caso seja positivo
                                 qtsNumerosAchou++;
                             }
                             else
-                                ehX = true;
+                            {
+                                a += aux; // Concatena pois o número pode ser negativo, se for, o sinal "-" já está na variável "a"
+                                aux = "";
+                                achou = false;
+                            }
                         }
                         else
-                            if(achou) // verifica se é o termo a ou b
+                        {
+                            if(achou) // Se achou e chegou aqui, só pode ser o termo "b"
                             {
-                                if(!ehX) // é o termo b e não o a
-                                    b = aux
-                                else
-                                {
-                                    a   = aux;
-                                    ehX = false;
-                                }
-
+                                b = aux
                                 aux   = "";
                                 achou = false;
                             }
+                        }
                 }
             }
-            
-            //No caso de b nao ter sido fornecido
-            if(qtsNumerosAchou == 1)
+
+            if(qtsNumerosAchou == 1) // No caso de b não ter sido fornecido
             {
                 b = "0";
-                if(a == "") //se não existe numero antes de x
+                if(a == "") // Se não existe número antes de x
                     a = aux;
             }
             else
-                if(qtsNumerosAchou == 2 && !ehX)
+                if(qtsNumerosAchou == 2 && achou) // Terminou o "for" e não colocou o número lido em b
                     b = aux;
-                else
-                    a = aux;
             
-            return [a, b];
-            
+            return [a, b]; // Retorna um vetor com duas posições, a primeira é o termo "a" e a segundo o termo "b"
         }
     </script>
     <body>
