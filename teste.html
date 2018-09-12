@@ -3,8 +3,9 @@
     <script>
         function getAeBdaFuncao(x)
         {           
-            var achou = false;
-            var ehX   = false;
+            var achou   = false;
+            var ehX     = false;
+            var ehMenos = false;
 
             var a   = "";
             var b   = "";
@@ -22,6 +23,13 @@
 
                 if(s != " ")
                 {  
+                    if( s == "-"){
+                        if(!achou)
+                            aux = "-";
+                        else 
+                            ehMenos = true;
+                    }
+
                     if(!isNaN(s)) //Se for numero
                     {
                         aux += s; // concatena o numero
