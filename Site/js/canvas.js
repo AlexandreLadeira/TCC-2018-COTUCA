@@ -1,8 +1,8 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-var qtasLinhas = 16;
-var qtasColunas = 16;
+var qtasLinhas = 18;
+var qtasColunas = 18;
 
 var larguraLinha = canvas.height / qtasLinhas;
 var larguraColuna = canvas.width / qtasColunas;
@@ -89,75 +89,81 @@ var b;
 var funcao = "";
 function getAeBdaFuncao(x)
 {           
-    var achou = false;
-    var ehX   = false;
+    var achou   = false; // Determina se achou um dos termos
 
-    var a   = "";
-    var b   = "";
-    var aux = "";
+    var aFunc   = ""; // Termo "a" da função
+    var bFunc   = ""; // Termo "b" da função
+    var aux = ""; // Auxiliar para a leitura
     
-    var qtsNumerosAchou = 0;
-    var indiceIgual = x.indexOf("=");
+    var qtsNumerosAchou = 0; // Verifica se já achou "a" e "b" ou apenas um deles
 
-    //Tira a parte "f(x) =" ou a parte "y ="da expressao.
-    x = x.substring(indiceIgual+1, x.length).trim();
+    var indiceIgual = x.indexOf("="); // Pega o indíce do character "=", para poder cortar a string
 
-    for(i = 0; i < x.length; i++)
+    x = x.substring(indiceIgual+1, x.length).trim(); // Tira a parte "f(x) =" ou a parte "y ="da expressão
+
+    for(i = 0; i < x.length; i++) // Percorre a string até o fim
     {
-        var s = x.charAt(i);
+        var s = x.charAt(i); // Pega um character
 
-        if(s != " ")
+        if(s != " ") // Ignora espaço em branco
         {  
-            if(!isNaN(s)) //Se for numero
+            if(s == "-")
             {
-                aux += s; // concatena o numero
+                if(!achou) // Se ainda não achou, o número q será lido é negativo
+                    aux = "-";
+                else // Se já achou, negativo não será o que está no aux, mas sim o próximo
+                    aFunc = "-"; // Só cairá nesse if se o segundo número for o termo de "a"
+
+            }
+
+            if(!isNaN(s) || s == "/") //Se for numero ou barra de divisão
+            {
+                aux += s; // Concatena o numero ou a barra de divisão
                 
-                if(!achou)
+                if(!achou) // Ainda não tinha achado um número
                 {
                     achou = true;
                     qtsNumerosAchou++;
                 }
             }
-            else if(s == 'x') // nesse caso o numero é o a
-            {
-                if(!achou)// não existe numero antes de x
+            else
+                if(s == 'x') // Nesse caso o numero é o a
                 {
-                    a = "1";
-                    qtsNumerosAchou++;
+                    if(!achou) // Não existe numero antes de x
+                    {
+                        aFunc = aux + "1"; // O aux terá "-" caso o termo seja negativa e estará vazio caso seja positivo
+                        qtsNumerosAchou++;
+                    }
+                    else
+                    {
+                        aFunc += aux; // Concatena pois o número pode ser negativo, se for, o sinal "-" já está na variável "a"
+                        aux = "";
+                        achou = false;
+                    }
                 }
                 else
-                    ehX = true;
-            }
-            else if(achou) // verifica se é o termo a ou b
-            {
-                if(!ehX) // é o termo b e não o a
-                    b = aux
-                else
                 {
-                    a   = aux;
-                    ehX = false;
+                    if(achou) // Se achou e chegou aqui, só pode ser o termo "b"
+                    {
+                        bFunc = aux
+                        aux   = "";
+                        achou = false;
+                    }
                 }
-
-                aux   = "";
-                achou = false;
-            }
         }
     }
-    
-    //No caso de b nao ter sido fornecido
-    if(qtsNumerosAchou == 1)
+
+    if(qtsNumerosAchou == 1) // No caso de b não ter sido fornecido
     {
-        b = "0";
-        if(a == "") //se não existe numero antes de x
-            a = aux;
+        bFunc = "0";
+        if(aFunc == "") // Se não existe número antes de x
+            aFunc = aux;
     }
     else
-        if(qtsNumerosAchou == 2 && !ehX)
-            b = aux;
-        else
-            a = aux;
+        if(qtsNumerosAchou == 2 && achou) // Terminou o "for" e não colocou o número lido em b
+            bFunc = aux;
     
-    return [a, b];
+    return [aFunc, bFunc]; // Retorna um vetor com duas posições, a primeira é o termo "a" e a segundo o termo "b"
 }
 
 function validarFuncao()
@@ -405,6 +411,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
             xAtual += aumentoX;
         else if (xInicial > xFinal)
             xAtual -= aumentoX;
+
         if (yInicial < yFinal)
             yAtual += aumentoY;
         else if (yInicial > yFinal)
@@ -594,53 +601,65 @@ function desenharGrafico(etapaAtual)
     else if (etapaAtual == 1)
     {
         anguloAtual = 0;
-        desenharPontos(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, 
-        canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
-        canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
-        canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels);   
+        desenharPontos(
+            canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, 
+            canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
+            canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
+            canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels
+        );   
     }
     else if (etapaAtual == 2)
     {
-        animarReta(canvas.width / 2 + (x1 * larguraColuna) / razaoLabels, 
-        canvas.height / 2 - (y1 * larguraLinha) / razaoLabels, 
-        canvas.width  / 2 + (x2 * larguraLinha) / razaoLabels, 
-        canvas.height / 2 - (y2 * larguraLinha) / razaoLabels, 10 );
+        animarReta(
+            canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels, 
+            canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
+            canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
+            canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels, 10 
+        );
     }
     else if (etapaAtual == 3)
     {
-         var xInicial = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
-         var yInicial = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
-         var xFinal, yFinal;
-         var velocidade = 1;
+        var xInicial1 = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
+        var yInicial1 = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
+        var xInicial2 = canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels;
+        var yInicial2 = canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels;
+        var xFinal1, yFinal1, xFinal2, yFinal2;
+        var velocidade = 1;
 
+        var x = Number.MAX_SAFE_INTEGER;
+        var y = a * x + b;
 
-         if (a > 0)
-         {
-            xFinal   = canvas.width / 2 - (Number.MAX_SAFE_INTEGER * larguraColuna)/razaoLabels;
-            yFinal   = canvas.height / 2 - ( (a*(-Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) / razaoLabels;
-         }
-         else
-         {
-            xFinal   = canvas.width / 2  + ( Number.MAX_SAFE_INTEGER * larguraColuna ) / razaoLabels;
-            yFinal   = canvas.height / 2 - ( (a*(Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) / razaoLabels;
-         }  
-         
-        animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
-
-        xInicial = canvas.width / 2  + (x2 * larguraLinha) / razaoLabels;
-        yInicial = canvas.height / 2 - (y2 * larguraLinha) / razaoLabels;
-
-        if (a > 0)
+        if (x1 > x2)
         {
-            xFinal   = canvas.width / 2 + (Number.MAX_SAFE_INTEGER * larguraColuna)/razaoLabels;
-            yFinal   = canvas.height / 2 - ( (a*(Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) /razaoLabels;
+            xFinal1 = canvas.width  / 2 + (x * larguraColuna) / razaoLabels;
+            xFinal2 = canvas.width  / 2 - (x * larguraColuna) / razaoLabels;
         }
         else
         {
-            xFinal   = canvas.width / 2  - ( Number.MAX_SAFE_INTEGER * larguraColuna ) / razaoLabels;
-            yFinal   = canvas.height / 2 - ( (a*(-Number.MAX_SAFE_INTEGER) + b) * larguraLinha ) / razaoLabels;
-        } 
-        animarReta(xInicial, yInicial, xFinal, yFinal, velocidade);
+            xFinal1 = canvas.width  / 2 - (x * larguraColuna) / razaoLabels;
+            xFinal2 = canvas.width  / 2 + (x * larguraColuna) / razaoLabels;
+        }
+
+        if (y1 > y2)
+        {
+            yFinal1 = canvas.height  / 2 - (y * larguraLinha) / razaoLabels;
+            yFinal2 = canvas.height  / 2 + (y * larguraLinha) / razaoLabels;
+        }
+        else
+        {
+            yFinal1 = canvas.height  / 2 + (y * larguraLinha) / razaoLabels;
+            yFinal2 = canvas.height  / 2 - (y * larguraLinha) / razaoLabels;
+        }
+
+        // ??????????
+        xFinal1 *= 10;
+        xFinal2 *= 10;
+        // ??????????
+
+        console.log(Math.abs((x1 - x2) / (y1 - y2)) + " e " + Math.abs((xFinal1 - xFinal2) / (yFinal1 - yFinal2)));
+
+        animarReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
+        animarReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
     } 
 }
 
