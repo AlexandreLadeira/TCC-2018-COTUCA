@@ -7,12 +7,20 @@ function trocaEstilo()
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
 		document.getElementById('modo').innerHTML = "altoContraste";
+		
+		for(i = 1; i <= 7; i++)
+		document.getElementById('imagem'+i).src = "imagens/imagemc"+i+".jpg";
+
+
 	}
 	else // se estiver volta ao normal
 	{
 		document.getElementById('estilo').setAttribute('href','css/app.css');
 		document.getElementById('found').setAttribute('href','css/foundation.css');
 		document.getElementById('modo').innerHTML = "";
+
+		for(i = 1; i <= 7; i++)
+			document.getElementById('imagem'+i).src = "imagens/imagem"+i+".jpg";
 	}	
 
 }

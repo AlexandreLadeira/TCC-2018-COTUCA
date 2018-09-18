@@ -16,7 +16,7 @@ var etapa = 0;
 // Desenhar a grade
 function desenharGrade()
 {
-    c.strokeStyle = "rgb(169, 169, 169)";
+    c.strokeStyle = "white";
     c.lineWidth = 1.2;
 
     // Colunas
@@ -45,7 +45,7 @@ function desenharEixos(razaoLabels)
 
     c.beginPath();
     c.lineWidth = 2;
-    c.strokeStyle = "rgb(54, 54, 54)";
+    c.strokeStyle = "rgb(209, 200, 200)";
 
     //EIXO X
     c.moveTo(0, canvas.height / 2);
@@ -59,7 +59,8 @@ function desenharEixos(razaoLabels)
 
     // Colocando os pontos:
     c.beginPath();
-    c.font = "16px Arial";
+    c.font = "16px Arial white";
+    c.fillStyle = 'white';
 
     // Eixo X
     var pontoAtual = (qtasColunas - 2) / -2;    // -2 para retirar os pontos da borda
@@ -224,9 +225,9 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     // Caixa de Título
     c.beginPath();
-    c.shadowColor = "black";
+    c.shadowColor = "#fffa00";
     c.shadowBlur = 10;
-    c.fillStyle = '#1779ba';
+    c.fillStyle = 'black';
     c.fillRect(ondeComecarX, ondeComecarY, larguraMensagem, alturaTitulo);
     c.stroke();
 
@@ -234,7 +235,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.beginPath();
     c.shadowBlur = 0;
     var margemTexto = 20;
-    c.fillStyle = 'white';
+    c.fillStyle = '#fffa00';
     c.font = "36px Montserrat";
     c.fillText(titulo, ondeComecarX + margemTexto, ondeComecarY + alturaTitulo - margemTexto, larguraMensagem - 2*margemTexto);
     c.stroke();
@@ -247,13 +248,13 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     alturaMensagem = qtasLinhas * 16 + margemTexto + 2*paddingBotoes + alturaBotoes;
 
-    c.fillStyle = "white";
+    c.fillStyle = "black";
     c.fillRect(ondeComecarX, ondeComecarY + alturaTitulo, larguraMensagem, alturaMensagem);
     c.stroke;
     c.shadowBlur = 0;
 
     // Texto da Mensagem
-    c.fillStyle = "black";
+    c.fillStyle = "#fffa00";
     c.font = "24px Montserrat";
 
     var palavras = mensagem.split(' ');
@@ -275,13 +276,13 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.fillText(linhaAtual, ondeComecarX + margemTexto, y, larguraMensagem - 2*margemTexto);
 
     // Caixas dos Botões
-    c.shadowColor = "black";
-    c.shadowBlur = 5;
+    c.shadowColor = "#fffa00";
+    c.shadowBlur = 10;
     larguraBotoes = larguraMensagem / 5;
     paddingBotoes = 20;
     ondeComecarBotaoX = larguraMensagem / 2;
 
-    c.fillStyle = '#1779ba';
+    c.fillStyle = 'black';
 
     if (anteriorHabilitado)
         c.fillRect(ondeComecarBotaoX - larguraBotoes - paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
@@ -294,7 +295,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     // Imagem do som
     var imagem = new Image;
-    imagem.src = "imagens/IconeSom.png";
+    imagem.src = "imagens/amarelo.png";    
     c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
 
 
@@ -302,7 +303,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     // -- Anterior
     c.font = "24px Montserrat";
-    c.fillStyle = "white";
+    c.fillStyle = "#fffa00";
 
     if (anteriorHabilitado)
     {
@@ -335,7 +336,7 @@ function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para re
     c.beginPath();
     c.arc(x1, y1, 8, 0, anguloAtual);  
     c.lineWidth = 0.05;
-    c.strokeStyle = '#1779ba';
+    c.strokeStyle = '#fffa00';
     c.stroke();
 
     if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
@@ -344,7 +345,7 @@ function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para re
     {
         c.beginPath();
         c.arc(x1, y1, 8, 0, 360);      
-        c.fillStyle = '#002699';
+        c.fillStyle = '#fffa00';
         c.fill();
         c.lineWidth = 1;
         c.stroke;
@@ -360,7 +361,7 @@ function desenharPonto2(x2, y2)
     c.beginPath();
     c.arc(x2, y2, 8, 0, anguloAtual);  
     c.lineWidth = 0.05;
-    c.strokeStyle = '#1779ba';
+    c.strokeStyle = '#fffa00';
     c.stroke();
 
     if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
@@ -369,7 +370,7 @@ function desenharPonto2(x2, y2)
     {
         c.beginPath();
         c.arc(x2, y2, 8, 0, 360);     
-        c.fillStyle = '#002699';
+        c.fillStyle = '#fffa00';
         c.fill();
         c.lineWidth = 1;
         c.stroke();
@@ -417,9 +418,9 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
         else if (yInicial > yFinal)
             yAtual -= aumentoY; 
         
-        c.fillStyle ='#1779ba';
+        c.fillStyle ='#fffa00';
         c.fill();
-        c.strokeStyle = '#1779ba';
+        c.strokeStyle = '#fffa00';
         c.stroke();
 
         if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width))
@@ -568,7 +569,7 @@ function desenharGrafico(etapaAtual)
 
         c.moveTo(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels);
         c.lineTo(canvas.width / 2 + (x2 * larguraLinha) /razaoLabels, canvas.height / 2 - (y2 * larguraLinha)/razaoLabels);
-        c.strokeStyle = '#1779ba';
+        c.strokeStyle = '#fffa00';
         c.lineWidth = 5;
         c.stroke();
     }
@@ -579,19 +580,19 @@ function desenharGrafico(etapaAtual)
         c.beginPath();
 
         c.arc(canvas.width / 2 + (x1 * larguraColuna) / razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels, 8, 0, 360);      
-        c.fillStyle = '#002699';
+        c.fillStyle = '#fffa00';
         c.fill();
         c.lineWidth = 1;
-        c.strokeStyle = '#1779ba';
+        c.strokeStyle = '#fffa00';
         c.stroke();
 
         //PONTO (Y)
         c.beginPath();
         c.arc(canvas.width / 2 + (x2 * larguraColuna)/razaoLabels, canvas.height / 2 - ( y2 * larguraLinha) / razaoLabels, 8, 0, 360);      
-        c.fillStyle = '#002699';
+        c.fillStyle = '#fffa00';
         c.fill();
         c.lineWidth = 1;
-        c.strokeStyle = '#1779ba';
+        c.strokeStyle = '#fffa00';
         c.stroke(); 
     }
 
