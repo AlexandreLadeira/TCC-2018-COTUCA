@@ -295,7 +295,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
     // Imagem do som
     var imagem = new Image;
-    imagem.src = "imagens/amarelo.png";    
+    imagem.src = "imagens/IconeSomC.png";    
     c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
 
 
