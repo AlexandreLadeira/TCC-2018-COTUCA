@@ -626,37 +626,35 @@ function desenharGrafico(etapaAtual)
         var xFinal1, yFinal1, xFinal2, yFinal2;
         var velocidade = 1;
 
-        var x = Number.MAX_SAFE_INTEGER;
-        var y = a * x + b;
+        var deltaX = x1 - x2;
+        var deltaY = y1 - y2;
+
+        var razao = Math.abs(deltaX /deltaY);
+    
+        var y = Number.MAX_SAFE_INTEGER;
+        var x = y * razao;
 
         if (x1 > x2)
         {
-            xFinal1 = canvas.width  / 2 + (x * larguraColuna) / razaoLabels;
-            xFinal2 = canvas.width  / 2 - (x * larguraColuna) / razaoLabels;
+            xFinal1 = canvas.width  / 2 + x;
+            xFinal2 = canvas.width  / 2 - x;
         }
         else
         {
-            xFinal1 = canvas.width  / 2 - (x * larguraColuna) / razaoLabels;
-            xFinal2 = canvas.width  / 2 + (x * larguraColuna) / razaoLabels;
+            xFinal1 = canvas.width  / 2 - x;
+            xFinal2 = canvas.width  / 2 + x;
         }
 
         if (y1 > y2)
         {
-            yFinal1 = canvas.height  / 2 - (y * larguraLinha) / razaoLabels;
-            yFinal2 = canvas.height  / 2 + (y * larguraLinha) / razaoLabels;
+            yFinal1 = canvas.height  / 2 - y;
+            yFinal2 = canvas.height  / 2 + y;
         }
         else
         {
-            yFinal1 = canvas.height  / 2 + (y * larguraLinha) / razaoLabels;
-            yFinal2 = canvas.height  / 2 - (y * larguraLinha) / razaoLabels;
+            yFinal1 = canvas.height  / 2 + y;
+            yFinal2 = canvas.height  / 2 - y;
         }
-
-        // ??????????
-        xFinal1 *= 10;
-        xFinal2 *= 10;
-        // ??????????
-
-        console.log(Math.abs((x1 - x2) / (y1 - y2)) + " e " + Math.abs((xFinal1 - xFinal2) / (yFinal1 - yFinal2)));
 
         animarReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
         animarReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
