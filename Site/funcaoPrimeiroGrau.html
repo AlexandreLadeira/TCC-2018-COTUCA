@@ -18,35 +18,36 @@
     
             <div class="cell medium-8">
             <div class="grid-container">  
-                    <div class="cell medium-8">
-                            <ul class="menu menu-hover-lines">
-                            <li class="active"><a href="home.html">Home</a></li>
-                            <li><a href="teoriaAfim.html">Teoria</a></li>
-                            <li><a href="funcaoPrimeiroGrau.html">Gráfico</a></li>
-                            <li><a href="funcaoPrimeiroGrauContraste.html">Alto contraste</a></li>
-                        </div>
+                <div class="cell medium-8">
+                    <ul class="menu menu-hover-lines">
+                        <li class="active"><a href="home.html">Home</a></li>
+                        <li><a href="teoriaAfim.html">Teoria</a></li>
+                        <li><a href="funcaoPrimeiroGrau.html">Encontrar Gráfico</a></li>
+                        <li><a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a></li>
+                        <li><a href="funcaoPrimeiroGrauContraste.html">Alto contraste</a></li>
                     </ul>
-            <br>
-            <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
-            <br>
-            <div class="grid-x" >
-                <label class="fonte"> Está em dúvida? Confira a nossa <a href="#">teoria</a> interativa! </label>
-            </div>
-
-            <div class="grid-x grid-margin-x" id="contraste">
-                <label class="cell shrink fonte" id="contraste"> Digite a função: </label>
-                <input id="funcao" class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
-            </div>
-            
-            <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
-            <center>
-                <img id="som" src="imagens/IconeSom.png" style="display: none">
-                <span style="font-family: 'Montserrat'" />
-                
-                <div>
-                    <canvas id="canvas" width="900" height="900"></canvas>
                 </div>
-            </center>
+                <br>
+                <h3> Aprender a como gerar o gráfico de uma função de primeiro grau </h3>
+                <br>
+                <div class="grid-x" >
+                    <label class="fonte"> Está em dúvida? Confira a nossa <a href="#">teoria</a> interativa! </label>
+                </div>
+
+                <div class="grid-x grid-margin-x" id="contraste">
+                    <label class="cell shrink fonte" id="contraste"> Digite a função: </label>
+                    <input id="funcao" class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
+                </div>
+                
+                <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
+                <center>
+                    <img id="som" src="imagens/IconeSom.png" style="display: none">
+                    <span style="font-family: 'Montserrat'" />
+                    
+                    <div>
+                        <canvas id="canvas" width="900" height="900"></canvas>
+                    </div>
+                </center>
         </div>
 
         <script src="js/canvas.js"> </script>

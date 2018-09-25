@@ -7,10 +7,16 @@ function trocaEstilo()
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
 		document.getElementById('modo').innerHTML = "altoContraste";
+
 		
 		for(i = 1; i <= 7; i++)
-		document.getElementById('imagem'+i).src = "imagens/imagemc"+i+".jpg";
+		{
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
+			document.getElementById('imagem'+i).src = "imagens/imagemc"+i+".jpg";
+		}
 
+		for (i = 8; i <= 14; i++)
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
 
 	}
 	else // se estiver volta ao normal
@@ -20,7 +26,13 @@ function trocaEstilo()
 		document.getElementById('modo').innerHTML = "";
 
 		for(i = 1; i <= 7; i++)
+		{
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
 			document.getElementById('imagem'+i).src = "imagens/imagem"+i+".jpg";
+		}
+
+		for (i = 8; i <= 14; i++)
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
 	}	
 
 }
@@ -69,10 +81,9 @@ function falar(indice)
 		var texto = document.getElementById("texto"+indice).textContent; // pega o texto com o id do indice	
 		var vet   = texto.split(".");// divide o texto em um vetor, a partir de cada ponto final
 		var i	  = 1;
-		var msg   = new SpeechSynthesisUtterance(vet[0]);		
+		var msg   = new SpeechSynthesisUtterance(vet[0]);
+	//	msg.rate  = 1.5;	
 		
-		console.log(vet);
-
 		msg.lang  = 'pt-BR';//garantindo que está em pt-br
 
 		window.speechSynthesis.speak(msg); // fala a primeira frase 
@@ -81,6 +92,7 @@ function falar(indice)
 		while (i < vet.length) // fala o vetor de frases inteiro
 		{		
 			msg = new SpeechSynthesisUtterance(vet[i]);
+	//		msg.rate  = 1.5;
 			msg.lang = 'pt-BR';	//pt-br	
 			window.speechSynthesis.speak(msg);		
 			i++;		
