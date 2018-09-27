@@ -37,6 +37,33 @@ function trocaEstilo()
 
 }
 
+//Troca o estilo da home do site, para se adapatar a casos de alto contrates
+function trocaEstiloHome()
+{
+	//se não estiver em alto contraste, aplica o alto contraste
+	if(document.getElementById('modo').innerHTML == "") 
+	{
+		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
+		document.getElementById('found').setAttribute('href','css/foundation2.css');
+		document.getElementById('modo').innerHTML = "altoContraste";
+
+		
+		for(i = 1; i <= 2; i++)
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
+	}
+	else // se estiver volta ao normal
+	{
+		document.getElementById('estilo').setAttribute('href','css/app.css');
+		document.getElementById('found').setAttribute('href','css/foundation.css');
+		document.getElementById('modo').innerHTML = "";
+
+		for(i = 1; i <= 2; i++)
+			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
+	}	
+
+}
+
+
 function moeda(z)
 {
 	v = z;
