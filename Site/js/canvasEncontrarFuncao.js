@@ -12,6 +12,7 @@ var messageBoxAnteriorHabilitado = false;
 var messageBoxHabilitado = false;
 
 var etapa = 0;
+var a = 0, b = 0;
 var funcao = "f(x) = ax + b";
 
 // Desenhar a grade
@@ -98,6 +99,37 @@ function validarPontos()
     //////////////////
 
     desenharGrafico(x1, y1, x2, y2);
+
+    prosseguir(getTituloDaEtapa(0), getTextoDaEtapa(0), false, true);
+}
+
+function getTituloDaEtapa(etapaAtual)
+{
+    if (etapaAtual == 0 || etapaAtual == 0.5)
+        return "Etapa 1: Encontrar o valor de 'b'";
+    else if (etapaAtual == 1)
+        return "Etapa 2: Encontrar o valor de 'a'";
+    else if (etapaAtual == 3)
+        return "Etapa 3: Substituir os valores de 'a' e 'b' na função";
+    
+    return "";
+}
+
+function getTextoDaEtapa(etapaAtual)
+{    
+    if (etapaAtual == 0)
+        return "Para encontrar o valor de 'b', utilizaremos o que chamamos de 'sistema'. Para isso, basta substituir tanto " +
+        "x quanto y do 'corpo' de uma função linear (y = ax + b) pelos valores de cada ponto que conhecemos, encontrando duas " +
+        "equações: "  + y1 + " = " + x1 + " * a + b e " + y2 + " = " + x2 + " * a + b. Devemos nos lembrar que tanto o valor de a " + 
+        "e b são iguais nas duas equações encontradas, e assim, desenvolvendo as equações, encontramos: (" + y1 + " - b"; 
+    else if (etapaAtual == 1)
+        return "Agora que já sabemos o valor de 'b', encontrar o valor de 'a' se torna ainda mais fácil! O que devemos fazer é " +
+        "substituir na função linear todos os valores que conhecemos, escolhendo qualquer um dos pontos que temos ciência. Vamos " +
+        "utilizar o ponto (" + x1 + ", " + y1 + "). Assim, x = " + x1 + ", y = " + y1 + " e b = " + b + ". ";
+    else if (etapaAtual == 3)
+        return "";
+
+return "";
 }
 
 // VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
@@ -301,6 +333,9 @@ function desenharGrafico(x1, y1, x2, y2, etapaAtual)
     c.font = "42px Montserrat";
     c.fillText(funcao, larguraLinha, larguraColuna);
 
+    c.fillText("a: ");
+    c.fillText("");
+
     c.stroke();
 
     c.beginPath();
@@ -455,13 +490,16 @@ elem.addEventListener('click', function(event) {
     }
     else if (mouseSobreAudio(x, y))
     {
+        var velocidade = document.getElementById("velocidade").value;
+
         if(window.speechSynthesis.speaking)	
-		window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
+		    window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
             var texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
             var msg   = new SpeechSynthesisUtterance(texto);
             msg.lang = 'pt-BR';	                    // Coloca a mensagem em português
+            msg.rate  = velocidade;	
             window.speechSynthesis.speak(msg);      // Fala o título
 
             texto = getTextoDaEtapa(etapa);
@@ -471,6 +509,7 @@ elem.addEventListener('click', function(event) {
             {
                 msg = new SpeechSynthesisUtterance(vet[i]);
                 msg.lang = 'pt-BR';
+                msg.rate  = velocidade;	
                 window.speechSynthesis.speak(msg);
             }
 
