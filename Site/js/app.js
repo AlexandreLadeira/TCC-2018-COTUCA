@@ -73,6 +73,7 @@ function CorridaUber()
 function falar(indice)
 { 	
 	//document.getElementById("player").textContent = "Cancelar"; funciona
+	velocidade = document.getElementById("velocidade").value;
 	
 	if(window.speechSynthesis.speaking)	
 		window.speechSynthesis.cancel(); // reinicia se ja estiver tocando
@@ -82,7 +83,7 @@ function falar(indice)
 		var vet   = texto.split(".");// divide o texto em um vetor, a partir de cada ponto final
 		var i	  = 1;
 		var msg   = new SpeechSynthesisUtterance(vet[0]);
-	//	msg.rate  = 1.5;	
+	 	msg.rate  = velocidade;	
 		
 		msg.lang  = 'pt-BR';//garantindo que está em pt-br
 
@@ -92,7 +93,7 @@ function falar(indice)
 		while (i < vet.length) // fala o vetor de frases inteiro
 		{		
 			msg = new SpeechSynthesisUtterance(vet[i]);
-	//		msg.rate  = 1.5;
+			msg.rate  = velocidade;
 			msg.lang = 'pt-BR';	//pt-br	
 			window.speechSynthesis.speak(msg);		
 			i++;		
