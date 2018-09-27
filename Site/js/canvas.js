@@ -329,7 +329,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 }
 
 var anguloAtual = 0;
-function desenharPontos(x1, y1, x2, y2) // PROBLEMA 1 => Mudar o código para receber quatro parâmetros 
+function desenharPontos(x1, y1, x2, y2)
 {
     anguloAtual += 0.1;
     c.beginPath();
@@ -736,13 +736,16 @@ elem.addEventListener('click', function(event) {
     }
     else if (mouseSobreAudio(x, y))
     {
+        var velocidade = document.getElementById("velocidade").value;
+
         if(window.speechSynthesis.speaking)	
-		window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
+		    window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
             var texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
             var msg   = new SpeechSynthesisUtterance(texto);
             msg.lang = 'pt-BR';	                    // Coloca a mensagem em português
+            msg.rate  = velocidade;	
             window.speechSynthesis.speak(msg);      // Fala o título
 
             texto = getTextoDaEtapa(etapa);
@@ -751,6 +754,7 @@ elem.addEventListener('click', function(event) {
             for (var i = 0; i < vet.length; i++)
             {
                 msg = new SpeechSynthesisUtterance(vet[i]);
+                msg.rate  = velocidade;
                 msg.lang = 'pt-BR';
                 window.speechSynthesis.speak(msg);
             }
