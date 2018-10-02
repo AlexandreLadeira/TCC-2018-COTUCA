@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script>
+            var expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;       
+            var regex = /^\((\s*\-?\+?\s*)((\d+(\,|\/)\d+)|\d+)(\s*\;\s*)(\-?\+?\s*)((\d+(\,|\/)\d+)|\d+)\s*\)$/;
+
+            function teste(a) {
+                if(regex.test(a))
+                    console.log("CELTO");
+                else
+                    console.log("NAO NAO");
+            }
+
+            function getPontos(a) {
+                var achou   = false; // Determina se achou um dos termos
+
+                var x   = ""; // Termo "a" da função
+                var y   = ""; // Termo "b" da função
+                var aux = ""; // Auxiliar para a leitura
+
+                a = a.substring(1, a.length).trim(); // Tira a parte "f(x) =" ou a parte "y ="da expressão
+
+                for(i = 0; i < a.length; i++) // Percorre a string até o fim
+                {
+                    var s = a.charAt(i); // Pega um character
+
+                    if(s != " ") // Ignora espaço em branco
+                    {  
+                        if(s == "-")
+                            aux = "-";
+
+                        if(!isNaN(s) || s == "/" || s == ",") //Se for numero ou barra de divisão
+                        {
+                            aux += s; // Concatena o numero ou a barra de divisão
+                            
+                            if(!achou)
+                                achou = true;
+                        }
+                        else
+                            if(achou && x == "") {
+                                x = aux;
+                                aux = "";
+                                achou = false;
+                            }
+                            else if(achou){
+                                y = aux;
+                                aux = "";
+                                achou = false;
+                            }
+                    }
+                }
+                
+                if(y == "")
+                    y = aux;
+                
+                return [x, y]; // Retorna um vetor com duas posições, a primeira é o termo "a" e a segundo o termo "b"
+            }
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
