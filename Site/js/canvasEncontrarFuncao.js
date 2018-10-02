@@ -87,6 +87,12 @@ function desenharEixos(razaoLabels)
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
 var x1, y1, x2, y2;
+
+var comoEscreverX1, comoEscreverY1;
+var comoEscreverX2, comoEscreverY2;
+
+var a, b;
+
 function validarPontos()
 {
     // Excluir Depois:
@@ -98,38 +104,92 @@ function validarPontos()
 
     //////////////////
 
-    desenharGrafico(x1, y1, x2, y2);
+    a = (y1 - y2) / (x1 - x2);
+    b = y1 - a*x1;
 
     prosseguir(getTituloDaEtapa(0), getTextoDaEtapa(0), false, true);
 }
 
 function getTituloDaEtapa(etapaAtual)
 {
-    if (etapaAtual == 0 || etapaAtual == 0.5)
+    if (etapaAtual == 0)
+        return "Etapa 1: Encontrar equações a partir dos pontos já conhecidos";
+    else if (etapaAtual == 0.5)
         return "Etapa 1: Encontrar o valor de 'b'";
     else if (etapaAtual == 1)
+        return "Etapa 2: Encontrar o valor de 'b'";
+    else if (etapaAtual == 1.5)
         return "Etapa 2: Encontrar o valor de 'a'";
+    else if (etapaAtual == 2)
+        return "Etapa 3: Encontrar o valor de 'a'";
+    else if (etapaAtual == 2.5)
+        return "Etapa 3: Substituir os valores encontrados na função";
     else if (etapaAtual == 3)
-        return "Etapa 3: Substituir os valores de 'a' e 'b' na função";
+        return "Etapa 3: Substituir os valores encontrados na função";
     
     return "";
 }
 
 function getTextoDaEtapa(etapaAtual)
 {    
+    var texto = "";
+
     if (etapaAtual == 0)
-        return "Para encontrar o valor de 'b', utilizaremos o que chamamos de 'sistema'. Para isso, basta substituir tanto " +
+    {
+        texto = "Para encontrar a função, utilizaremos primeiramente o que chamamos de 'sistema'. Para isso, basta substituir tanto " +
         "x quanto y do 'corpo' de uma função linear (y = ax + b) pelos valores de cada ponto que conhecemos, encontrando duas " +
         "equações: "  + y1 + " = " + x1 + " * a + b e " + y2 + " = " + x2 + " * a + b. Devemos nos lembrar que tanto o valor de a " + 
-        "e b são iguais nas duas equações encontradas, e assim, desenvolvendo as equações, encontramos: (" + y1 + " - b"; 
-    else if (etapaAtual == 1)
-        return "Agora que já sabemos o valor de 'b', encontrar o valor de 'a' se torna ainda mais fácil! O que devemos fazer é " +
-        "substituir na função linear todos os valores que conhecemos, escolhendo qualquer um dos pontos que temos ciência. Vamos " +
-        "utilizar o ponto (" + x1 + ", " + y1 + "). Assim, x = " + x1 + ", y = " + y1 + " e b = " + b + ". ";
-    else if (etapaAtual == 3)
-        return "";
+        "e b são iguais nas duas equações encontradas, e assim, podemos igualar o valor de 'b', encontrando uma única equação com " +
+        "uma única incógnita, 'a': ";
 
-return "";
+        var comoEscreverX1, comoEscreverX2;
+        if (x1 >= 0)
+            comoEscreverX1 = " - a*" + x1;
+        else
+            comoEscreverX1 = " + a*" + x1;
+        
+        if (x2 >= 0)
+            comoEscreverX2 = " - a*" + x2;
+        else
+            comoEscreverX2 = " + a*" + x2;
+        
+        texto += y1 + comoEscreverX1 + " = " + y2 + comoEscreverX2;
+    } 
+    else if (etapaAtual == 0.5)
+        texto = "Para encontrar a função, devemos encontrar o valor tanto de 'a' quanto de 'b'. Como sabemos que temos um ponto que " +
+        "passa por (0, 0), encontrar o valor de 'b' fica ainda mais fácil. Substituindo os valores desse ponto no 'corpo' da função " +
+        "(y = ax + b), encontramos 0 = a*0 + b, e assim podemos concluir que o valor de 'b' é igual a 0.";
+    else if (etapaAtual == 1)
+    {
+        texto = "Como já encontramos uma equação com a incógnita 'a', podemos desenvolvê-la e assim encontraremos o valor de 'a', " +
+        "que será igual a " + a;
+    }
+    else if (etapaAtual == 1.5)
+    {
+        texto = "Como já encontramos o valor de 'b', agora podemos encontrar o valor de 'a'. Para isso, basta substituir " +
+        "tanto o valor que encontramos de 'b' quanto os valores de um dos pontos no 'corpo' da função. Vamos utilizar o ponto x1, " +
+        "mas poderíamos utilizar o ponto x2. Substituindo, encontramos: ";
+        
+        var comoEscreverElemento, comoEscreverB;
+
+        if (x1 >= 0)
+            comoEscreverElemento = "a*" + x1;
+        else
+            comoEscreverElemento = "- a*" + x2;
+
+        texto += "y = " + comoEscreverElemento + " + 0, que é o mesmo que y = " + comoEscreverElemento + ". Assim, encontramos " +
+        "que a = " + a; 
+    }
+    else if (etapaAtual == 2)
+    {
+        texto = "Como já encontramos o valor de "
+    }
+    else if (etapaAtual == 2.5)
+        texto = "Tudo o que devemos fazer agora é substituir todos os valores que encontramos de 'a' e 'b' na função. " + 
+        "Como 'a' equivale a " + a + " e 'b' equivale a 0, podemos concluir que a equação da função é y = " + a * "x.";
+
+
+    return texto;
 }
 
 // VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
@@ -462,10 +522,7 @@ elem.addEventListener('click', function(event) {
         messageBoxProximoHabilitado  = false;
         messageBoxHabilitado = false;
 
-        if (b == 0 && etapa == 1)
-            etapa -= 0.5;
-        else
-            etapa--;
+        etapa--;
 
         tratarEtapa();
 
@@ -478,10 +535,7 @@ elem.addEventListener('click', function(event) {
         messageBoxAnteriorHabilitado = false;
         messageBoxHabilitado = false;
 
-        if (etapa == 0.5)
-            etapa+= 0.5;
-        else
-            etapa++;
+        etapa++;
 
         tratarEtapa();
 

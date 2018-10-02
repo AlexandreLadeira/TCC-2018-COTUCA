@@ -93,7 +93,7 @@ function getAeBdaFuncao(x)
 
     var aFunc   = ""; // Termo "a" da função
     var bFunc   = ""; // Termo "b" da função
-    var aux = ""; // Auxiliar para a leitura
+    var aux = "";     // Auxiliar para a leitura
     
     var qtsNumerosAchou = 0; // Verifica se já achou "a" e "b" ou apenas um deles
 
@@ -116,7 +116,7 @@ function getAeBdaFuncao(x)
 
             }
 
-            if(!isNaN(s) || s == "/") //Se for numero ou barra de divisão
+            if(!isNaN(s) || s == "/" || s == ",") //Se for numero ou barra de divisão
             {
                 aux += s; // Concatena o numero ou a barra de divisão
                 
