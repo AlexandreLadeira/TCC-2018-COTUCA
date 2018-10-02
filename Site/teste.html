@@ -1,7 +1,6 @@
 <html>
     <head>
-        <script>
-            var expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;       
+        <script>  
             var regex = /^\((\s*\-?\+?\s*)((\d+(\,|\/)\d+)|\d+)(\s*\;\s*)(\-?\+?\s*)((\d+(\,|\/)\d+)|\d+)\s*\)$/;
 
             function teste(a) {
@@ -12,37 +11,33 @@
             }
 
             function getPontos(a) {
-                var achou   = false; // Determina se achou um dos termos
+                var achou   = false; // Determina se achou um dos números
 
-                var x   = ""; // Termo "a" da função
-                var y   = ""; // Termo "b" da função
+                var x   = ""; // Parte "x" do ponto
+                var y   = ""; // Parte "y" do ponto
                 var aux = ""; // Auxiliar para a leitura
 
-                a = a.substring(1, a.length).trim(); // Tira a parte "f(x) =" ou a parte "y ="da expressão
+                a = a.substring(1, a.length).trim(); // Tira o "("
 
-                for(i = 0; i < a.length; i++) // Percorre a string até o fim
-                {
+                for(i = 0; i < a.length; i++) { // Percorre a string até o fim
                     var s = a.charAt(i); // Pega um character
 
-                    if(s != " ") // Ignora espaço em branco
-                    {  
-                        if(s == "-")
+                    if(s != " ") { // Ignora espaço em branco  
+                        if(s == "-") // verifica se o número é negativo
                             aux = "-";
 
-                        if(!isNaN(s) || s == "/" || s == ",") //Se for numero ou barra de divisão
-                        {
-                            aux += s; // Concatena o numero ou a barra de divisão
-                            
+                        if(!isNaN(s) || s == "/" || s == ",") {//Se for numero, barra de divisão ou vírgula
+                            aux += s; // Concatena o número, a barra de divisão ou a vírgula
                             if(!achou)
                                 achou = true;
                         }
                         else
-                            if(achou && x == "") {
+                            if(achou && x == "") { // Coloca o valor da parte "x" do ponto
                                 x = aux;
                                 aux = "";
                                 achou = false;
                             }
-                            else if(achou){
+                            else if(achou) { // Coloca o valor da parte "y" do ponto
                                 y = aux;
                                 aux = "";
                                 achou = false;
