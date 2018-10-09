@@ -68,8 +68,30 @@
   left: 0;
 }
 
-.footer{
+/* RODAPE*/
+
+.rodape{
   display: flex;
+  justify-content: space-around;
+  background-color: #187cbb;
+  width: 100%;
+  padding-left: 11%; 
+}
+
+.rodape > div{
+  display: flex;
+  padding: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  border: 0.5px solid white;
+  color:white;
+}
+
+
+
+.fotoPerfil{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px 100px 100px 100px;
 }
 
 .tabelaExemplo

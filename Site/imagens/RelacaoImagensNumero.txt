@@ -1,8 +1,0 @@
-imagem1 = PlanoCartesiano
-imagem2 = linear
-imagem3 = constante 
-imagem4 = raiz 
-imagem5 = aMaior 
-imagem6 = aMenor
-imagem7 = b  
-  
