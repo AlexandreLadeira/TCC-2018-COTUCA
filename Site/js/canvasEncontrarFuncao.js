@@ -345,7 +345,10 @@ function getTextoEtapaAtual()
 
 function tratarEtapa()
 {
-    
+    desenharGrafico(x1, y1, x2, y2, etapa);
+    setTimeout(function(){
+        prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), true, true)
+    }, 1500);
 }
 
 function encontrarRazaoLabels(menorPonto, maiorPonto)
@@ -376,7 +379,7 @@ function encontrarRazaoLabels(menorPonto, maiorPonto)
     return razaoLabels;
 }
 
-function desenharGrafico(x1, y1, x2, y2, etapaAtual)
+function desenharGrafico()
 {
     canvas.width = canvas.height;
 
@@ -391,10 +394,10 @@ function desenharGrafico(x1, y1, x2, y2, etapaAtual)
 
     c.beginPath();
     c.font = "42px Montserrat";
-    c.fillText(funcao, larguraLinha, larguraColuna);
+    c.fillText(funcao, larguraColuna, larguraLinha);
 
-    c.fillText("a: ");
-    c.fillText("");
+    c.fillText("a: ?", larguraColuna, larguraLinha + 42);
+    c.fillText("b: ?", larguraColuna, larguraLinha + 84);
 
     c.stroke();
 
@@ -510,7 +513,6 @@ function mouseSobreAudio(x, y)
     (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&    // Coordenada Y
     (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40)  // Coordenada Y
     );
-
 }
 
 elem.addEventListener('click', function(event) {
