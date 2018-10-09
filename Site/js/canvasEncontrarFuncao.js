@@ -88,9 +88,6 @@ function desenharEixos(razaoLabels)
 
 var x1, y1, x2, y2;
 
-var comoEscreverX1, comoEscreverY1;
-var comoEscreverX2, comoEscreverY2;
-
 var a, b;
 
 function validarPontos()
@@ -117,11 +114,11 @@ function getTituloDaEtapa(etapaAtual)
     else if (etapaAtual == 0.5)
         return "Etapa 1: Encontrar o valor de 'b'";
     else if (etapaAtual == 1)
-        return "Etapa 2: Encontrar o valor de 'b'";
+        return "Etapa 2: Encontrar o valor de 'a'";
     else if (etapaAtual == 1.5)
         return "Etapa 2: Encontrar o valor de 'a'";
     else if (etapaAtual == 2)
-        return "Etapa 3: Encontrar o valor de 'a'";
+        return "Etapa 3: Encontrar o valor de 'b'";
     else if (etapaAtual == 2.5)
         return "Etapa 3: Substituir os valores encontrados na função";
     else if (etapaAtual == 3)
@@ -146,12 +143,12 @@ function getTextoDaEtapa(etapaAtual)
         if (x1 >= 0)
             comoEscreverX1 = " - a*" + x1;
         else
-            comoEscreverX1 = " + a*" + x1;
+            comoEscreverX1 = " + a*" + x1*-1;
         
         if (x2 >= 0)
             comoEscreverX2 = " - a*" + x2;
         else
-            comoEscreverX2 = " + a*" + x2;
+            comoEscreverX2 = " + a*" + x2*-1;
         
         texto += y1 + comoEscreverX1 + " = " + y2 + comoEscreverX2;
     } 
@@ -170,24 +167,48 @@ function getTextoDaEtapa(etapaAtual)
         "tanto o valor que encontramos de 'b' quanto os valores de um dos pontos no 'corpo' da função. Vamos utilizar o ponto x1, " +
         "mas poderíamos utilizar o ponto x2. Substituindo, encontramos: ";
         
-        var comoEscreverElemento, comoEscreverB;
+        var comoEscreverElemento;
 
         if (x1 >= 0)
             comoEscreverElemento = "a*" + x1;
         else
-            comoEscreverElemento = "- a*" + x2;
+            comoEscreverElemento = "- a*" + x2*-1;
 
         texto += "y = " + comoEscreverElemento + " + 0, que é o mesmo que y = " + comoEscreverElemento + ". Assim, encontramos " +
         "que a = " + a; 
     }
     else if (etapaAtual == 2)
     {
-        texto = "Como já encontramos o valor de "
+        texto = "Como já encontramos o valor de 'a', tudo o que devemos fazer é escolher um ponto dentre os que sabemos, substituir tanto seus valores de 'x' " +
+        "e de 'y' quanto o de 'a' no 'corpo' da função e encontrar o valor de 'b'. Utilizaremos o primeiro ponto: ";
+
+        var comoEscreverElemento;
+        if (a*x1 > 0)
+            comoEscreverElemento = "- " + (a*x1);
+        else
+            comoEscreverElemento = "+ " + (a*x1*-1); 
+
+        texto += y1 + comoEscreverElemento + " = b. Assim, concluímos que b = " + b;
     }
     else if (etapaAtual == 2.5)
         texto = "Tudo o que devemos fazer agora é substituir todos os valores que encontramos de 'a' e 'b' na função. " + 
         "Como 'a' equivale a " + a + " e 'b' equivale a 0, podemos concluir que a equação da função é y = " + a * "x.";
+    else if (etapaAtual == 3)
+    {
+        texto = "Agora que já encontramos os valores de 'a' e de 'b', tudo o que devemos fazer é substituir esses valores no corpo da função: " +
+        "y = " + a + "x";
 
+        var comoEscreverB;
+
+        if (b > 0)
+            comoEscreverB = "+ " + b;
+        else if (b == 0)
+            comoEscreverB = "";
+        else
+            comoEscreverB = "- " + b*-1;
+        
+        texto += comoEscreverB;
+    }
 
     return texto;
 }
@@ -323,32 +344,27 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
 }
 
-function getTituloEtapaAtual()
-{
-    if (etapa == 0)
-        return "";
-    else if (etapa == 0.5)
-        return "";
-    
-    return "";
-}
-
-function getTextoEtapaAtual()
-{
-    if (etapa == 0)
-        return "";
-    else if (etapa == 0.5)
-        return "";
-
-    return "";
-}
-
 function tratarEtapa()
 {
+<<<<<<< HEAD
     desenharGrafico(x1, y1, x2, y2, etapa);
     setTimeout(function(){
         prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), true, true)
     }, 1500);
+=======
+    desenharGrafico(x1, y1, x2, y2);
+    if (etapa == 0 || etapa == 0.5 || etapa == 1 || etapa == 1.5 || etapa == 2 || etapa == 2.5 || etapa == 3.5 )
+    {
+        var anteriorH = true;
+        if (etapa == 0 || etapa == 0.5)
+            anteriorH = false;
+
+        setTimeout(function()
+        {
+            prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), anteriorH, true);
+        }, 400);
+    }   
+>>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
 }
 
 function encontrarRazaoLabels(menorPonto, maiorPonto)
@@ -379,7 +395,11 @@ function encontrarRazaoLabels(menorPonto, maiorPonto)
     return razaoLabels;
 }
 
+<<<<<<< HEAD
 function desenharGrafico()
+=======
+function desenharGrafico(x1, y1, x2, y2)
+>>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
 {
     canvas.width = canvas.height;
 
@@ -396,9 +416,12 @@ function desenharGrafico()
     c.font = "42px Montserrat";
     c.fillText(funcao, larguraColuna, larguraLinha);
 
+<<<<<<< HEAD
     c.fillText("a: ?", larguraColuna, larguraLinha + 42);
     c.fillText("b: ?", larguraColuna, larguraLinha + 84);
 
+=======
+>>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
     c.stroke();
 
     c.beginPath();
