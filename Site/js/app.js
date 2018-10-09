@@ -130,3 +130,8 @@ function falar(indice)
 
 }
 
+var menu = document.querySelector('.menu');
+
+function tratarMenu() {
+	menu.classList.toggle('active');
+}
