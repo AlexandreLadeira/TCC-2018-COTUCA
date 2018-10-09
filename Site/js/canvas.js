@@ -328,6 +328,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
 }
 
+
 var anguloAtual = 0;
 function desenharPontos(x1, y1, x2, y2)
 {
@@ -601,6 +602,7 @@ function desenharGrafico(etapaAtual)
     else if (etapaAtual == 1)
     {
         anguloAtual = 0;
+
         desenharPontos(
             canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, 
             canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
