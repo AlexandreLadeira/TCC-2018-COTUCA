@@ -13,7 +13,7 @@ var messageBoxHabilitado = false;
 
 var etapa = 0;
 var a = 0, b = 0;
-var funcao = "f(x) = ax + b";
+var aAtual = null, bAtual = null;
 
 // Desenhar a grade
 function desenharGrade()
@@ -87,7 +87,6 @@ function desenharEixos(razaoLabels)
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
 var x1, y1, x2, y2;
-
 var a, b;
 
 function validarPontos()
@@ -95,8 +94,8 @@ function validarPontos()
     // Excluir Depois:
 
     x1 = 0;
-    y1 = 1;
-    x2 = 1;
+    y1 = -1;
+    x2 = -2;
     y2 = 2;
 
     //////////////////
@@ -104,7 +103,11 @@ function validarPontos()
     a = (y1 - y2) / (x1 - x2);
     b = y1 - a*x1;
 
-    prosseguir(getTituloDaEtapa(0), getTextoDaEtapa(0), false, true);
+    if ((x1  == 0 && y1 == 0) || (x2 == 0 && y2 == 0))
+        etapa = 0.5;
+
+    desenharGrafico();
+    tratarEtapa();
 }
 
 function getTituloDaEtapa(etapaAtual)
@@ -192,7 +195,7 @@ function getTextoDaEtapa(etapaAtual)
     }
     else if (etapaAtual == 2.5)
         texto = "Tudo o que devemos fazer agora é substituir todos os valores que encontramos de 'a' e 'b' na função. " + 
-        "Como 'a' equivale a " + a + " e 'b' equivale a 0, podemos concluir que a equação da função é y = " + a * "x.";
+        "Como 'a' equivale a " + a + " e 'b' equivale a 0, podemos concluir que a equação da função é y = " + a + "x.";
     else if (etapaAtual == 3)
     {
         texto = "Agora que já encontramos os valores de 'a' e de 'b', tudo o que devemos fazer é substituir esses valores no corpo da função: " +
@@ -268,7 +271,8 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.stroke;
     c.shadowBlur = 0;
 
-    // Texto da Mensagem
+    // TEXTO DA MENSAGEM ------------------------------------------------------------------------------------------
+    
     c.fillStyle = "black";
     c.font = "24px Montserrat";
 
@@ -290,7 +294,10 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     }
     c.fillText(linhaAtual, ondeComecarX + margemTexto, y, larguraMensagem - 2*margemTexto);
 
-    // Caixas dos Botões
+    // ------------------------------------------------------------------------------------------------------------
+
+    // CAIXAS DOS BOTÕES ------------------------------------------------------------------------------------------
+
     c.shadowColor = "black";
     c.shadowBlur = 5;
     larguraBotoes = larguraMensagem / 5;
@@ -312,9 +319,11 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     var imagem = new Image;
     imagem.src = "imagens/IconeSom.png";
     c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
+    
+    // ------------------------------------------------------------------------------------------------------------
 
 
-    // Texto dos Botões
+    // TEXTO DOS BOTÕES ------------------------------------------------------------------------------------------
 
     // -- Anterior
     c.font = "24px Montserrat";
@@ -342,29 +351,40 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 
         c.fillText("Próximo",ondeComecarBotaoX + larguraBotoes + paddingBotoes + paddingTextoProximo, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
     }
+    
+    // ------------------------------------------------------------------------------------------------------------
 }
 
 function tratarEtapa()
 {
-<<<<<<< HEAD
-    desenharGrafico(x1, y1, x2, y2, etapa);
-    setTimeout(function(){
-        prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), true, true)
-    }, 1500);
-=======
-    desenharGrafico(x1, y1, x2, y2);
-    if (etapa == 0 || etapa == 0.5 || etapa == 1 || etapa == 1.5 || etapa == 2 || etapa == 2.5 || etapa == 3.5 )
+    if (etapa >= 0 && etapa <= 3)
     {
         var anteriorH = true;
-        if (etapa == 0 || etapa == 0.5)
+        if (etapa === 0 || etapa === 0.5)
             anteriorH = false;
+
+        aAtual = null;
+        bAtual = null;
+
+        if (etapa == 1.5 || etapa == 2.5)
+            bAtual = b;
+        
+        if (etapa == 2.5)
+            aAtual = a;
+
+        if (etapa == 2 || etapa == 3)
+            aAtual = a;
+
+        if (etapa == 3)
+            bAtual = b;
+        
 
         setTimeout(function()
         {
             prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), anteriorH, true);
-        }, 400);
+        }, 800);
     }   
->>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
+    desenharGrafico();
 }
 
 function encontrarRazaoLabels(menorPonto, maiorPonto)
@@ -395,11 +415,7 @@ function encontrarRazaoLabels(menorPonto, maiorPonto)
     return razaoLabels;
 }
 
-<<<<<<< HEAD
 function desenharGrafico()
-=======
-function desenharGrafico(x1, y1, x2, y2)
->>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
 {
     canvas.width = canvas.height;
 
@@ -412,16 +428,43 @@ function desenharGrafico(x1, y1, x2, y2)
 
     desenharEixos(razaoLabels);
 
+
+    let textoA = "", textoB = "";
+
+    if (aAtual == null)
+        textoA = "?";
+    else
+        textoA = aAtual;
+    
+    if (bAtual == null)
+        textoB = "?";
+    else
+        textoB = bAtual;
+
     c.beginPath();
     c.font = "42px Montserrat";
-    c.fillText(funcao, larguraColuna, larguraLinha);
 
-<<<<<<< HEAD
-    c.fillText("a: ?", larguraColuna, larguraLinha + 42);
-    c.fillText("b: ?", larguraColuna, larguraLinha + 84);
+    let textoFuncao;
+    if (bAtual != null)
+    {
+        if (bAtual > 0)
+            textoFuncao = "f(x) = " + textoA + "x + " + textoB;
+        else if (bAtual == 0)
+            textoFuncao = "f(x) = " + textoA + "x";
+        else
+            textoFuncao = "f(x) = " + textoA + "x - " + Math.abs(bAtual);
+    } 
+    else
+        textoFuncao = "f(x) = " + textoA + "x + " + textoB;
 
-=======
->>>>>>> f1e3175e5edb116a32c15bf30969fc82df340d59
+
+    c.fillText(textoFuncao, larguraColuna, larguraLinha);
+
+    c.fillText("a: " + textoA, larguraColuna, larguraLinha + 42);
+
+    c.fillText("b: " + textoB, larguraColuna, larguraLinha + 84);
+
+
     c.stroke();
 
     c.beginPath();
@@ -548,6 +591,7 @@ elem.addEventListener('click', function(event) {
         messageBoxHabilitado = false;
 
         etapa--;
+        console.log(etapa);
 
         tratarEtapa();
 
@@ -561,6 +605,7 @@ elem.addEventListener('click', function(event) {
         messageBoxHabilitado = false;
 
         etapa++;
+        console.log(etapa);
 
         tratarEtapa();
 
