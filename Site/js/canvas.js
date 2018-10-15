@@ -384,7 +384,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 }
 */
 
-function desenharMessageBox(titulo, texto, temAnterior, temProximo)
+function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 {
     // Caixa base da mensagem ----------------------------------------------------------------------------
     c.beginPath();
@@ -401,9 +401,41 @@ function desenharMessageBox(titulo, texto, temAnterior, temProximo)
     // Texto do título -----------------------------------------------------------------------------------
     c.beginPath();
     c.fillStyle = "white";
-    c.font = canvas.height * 0.06 + "pt Montserrat";
-    c.fillText(titulo, 20, canvas.height * 0.715, canvas.width);
+    c.font = canvas.height * 0.03 + "pt Montserrat";
+    
+    // Responsividade => Layout funcional até 320px
+    if (c.measureText(titulo).width >= canvas.width)
+        c.font = canvas.height * 0.021 + "pt Montserrat";
+
+    c.fillText(titulo, 20, canvas.height * 0.705, canvas.width); // 20 é a margem
     c.stroke();
+
+    // Texto da mensagem ---------------------------------------------------------------------------------
+    c.beginPath();
+    c.fillStyle = "black";
+
+    // Para tornar o texto o menor possível: 
+    if (canvas.width > canvas.height)
+        c.font = canvas.height * 0.021 + "pt Montserrat";
+    else
+        c.font = canvas.width * 0.021 + "pt Montserrat";
+
+    let posicaoY = canvas.height * 0.73 + 40;   // Posição depois da caixa de título com uma margem de 40px
+    let palavras = mensagem.split(' ');
+    let textoLinha = "";
+    let indice = 0;
+
+    while(c.measureText(textoLinha).width < canvas.width - 40)
+    {
+        textoLinha += palavras[indice] + " ";
+        indice++; 
+    }
+
+    c.fillText(textoLinha, 20, posicaoY, canvas.width - 20);
+    c.stroke();
+
+    // Professor Funcio -----------------------------------------------------------------------------------
+
 
 }
 
@@ -605,6 +637,7 @@ function encontrarRazaoLabels(pontoX, pontoY)
     return razaoLabels;
 }
 
+/*
 var razaoLabels = 1;
 var x1, x2, y1, y2;
 var textoX1 = 0, textoX2 = 0, textoY1 = 0, textoY2 = 0;
@@ -739,6 +772,20 @@ function desenharGrafico(etapaAtual)
         animarReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
         animarReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
     } 
+}
+*/
+
+function desenharGrafico(){
+    desenharGrade();
+    desenharEixos();
+    escreverPontos();
+    desenharMessageBox("Etapa 1: Definição de Dois Pontos", "O primeiro passo para determinar o gráfico da função "
+    + "dada (f(x) = 99999x + 1516), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
+    + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
+    + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
+    + "valor de x (que será, na função dada, igual a 45456465465 ). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
+    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
+    + "de acordo com a função dada, será 423423423.", true, true);
 }
 
 // EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)

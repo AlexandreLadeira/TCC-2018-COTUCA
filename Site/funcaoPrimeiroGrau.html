@@ -17,7 +17,7 @@
         
         <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
         <center>
-            <label style="font-family: Montserrat"> Etapa 1: Definição de Dois Pontos </label>
+            <label style="font-family: Montserrat"> </label>
             <img id="som" src="imagens/IconeSom.png" style="display: none">
             <span style="font-family: 'Montserrat'" />
             
@@ -43,10 +43,7 @@
                         canvas.height = window.innerHeight;
     
                         
-                        desenharGrade();
-                        desenharEixos();
-                        escreverPontos();
-                        desenharMessageBox("Etapa 1: Definição de Dois Pontos", "Esse é minha linda mensagem", true, true);
+                        desenharGrafico();
                 }
                 resizeCanvas();
             })();
