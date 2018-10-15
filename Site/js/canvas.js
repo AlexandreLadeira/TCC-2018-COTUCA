@@ -1,7 +1,7 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-var qtasLinhas = 18;
+var qtasLinhas  = 18;
 var qtasColunas = 18;
 
 var larguraLinha = canvas.height / qtasLinhas;
@@ -20,7 +20,7 @@ function desenharGrade()
     c.lineWidth = 1.2;
 
     // Colunas
-    for (var i = larguraColuna; i < canvas.width; i += larguraColuna)
+    for (let i = larguraColuna; i < canvas.width; i += larguraColuna)
     {
         c.beginPath();
         c.moveTo(i, 0);
@@ -29,7 +29,7 @@ function desenharGrade()
     }
 
     // Linhas
-    for (var i = larguraLinha; i < canvas.height; i += larguraLinha)
+    for (let i = larguraLinha; i < canvas.height; i += larguraLinha)
     {
         c.beginPath();
         c.moveTo(0, i);
@@ -62,8 +62,8 @@ function desenharEixos(razaoLabels)
     c.font = "16px Arial";
 
     // Eixo X
-    var pontoAtual = (qtasColunas - 2) / -2;    // -2 para retirar os pontos da borda
-    for (var i = larguraColuna; i < canvas.width; i += larguraColuna)
+    let pontoAtual = (qtasColunas - 2) / -2;    // -2 para retirar os pontos da borda
+    for (let i = larguraColuna; i < canvas.width; i += larguraColuna)
     {
         c.fillText(pontoAtual * razaoLabels, i, canvas.height / 2);
         pontoAtual++;
@@ -71,7 +71,7 @@ function desenharEixos(razaoLabels)
     
     // Eixo Y
     pontoAtual = (qtasLinhas - 2) / 2;          // -2 para retirar os pontos da borda
-    for (var i = larguraLinha; i < canvas.height; i += larguraLinha)
+    for (let i = larguraLinha; i < canvas.height; i += larguraLinha)
     {
         if (pontoAtual != 0)
             c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i);
@@ -89,21 +89,21 @@ var b;
 var funcao = "";
 function getAeBdaFuncao(x)
 {           
-    var achou   = false; // Determina se achou um dos termos
+    let achou   = false; // Determina se achou um dos termos
 
-    var aFunc   = ""; // Termo "a" da função
-    var bFunc   = ""; // Termo "b" da função
-    var aux = "";     // Auxiliar para a leitura
+    let aFunc   = ""; // Termo "a" da função
+    let bFunc   = ""; // Termo "b" da função
+    let aux = "";     // Auxiliar para a leitura
     
-    var qtsNumerosAchou = 0; // Verifica se já achou "a" e "b" ou apenas um deles
+    let qtsNumerosAchou = 0; // Verifica se já achou "a" e "b" ou apenas um deles
 
-    var indiceIgual = x.indexOf("="); // Pega o indíce do character "=", para poder cortar a string
+    let indiceIgual = x.indexOf("="); // Pega o indíce do character "=", para poder cortar a string
 
     x = x.substring(indiceIgual+1, x.length).trim(); // Tira a parte "f(x) =" ou a parte "y ="da expressão
 
-    for(i = 0; i < x.length; i++) // Percorre a string até o fim
+    for(let i = 0; i < x.length; i++) // Percorre a string até o fim
     {
-        var s = x.charAt(i); // Pega um character
+        let s = x.charAt(i); // Pega um character
 
         if(s != " ") // Ignora espaço em branco
         {  
@@ -171,15 +171,15 @@ function validarFuncao()
     
     funcao = document.getElementById("funcao").value;
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
-    var expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;   
+    let expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;   
 
     // expressao regular para validar uma funcao afim na for f(x) = b + ax
-    var expressaoReg2 = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?\s*\d+((\,|\/)\d+)?\s*(\-|\+)\s*(\d+(\,|\/)\d+)?\d*[a-z]{1}$/;
+    let expressaoReg2 = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?\s*\d+((\,|\/)\d+)?\s*(\-|\+)\s*(\d+(\,|\/)\d+)?\d*[a-z]{1}$/;
 
     if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
     {
 
-        var valores = getAeBdaFuncao(funcao);
+        let valores = getAeBdaFuncao(funcao);
         a = valores[0];
         b = valores[1];
 
@@ -211,8 +211,8 @@ var ondeComecarBotaoX;
 
 function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
 {
-    var larguraDoCanvas = canvas.width;
-    var alturaDoCanvas  = canvas.height;
+    let larguraDoCanvas = canvas.width;
+    let alturaDoCanvas  = canvas.height;
 
     messageBoxHabilitado = true;
 
@@ -233,7 +233,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     // Texto do Título
     c.beginPath();
     c.shadowBlur = 0;
-    var margemTexto = 20;
+    let margemTexto = 20;
     c.fillStyle = 'white';
     c.font = "36px Montserrat";
     c.fillText(titulo, ondeComecarX + margemTexto, ondeComecarY + alturaTitulo - margemTexto, larguraMensagem - 2*margemTexto);
@@ -243,7 +243,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.shadowColor = "black";
     c.shadowBlur = 10;
 
-    var qtasLinhas = c.measureText(mensagem).width /  (larguraMensagem - 2 * margemTexto);
+    let qtasLinhas = c.measureText(mensagem).width /  (larguraMensagem - 2 * margemTexto);
 
     alturaMensagem = qtasLinhas * 16 + margemTexto + 2*paddingBotoes + alturaBotoes;
 
@@ -256,12 +256,12 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.fillStyle = "black";
     c.font = "24px Montserrat";
 
-    var palavras = mensagem.split(' ');
-    var linhaAtual = '';
-    var y = ondeComecarY + alturaTitulo + 2 * margemTexto;
-    var alturaLinha = 26;   // Recomendado: Tamanho da fonte + 2
+    let palavras = mensagem.split(' ');
+    let linhaAtual = '';
+    let y = ondeComecarY + alturaTitulo + 2 * margemTexto;
+    let alturaLinha = 26;   // Recomendado: Tamanho da fonte + 2
 
-    for(var i = 0; i < palavras.length; i++) {
+    for(let i = 0; i < palavras.length; i++) {
         linhaAtual += palavras[i] + ' ';
         var tamanhoLinhaAtual = c.measureText(linhaAtual);
         var widthAtual = tamanhoLinhaAtual.width;
@@ -293,7 +293,7 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     c.shadowBlur = 0;   
 
     // Imagem do som
-    var imagem = new Image;
+    let imagem = new Image;
     imagem.src = "imagens/IconeSom.png";
     c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
 
@@ -308,9 +308,9 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     {
         messageBoxAnteriorHabilitado = true;
 
-        var tamanhoAnterior = c.measureText("Anterior");
-        var widthAnterior = tamanhoAnterior.width;
-        var paddingTextoAnterior = (larguraBotoes - widthAnterior)/2;
+        let tamanhoAnterior = c.measureText("Anterior");
+        let widthAnterior = tamanhoAnterior.width;
+        let paddingTextoAnterior = (larguraBotoes - widthAnterior)/2;
     
         c.fillText("Anterior", ondeComecarBotaoX - larguraBotoes - paddingBotoes + paddingTextoAnterior, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
     }
@@ -320,9 +320,9 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
     {
         messageBoxProximoHabilitado = true;
 
-        var tamanhoProximo = c.measureText("Próximo");
-        var widthProximo = tamanhoProximo.width;
-        var paddingTextoProximo = (larguraBotoes - widthProximo)/2;
+        let tamanhoProximo = c.measureText("Próximo");
+        let widthProximo = tamanhoProximo.width;
+        let paddingTextoProximo = (larguraBotoes - widthProximo)/2;
 
         c.fillText("Próximo",ondeComecarBotaoX + larguraBotoes + paddingBotoes + paddingTextoProximo, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
     }
@@ -384,10 +384,10 @@ function desenharPonto2(x2, y2)
 
 function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
 { 
-    var deltaX = Math.abs(xFinal - xInicial);
-    var deltaY = Math.abs(yFinal - yInicial);
+    let deltaX = Math.abs(xFinal - xInicial);
+    let deltaY = Math.abs(yFinal - yInicial);
 
-    var aumentoX, aumentoY;
+    let aumentoX, aumentoY;
 
     if (deltaX < deltaY)
     {
@@ -400,10 +400,10 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
         aumentoY = deltaY/deltaX;
     }
 
-    var xAtual = xInicial;
-    var yAtual = yInicial;
+    let xAtual = xInicial;
+    let yAtual = yInicial;
 
-    var intervalo = setInterval(function(){
+    let intervalo = setInterval(function(){
 
         c.beginPath();
         c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);   // Raio = 2;
@@ -447,7 +447,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
 
 function prosseguirEtapa()
 {
-    var botaoAnterior = true, botaoProximo = true;
+    let botaoAnterior = true, botaoProximo = true;
 
     if (etapa == 0 || etapa == 0.5)
         botaoAnterior = false;
@@ -501,16 +501,16 @@ function getTextoDaEtapa(etapaAtual)
 
 function encontrarRazaoLabels(pontoX, pontoY)
 {    
-    var maiorPonto;
+    let maiorPonto;
     
     if (Math.abs(pontoX) > Math.abs(pontoY))
         maiorPonto = Math.abs(pontoX);
     else
         maiorPonto = Math.abs(pontoY);
     
-    var achouRazao = false;
-    var razaoLabels = 1;
-    var deQuantoEmQuanto = 5;
+    let achouRazao = false;
+    let razaoLabels = 1;
+    let deQuantoEmQuanto = 5;
     while (!achouRazao)
     {
         if (maiorPonto / razaoLabels <= deQuantoEmQuanto)
@@ -621,20 +621,20 @@ function desenharGrafico(etapaAtual)
     }
     else if (etapaAtual == 3)
     {
-        var xInicial1 = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
-        var yInicial1 = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
-        var xInicial2 = canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels;
-        var yInicial2 = canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels;
-        var xFinal1, yFinal1, xFinal2, yFinal2;
-        var velocidade = 1;
+        let xInicial1 = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
+        let yInicial1 = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
+        let xInicial2 = canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels;
+        let yInicial2 = canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels;
+        let xFinal1, yFinal1, xFinal2, yFinal2;
+        let velocidade = 1;
 
-        var deltaX = x1 - x2;
-        var deltaY = y1 - y2;
+        let deltaX = x1 - x2;
+        let deltaY = y1 - y2;
 
-        var razao = Math.abs(deltaX /deltaY);
+        let razao = Math.abs(deltaX /deltaY);
     
-        var y = Number.MAX_SAFE_INTEGER;
-        var x = y * razao;
+        let y = Number.MAX_SAFE_INTEGER;
+        let x = y * razao;
 
         if (x1 > x2)
         {
@@ -704,7 +704,7 @@ function mouseSobreAudio(x, y)
 }
 
 elem.addEventListener('click', function(event) {
-    var x = event.pageX - elemLeft,
+    let x = event.pageX - elemLeft,
         y = event.pageY - elemTop;
    if (mouseSobreAnterior(x, y))
     {
@@ -738,22 +738,22 @@ elem.addEventListener('click', function(event) {
     }
     else if (mouseSobreAudio(x, y))
     {
-        var velocidade = document.getElementById("velocidade").value;
+        let velocidade = document.getElementById("velocidade").value;
 
         if(window.speechSynthesis.speaking)	
 		    window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
-            var texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
-            var msg   = new SpeechSynthesisUtterance(texto);
+            let texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
+            let msg   = new SpeechSynthesisUtterance(texto);
             msg.lang = 'pt-BR';	                    // Coloca a mensagem em português
             msg.rate  = velocidade;	
             window.speechSynthesis.speak(msg);      // Fala o título
 
             texto = getTextoDaEtapa(etapa);
-            var vet   = texto.split(",").join(".").split(".");
+            let vet   = texto.split(",").join(".").split(".");
 
-            for (var i = 0; i < vet.length; i++)
+            for (let i = 0; i < vet.length; i++)
             {
                 msg = new SpeechSynthesisUtterance(vet[i]);
                 msg.rate  = velocidade;
@@ -770,9 +770,8 @@ elem.addEventListener('click', function(event) {
 elem.onmousemove = movimentoMouse;
 function movimentoMouse(event)
 {    
-    var 
-    x = event.pageX - elemLeft,
-    y = event.pageY - elemTop;
+    let x = event.pageX - elemLeft,
+        y = event.pageY - elemTop;
 
     // Botão Anterior
     if (mouseSobreAnterior(x, y))
