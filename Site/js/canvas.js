@@ -1,26 +1,47 @@
+// Canvas
 var canvas = document.querySelector('canvas');
-var c = canvas.getContext('2d');
+var c      = canvas.getContext('2d');
 
-var qtasLinhas  = 18;
-var qtasColunas = 18;
+// Gráfico
+var espacoLinha , espacoColuna;
+espacoLinha = espacoColuna = 50;
 
-var larguraLinha = canvas.height / qtasLinhas;
-var larguraColuna = canvas.width / qtasColunas;
+var qtasLinhas  = 0;
+var qtasColunas = 0;
 
-var messageBoxProximoHabilitado = false;
+var etapaAtual = 0;
+
+var mergemColunas, margemLinhas;
+
+// MessageBox
+var messageBoxProximoHabilitado  = false;
 var messageBoxAnteriorHabilitado = false;
-var messageBoxHabilitado = false;
+var messageBoxHabilitado         = false;
 
-var etapa = 0;
 
-// Desenhar a grade
+// FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade()
 {
+    // Configurações das linhas / colunas ------------------------------------------------------------- 
     c.strokeStyle = "rgb(169, 169, 169)";
-    c.lineWidth = 1.2;
+    c.lineWidth = 1;
 
-    // Colunas
-    for (let i = larguraColuna; i < canvas.width; i += larguraColuna)
+    qtasColunas = 0;
+    qtasLinhas  = 0;
+
+    // Colunas do lado direito -------------------------------------------------------------------------
+    for (let i = canvas.width/2; i < canvas.width; i += espacoColuna)
+    {
+        c.beginPath();
+        c.moveTo(i, 0);
+        c.lineTo(i, canvas.height);
+        c.stroke();
+
+        qtasColunas++; // O lado direito terá a mesma quantidade de colunas que o lado esquerdo
+    }
+
+    // Colunas do lado esquerdo ------------------------------------------------------------------------
+    for (let i = canvas.width/2; i > 0; i -= espacoColuna)
     {
         c.beginPath();
         c.moveTo(i, 0);
@@ -28,8 +49,19 @@ function desenharGrade()
         c.stroke();
     }
 
-    // Linhas
-    for (let i = larguraLinha; i < canvas.height; i += larguraLinha)
+    // Linhas de baixo ---------------------------------------------------------------------------------
+    for (let i = canvas.height/2; i < canvas.height; i += espacoLinha)
+    {
+        c.beginPath();
+        c.moveTo(0, i);
+        c.lineTo(canvas.width, i);
+        c.stroke();
+
+        qtasLinhas++; // A parte de baixo terá a mesma quantidade de linhas que a parte de cima
+    }
+
+    // Linhas de cima ----------------------------------------------------------------------------------
+    for(let i = canvas.height/2; i > 0; i-= espacoLinha)
     {
         c.beginPath();
         c.moveTo(0, i);
@@ -38,43 +70,64 @@ function desenharGrade()
     }
 }
 
-// Desenha os eixos X e Y, assim como os pontos das abscissas e ordenadas
-function desenharEixos(razaoLabels)
+// FUNÇÃO PARA DESENHAR OS EIXOS DO GRÁFICO
+function desenharEixos()
 {
-    razaoLabels = razaoLabels || 1;
-
     c.beginPath();
-    c.lineWidth = 2;
-    c.strokeStyle = "rgb(54, 54, 54)";
 
-    //EIXO X
+    // Configurações dos eixos --------------------------------------------------------------------------
+
+    c.lineWidth = 1.5;
+    c.strokeStyle = "rgb(49, 49, 49)";
+
+    // Desenhar os eixos --------------------------------------------------------------------------------
+
+    // Eixo X
     c.moveTo(0, canvas.height / 2);
     c.lineTo(canvas.width, canvas.height / 2);
 
-    //EIXO Y
+    // Eixo Y
     c.moveTo(canvas.width / 2, 0);
     c.lineTo(canvas.width / 2, canvas.height);
 
     c.stroke();
+}
 
-    // Colocando os pontos:
+// FUNÇÃO PARA ESCREVER AS POSIÇÕES DOS PONTOS NO GRÁFICO
+function escreverPontos(razaoLabels = 1)
+{
     c.beginPath();
-    c.font = "16px Arial";
 
-    // Eixo X
-    let pontoAtual = (qtasColunas - 2) / -2;    // -2 para retirar os pontos da borda
-    for (let i = larguraColuna; i < canvas.width; i += larguraColuna)
+    // Configuração da fonte dos pontos -----------------------------------------------------------------
+    let tamanhoFonte = Math.min(espacoColuna, espacoLinha) / 4;
+    c.font           = tamanhoFonte + "pt Arial";
+
+    // Eixo X -------------------------------------------------------------------------------------------
+    let pontoAtual      = qtasColunas  * -1;                              // Começará na esquerda (pontos negativos)
+    let posicaoInicial  = canvas.width / 2 - qtasColunas * espacoColuna;  // Posição mais a esquerda possível dentro do gráfico
+
+    // Percorre até o final do canvas ( à direita)
+    for (let i = posicaoInicial; i < canvas.width; i += espacoColuna) 
     {
-        c.fillText(pontoAtual * razaoLabels, i, canvas.height / 2);
+        let tamanhoTextoPonto = c.measureText(pontoAtual).width;
+
+        // Não escrevemos o ponto (0, 0)
+        if (pontoAtual !== 0) 
+            c.fillText(pontoAtual * razaoLabels, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna / 2);
+
         pontoAtual++;
     }
     
-    // Eixo Y
-    pontoAtual = (qtasLinhas - 2) / 2;          // -2 para retirar os pontos da borda
-    for (let i = larguraLinha; i < canvas.height; i += larguraLinha)
+    // Eixo Y ------------------------------------------------------------------------------------------
+    pontoAtual      = qtasLinhas;                                         // Começará em cima (pontos positivos)
+    posicaoInicial  = canvas.height / 2 - qtasLinhas * espacoLinha;       // Posição mais em cima possível dentro do gráfico
+
+    // Percorre até o final do canvas (em baixo)
+    for (let i = posicaoInicial; i < canvas.height; i += espacoLinha)
     {
-        if (pontoAtual != 0)
-            c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i);
+        // Não escrevemos o ponto (0, 0)
+        if (pontoAtual !== 0)        
+            c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i + tamanhoFonte / 2);
 
         pontoAtual--;
     }
@@ -184,11 +237,11 @@ function validarFuncao()
         b = valores[1];
 
         if (b == 0)
-            etapa = 0.5;
+            etapaAtual = 0.5;
         else
-            etapa  = 0;
+            etapaAtual  = 0;
     
-        desenharGrafico(etapa);
+        desenharGrafico(etapaAtual);
     }
     else
     {
@@ -197,6 +250,8 @@ function validarFuncao()
     }
 }
 
+
+/*
 // VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
 var larguraMensagem;
 var alturaTitulo;
@@ -327,7 +382,30 @@ function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
         c.fillText("Próximo",ondeComecarBotaoX + larguraBotoes + paddingBotoes + paddingTextoProximo, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
     }
 }
+*/
 
+function desenharMessageBox(titulo, texto, temAnterior, temProximo)
+{
+    // Caixa base da mensagem ----------------------------------------------------------------------------
+    c.beginPath();
+    c.fillStyle = "white";
+    c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.35);
+    c.stroke();
+
+    // Caixa do título da mensagem -----------------------------------------------------------------------
+    c.beginPath();
+    c.fillStyle = "rgb(23,121,186)";
+    c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.08);
+    c.stroke();   
+
+    // Texto do título -----------------------------------------------------------------------------------
+    c.beginPath();
+    c.fillStyle = "white";
+    c.font = canvas.height * 0.06 + "pt Montserrat";
+    c.fillText(titulo, 20, canvas.height * 0.715, canvas.width);
+    c.stroke();
+
+}
 
 var anguloAtual = 0;
 function desenharPontos(x1, y1, x2, y2)
@@ -426,7 +504,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
         if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
-            if (etapa == 2)
+            if (etapaAtual == 2)
                 setTimeout(function()
                 {
                     prosseguirEtapa();
@@ -436,7 +514,7 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidad
         if (xInicial > xFinal && (xAtual <= xFinal || xAtual < 0 || xAtual > canvas.width))
         {
             clearInterval(intervalo);
-            if (etapa == 2)
+            if (etapaAtual == 2)
                 setTimeout(function()
                 {
                     prosseguirEtapa();
@@ -449,19 +527,19 @@ function prosseguirEtapa()
 {
     let botaoAnterior = true, botaoProximo = true;
 
-    if (etapa == 0 || etapa == 0.5)
+    if (etapaAtual == 0 || etapaAtual == 0.5)
         botaoAnterior = false;
 
-    prosseguir(getTituloDaEtapa(etapa), getTextoDaEtapa(etapa), botaoAnterior, botaoProximo);
+    prosseguir(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo);
 }
 
 function getTituloDaEtapa(etapaAtual)
 {
-    if (etapa == 0 || etapa == 0.5)
+    if (etapaAtual == 0 || etapaAtual == 0.5)
         return "Etapa 1: Definição de Dois Pontos";
-    else if (etapa == 1)
+    else if (etapaAtual == 1)
         return "Etapa 2: Traçar a Reta";
-    else if (etapa == 2)
+    else if (etapaAtual == 2)
         return "Etapa 3: Prolongar a Reta";
     else
         return "";
@@ -469,7 +547,7 @@ function getTituloDaEtapa(etapaAtual)
 
 function getTextoDaEtapa(etapaAtual)
 {
-    if (etapa == 0)
+    if (etapaAtual == 0)
         return "O primeiro passo para determinar o gráfico da função "
         + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
         + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
@@ -477,7 +555,7 @@ function getTextoDaEtapa(etapaAtual)
         + "valor de x (que será, na função dada, igual a " + x1 + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
         + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
         + "de acordo com a função dada, será " + y2 + ".";
-    else if (etapa == 0.5)  // Passa por (0, 0)
+    else if (etapaAtual == 0.5)  // Passa por (0, 0)
         return "O primeiro passo para determinar o gráfico da função "
         + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
         + "posições pelas quais a reta passará pelos eixos ordenados, pois esses dois pontos serão na mesma posição (0, 0). "
@@ -485,11 +563,11 @@ function getTextoDaEtapa(etapaAtual)
         + "Para não encontrarmos um valor muito diferente entre x e y, escolheremos o valor de x com base no primeiro ponto "
         + "que marcamos no gráfico (ponto ("+ razaoLabels +", 0)), e substituindo x na função por esse valor, encontramos o ponto "
         + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
-    else if (etapa == 1)
+    else if (etapaAtual == 1)
         return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
         + "seus dois pontos, anteriormente definidos (pontos (0, "+ y2 +") e ("+ x1 + ", 0)). Para isso, basta "
         + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
-    else if (etapa == 2)
+    else if (etapaAtual == 2)
         return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
         + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
         + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
@@ -663,9 +741,6 @@ function desenharGrafico(etapaAtual)
     } 
 }
 
-desenharGrade();
-desenharEixos();
-
 // EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)
 var elem = document.getElementById('canvas'),
 elemLeft = elem.offsetLeft,
@@ -712,12 +787,12 @@ elem.addEventListener('click', function(event) {
         messageBoxProximoHabilitado  = false;
         messageBoxHabilitado = false;
 
-        if (b == 0 && etapa == 1)
-            etapa -= 0.5;
+        if (b == 0 && etapaAtual == 1)
+            etapaAtual -= 0.5;
         else
-            etapa--;
+            etapaAtual--;
 
-        desenharGrafico(etapa);
+        desenharGrafico(etapaAtual);
         elem.style.cursor = 'default';
         window.speechSynthesis.cancel();
     }
@@ -727,12 +802,12 @@ elem.addEventListener('click', function(event) {
         messageBoxAnteriorHabilitado = false;
         messageBoxHabilitado = false;
 
-        if (etapa == 0.5)
-            etapa+= 0.5;
+        if (etapaAtual == 0.5)
+            etapaAtual+= 0.5;
         else
-            etapa++;
+            etapaAtual++;
 
-        desenharGrafico(etapa);
+        desenharGrafico(etapaAtual);
         elem.style.cursor = 'default';
         window.speechSynthesis.cancel();
     }
@@ -744,13 +819,13 @@ elem.addEventListener('click', function(event) {
 		    window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
-            let texto = getTituloDaEtapa(etapa);    // Pega o título para falá-lo
+            let texto = getTituloDaEtapa(etapaAtual);    // Pega o título para falá-lo
             let msg   = new SpeechSynthesisUtterance(texto);
             msg.lang = 'pt-BR';	                    // Coloca a mensagem em português
             msg.rate  = velocidade;	
             window.speechSynthesis.speak(msg);      // Fala o título
 
-            texto = getTextoDaEtapa(etapa);
+            texto = getTextoDaEtapa(etapaAtual);
             let vet   = texto.split(",").join(".").split(".");
 
             for (let i = 0; i < vet.length; i++)
