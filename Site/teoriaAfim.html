@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="icon" href="logoFinal.png">
     </head>
-    <body>  
+    <body onload="iniciar()">  
         <div class="topbar">
             <div class="botao" onclick="tratarMenu()">&#9776;</div>
-            <div class="logo "></div>
+            <div class="logo" onclick="tratarContainer()"></div>
         </div>
         <div class="menu">
             <div onclick="tratarMenu()">&#9776;</div>
@@ -20,32 +20,21 @@
             <a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a>
             <a onclick="trocaEstilo()"> Alto contraste</a>
         </div>
+        <div>
+            <input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1">
+        </div>
         <div class="grid-x grid-margin-x">
-        <div class="grid-container">  
-        <!--    <div class="cell medium-8">
-                <ul class="menu menu-hover-lines">
-                    <li class="active"><a href="home.html">Home</a></li>
-                    <li><a href="teoriaAfim.html">Teoria</a></li>
-                    <li><a href="funcaoPrimeiroGrau.html">Encontrar Gráfico</a></li>
-                    <li><a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a></li>
-                    <li><a onclick="trocaEstilo()"> Alto contraste</a></li>
-                </ul>
-            </div>-->
-            <div class="grid-x grid-margin-x">
-                    <div class="cell medium-12">
-                          <br>
-                    </div>
-                    <div class="cell medium-12 fonte">
-                        <b>Velocidade de reprodução: </b> 
-                        <input id="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.5">
-                    </div>
-                   
-                    <div class="cell medium-12" >
-                        <h3>Introdução                  
-                        </h3>
-                    </div>
-                
-                    <div class="cell medium-6" id="texto1">
+        <div class="grid-container" style="top:60px">  
+
+            <br>
+            <br>
+            <br>
+            
+            <div class="grid-x grid-margin-x">                                            
+                <div class="cell medium-12 introducao">
+                        <h3>Introdução</h3>
+                </div>
+                    <div class="cell medium-6 introducao" id="texto1">
                         <label  class="fonte"> 
                             <b><a id = "player" onclick="falar(1);"> 
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom1" >
@@ -63,7 +52,7 @@
                             deve pagar em sua viagem? 
                        </label>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <label class="fonte" id="texto2">
                             <b><a onclick="falar(2);"> 
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom2" >
@@ -83,10 +72,10 @@
                         
                         </label>
                    </div>       
-                   <div class="cell medium-12">                        
+                   <div class="cell medium-12 introducao">                        
                         <hr></hr>
                   </div>     
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <label class="fonte" id="texto3">
                             <a onclick="falar(3);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom3" ></a> 
@@ -94,7 +83,7 @@
                             qual seria o valor que Alexandre pagaria?                        
                         </label>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <label class="fonte" id="texto4">
                             <b> <a onclick="falar(4);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom4" ></a> Resolução.</b> 
@@ -110,10 +99,10 @@
                         
                         </label>
                    </div>
-                   <div class="cell medium-12">                        
+                   <div class="cell medium-12 introducao">                        
                         <hr></hr>
                    </div>
-                   <div class="cell medium-12">
+                   <div class="cell medium-12 introducao">
                         <label class="fonte" id="texto5">
                             <b> <a onclick="falar(5);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom5" ></a> Teste você mesmo.</b> 
@@ -122,46 +111,46 @@
                              quantos reais a corrida custa:                          
                         </label>
                    </div>
-                   <div class="cell medium-2">
+                   <div class="cell medium-2 introducao">
                         <label class="fonte">
                            Bandeira:                                        
                         </label>
                    </div>
-                   <div class="cell medium-4">
+                   <div class="cell medium-4 introducao">
                         <input type="text" id="bandeira"  ></input>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <br>
                    </div>
-                   <div class="cell medium-2">
+                   <div class="cell medium-2 introducao">
                         <label class="fonte">
                            Quilômetro:                                          
                         </label>
                    </div>
-                   <div class="cell medium-4">
+                   <div class="cell medium-4 introducao">
                         <input type="text" id="quilometro"  ></input>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <label id="resultado"  style="font-size: 40px;"></label>
                    </div>
-                   <div class="cell medium-2">
+                   <div class="cell medium-2 introducao">
                         <label class="fonte">
                            Distância:                                        
                         </label>
                    </div>
-                   <div class="cell medium-4">
+                   <div class="cell medium-4 introducao">
                         <input type="text" id="distancia"></input>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                         <br>
                    </div>
-                   <div class="cell medium-6">
+                   <div class="cell medium-6 introducao">
                        <b><center><input type="button" value="Checar" style="width: 100%;" class="button primary tamanho" onclick="CorridaUber();"/> </center></b>
                    </div>
-                    <div class="cell medium-12">
+                    <div class="cell medium-12 definicao">
                         <h3>Definição </h3>
                     </div>
-                    <div class="cell medium-6" id="texto6">
+                    <div class="cell medium-6 definicao" id="texto6">
                          <label class="fonte"> 
                             <a onclick="falar(6);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom6" ></a>
@@ -173,7 +162,7 @@
                             independente.
                         </label>
                     </div>
-                    <div class="cell medium-6 " id="texto7">
+                    <div class="cell medium-6 definicao" id="texto7">
                         <table class="tabelaExemplo">
                             <tr>
                                 <th> <a onclick="falar(7);">
@@ -201,10 +190,10 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="cell medium-12" >
+                    <div class="cell medium-12 grafico">
                         <h3>Gráfico cartesiano</h3> 
                     </div>  
-                    <div class="cell medium-6" id="texto8">
+                    <div class="cell medium-6 grafico" id="texto8">
                         <label class="fonte">
                             <a onclick="falar(8);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom8" ></a>
@@ -222,13 +211,13 @@
                             A função é representada por uma reta no gráfico, em que os pontos contidos nela nos fornecem as informações de que valores podem ser atribuídos a ela.   
                         </label>
                     </div>
-                    <div class="cell medium-6">
+                    <div class="cell medium-6 grafico">
                             <img src="imagens/imagem1.jpg" id="imagem1">
                     </div>
-                    <div class="cell medium-12" >
+                    <div class="cell medium-12 casosParticulares">
                         <h3>Casos particulares</h3> 
                     </div> 
-                    <div class="cell medium-6" id="texto9">
+                    <div class="cell medium-6 casosParticulares" id="texto9">
                         <label class="fonte">
                             <a onclick="falar(9);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom9" ></a>
@@ -239,7 +228,7 @@
                             <!-- Possivel imagem-->
                         </label>
                     </div>
-                    <div class="cell medium-6" id="texto12">
+                    <div class="cell medium-6 casosParticulares" id="texto12">
                         <label class="fonte"> 
                             <a onclick="falar(12);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom10" ></a>                            
@@ -249,11 +238,11 @@
                         </label>
                     </div>
                     
-                    <div class="cell medium-12" >
+                    <div class="cell medium-12 raiz">
                         <h3>Raiz da equação de 1º grau</h3> 
                     </div>  
                     
-                    <div class="cell medium-12" id="texto10">
+                    <div class="cell medium-12 raiz" id="texto10">
                         <label class="fonte">
                             <a onclick="falar(10);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom11" ></a>
@@ -265,23 +254,23 @@
                         </label>
                     </div>
 
-                    <div class="cell medium-3">
+                    <div class="cell medium-3 raiz">
                         
                     </div>
 
-                    <div class="cell medium-7">
+                    <div class="cell medium-7 raiz">
                             <img src="imagens/imagem4.jpg" id="imagem4">
                     </div>
 
-                    <div class="cell medium-2">
+                    <div class="cell medium-2 raiz">
                         
                     </div>
 
-                    <div class="cell medium-12" >
+                    <div class="cell medium-12 coeficiente" >
                         <h3>Coeficiente da função afim e inclinação da reta</h3> 
                     </div> 
                     
-                    <div class="cell medium-12" id="texto11">
+                    <div class="cell medium-12 raiz" id="texto11">
                             <label class="fonte">
                                     <a onclick="falar(11);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom12" ></a>
@@ -294,19 +283,19 @@
                             </label>
                     </div>
 
-                    <div class="cell medium-6">
+                    <div class="cell medium-6 coeficiente">
                         <img src="imagens/imagem6.jpg" id="imagem6">
                     </div>
 
-                    <div class="cell medium-6">
+                    <div class="cell medium-6 coeficiente">
                         <img src="imagens/imagem5.jpg" id="imagem5">
                     </div>
 
-                    <div class="cell medium-12">                        
+                    <div class="cell medium-12 coeficiente">                        
                         <hr></hr>
                     </div>
 
-                    <div class="cell medium-6" id="texto13">
+                    <div class="cell medium-6 coeficiente" id="texto13">
                         <label class="fonte">
                                 <a onclick="falar(13);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom13" ></a>                               
@@ -315,7 +304,7 @@
                         </label>
                     </div>
 
-                    <div class="cell medium-6">
+                    <div class="cell medium-6 coeficiente">
                         <img src="imagens/imagem7.jpg" id="imagem7">
                     </div>                     
             </div> <!--containter-->
