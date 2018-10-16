@@ -415,6 +415,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
     c.fillStyle = "black";
 
     // Para tornar o texto o menor possível: 
+
     if (canvas.width > canvas.height)
         c.font = canvas.height * 0.021 + "pt Montserrat";
     else
@@ -422,20 +423,49 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 
     let posicaoY = canvas.height * 0.73 + 40;   // Posição depois da caixa de título com uma margem de 40px
     let palavras = mensagem.split(' ');
-    let textoLinha = "";
+    let linhaAtual = "";
     let indice = 0;
 
-    while(c.measureText(textoLinha).width < canvas.width - 40)
+
+    for(let i = 0; i < palavras.length; i++) 
     {
-        textoLinha += palavras[indice] + " ";
-        indice++; 
+        linhaAtual += palavras[i] + " ";
+
+        if (c.measureText(linhaAtual).width > canvas.width * 0.8125) 
+        {
+            c.fillText(linhaAtual, 20, posicaoY, canvas.width * 0.8125);
+            linhaAtual = "";
+            posicaoY += canvas.width * 0.021;
+        }
     }
 
-    c.fillText(textoLinha, 20, posicaoY, canvas.width - 20);
+    c.fillText(linhaAtual, 20, posicaoY);
     c.stroke();
 
     // Professor Funcio -----------------------------------------------------------------------------------
 
+    let imagemProfessor = new Image;
+    c.drawImage(document.getElementById("professorFuncio"), 
+    canvas.width * 0.85625, canvas.height * 0.73 + 30, 
+    canvas.width * 0.1, canvas.width * 0.078);
+
+    // Botões ----------------------------------------------------------------------------------------------
+
+    // Anterior: 
+    c.beginPath();
+    c.fillStyle = "rgb(23,121,186)";
+    c.fillRect(canvas.width * 0.8125 + 30, canvas.height * 0.73 + 40 + canvas.width * 0.078, canvas.width * 0.07, canvas.height * 0.04);
+    c.stroke();
+
+    // Próximo:
+    c.beginPath();
+    c.fillStyle = "rgb(23,121,186)";
+    c.fillRect(canvas.width * 0.93 - 30, canvas.height * 0.73 + 40 + canvas.width * 0.078, canvas.width * 0.07, canvas.height * 0.04);
+    c.stroke();
+
+    // Imagem de Ouvir Texto -------------------------------------------------------------------------------
+
+    //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
 
 }
 
@@ -783,9 +813,7 @@ function desenharGrafico(){
     + "dada (f(x) = 99999x + 1516), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
     + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
     + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-    + "valor de x (que será, na função dada, igual a 45456465465 ). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
-    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-    + "de acordo com a função dada, será 423423423.", true, true);
+    + "valor de x (que será, na função dada, igual a 45456465465 ).", true, true);
 }
 
 // EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)

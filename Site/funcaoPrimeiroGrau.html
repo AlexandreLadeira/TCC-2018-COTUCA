@@ -11,14 +11,16 @@
     </head>
     <body>
 
-        <label class="cell shrink fonte" id="contraste"> Digite a função: </label>
-        <input id="funcao" class="cell medium-3" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
+        <label id="contraste"> Digite a função: </label>
+        <input id="funcao" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
         
         
         <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
         <center>
+
             <label style="font-family: Montserrat"> </label>
-            <img id="som" src="imagens/IconeSom.png" style="display: none">
+            <img id="som"             src="imagens/IconeSom.png" style="display: none">
+            <img id="professorFuncio" src="imagens/ProfFuncio.jpg" style="display: none">
             <span style="font-family: 'Montserrat'" />
             
             <div>
@@ -41,7 +43,6 @@
                 function resizeCanvas() {
                         canvas.width = window.innerWidth;
                         canvas.height = window.innerHeight;
-    
                         
                         desenharGrafico();
                 }
