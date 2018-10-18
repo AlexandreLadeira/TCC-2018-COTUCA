@@ -425,7 +425,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
     let palavras = mensagem.split(' ');
     let linhaAtual = "";
     let indice = 0;
-
+    let primeiraLinha = true;
 
     for(let i = 0; i < palavras.length; i++) 
     {
@@ -433,7 +433,14 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 
         if (c.measureText(linhaAtual).width > canvas.width * 0.8125) 
         {
-            c.fillText(linhaAtual, 20, posicaoY, canvas.width * 0.8125);
+            if (primeiraLinha)
+            {
+                c.fillText(linhaAtual, canvas.width * 0.024 + 20 , posicaoY, canvas.width * 0.7885);
+                primeiraLinha = false;
+            }
+            else
+                c.fillText(linhaAtual, 20, posicaoY, canvas.width * 0.8125);
+
             linhaAtual = "";
             posicaoY += canvas.width * 0.021;
         }
@@ -444,29 +451,68 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 
     // Professor Funcio -----------------------------------------------------------------------------------
 
-    let imagemProfessor = new Image;
     c.drawImage(document.getElementById("professorFuncio"), 
     canvas.width * 0.85625, canvas.height * 0.73 + 30, 
     canvas.width * 0.1, canvas.width * 0.078);
 
     // Botões ----------------------------------------------------------------------------------------------
 
+    let centroPrincipalBotoes = canvas.width * 0.90625; // Centro base para os botões (Coincide com o 
+                                                        // centro da imagem do personagem)
+
     // Anterior: 
+    let posicaoXAnterior = canvas.width  * 0.8125 + 36;
+    let posicaoYBotoes   = canvas.height * 0.73 + 40 + canvas.width * 0.078;
+    let widthBotoes      = canvas.width  * 0.055;
+    let heightBotoes     = canvas.height * 0.04;
+
     c.beginPath();
     c.fillStyle = "rgb(23,121,186)";
-    c.fillRect(canvas.width * 0.8125 + 30, canvas.height * 0.73 + 40 + canvas.width * 0.078, canvas.width * 0.07, canvas.height * 0.04);
+    c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
     c.stroke();
 
     // Próximo:
     c.beginPath();
     c.fillStyle = "rgb(23,121,186)";
-    c.fillRect(canvas.width * 0.93 - 30, canvas.height * 0.73 + 40 + canvas.width * 0.078, canvas.width * 0.07, canvas.height * 0.04);
+    let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
+    c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
     c.stroke();
 
+    // Texto do Anterior:
+    c.beginPath();
+    c.font = canvas.height * 0.017 + "pt Montserrat";
+    c.fillStyle = "white";
+    let margemTextoAnterior = (widthBotoes - c.measureText("Anterior").width) / 2;
+
+    c.fillText("Anterior", posicaoXAnterior + margemTextoAnterior, 
+               posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+
+    c.stroke();
+
+    // Texto do Próximo:
+    c.beginPath();
+    c.font = canvas.height * 0.017 + "pt Montserrat";
+    c.fillStyle = "white";
+    let margemTextoProximo = (canvas.width * 0.055 - c.measureText("Próximo").width) / 2;
+
+    c.fillText("Próximo", centroPrincipalBotoes + distanciaCentroAoAnterior + margemTextoProximo, 
+               posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+
+    c.stroke();
+
+
     // Imagem de Ouvir Texto -------------------------------------------------------------------------------
+    c.beginPath();
+
+    c.drawImage(document.getElementById("som"), 
+    20, canvas.height * 0.73 + canvas.width * 0.0105, 
+    canvas.width * 0.021, canvas.width * 0.021);
+
+    c.stroke();
+
 
     //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
-
+    
 }
 
 var anguloAtual = 0;
