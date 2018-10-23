@@ -8,23 +8,20 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="icon" href="logoFinal.png">
     </head>
-    <body onload="iniciar()">  
+    <body onload="iniciar()" class="scrollbar">  
         <div class="topbar">
             <div class="botao" onclick="tratarMenu()">&#9776;</div>
             <div class="logo" onclick="tratarContainer()"></div>
         </div>
         <div class="menu">
             <div onclick="tratarMenu()">&#9776;</div>
-            <a href="teoriaAfim.html">Teoria</a>
-            <a href="funcaoPrimeiroGrau.html">Encontrar Gráfico</a>
-            <a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a>
-            <a onclick="trocaEstilo()"> Alto contraste</a>
+            <a href="teoriaAfim.html"><img src="imagens/teoria.png" class="icone">&nbsp;&nbsp;&nbsp;Teoria</a>
+            <a href="funcaoPrimeiroGrau.html"><img src="imagens/grafico.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Gráfico</a>
+            <a href="encontrarFuncaoPeloGrafico.html"><img src="imagens/funcao.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Função</a>
+            <a onclick="trocaEstilo()"><img src="imagens/contraste.png" class="icone">&nbsp;&nbsp;&nbsp;Alto contraste</a>
+            <div class="vel"><input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div>
         </div>
-        <div>
-            <input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1">
-        </div>
-        <div class="grid-x grid-margin-x">
-        <div class="grid-container" style="top:60px">  
+        <div class="grid-container">  
 
             <br>
             <br>
@@ -147,6 +144,7 @@
                    <div class="cell medium-6 introducao">
                        <b><center><input type="button" value="Checar" style="width: 100%;" class="button primary tamanho" onclick="CorridaUber();"/> </center></b>
                    </div>
+
                     <div class="cell medium-12 definicao">
                         <h3>Definição </h3>
                     </div>
@@ -214,6 +212,7 @@
                     <div class="cell medium-6 grafico">
                             <img src="imagens/imagem1.jpg" id="imagem1">
                     </div>
+
                     <div class="cell medium-12 casosParticulares">
                         <h3>Casos particulares</h3> 
                     </div> 
@@ -254,23 +253,19 @@
                         </label>
                     </div>
 
-                    <div class="cell medium-3 raiz">
-                        
-                    </div>
+                    <div class="cell medium-3 raiz"></div>
 
                     <div class="cell medium-7 raiz">
-                            <img src="imagens/imagem4.jpg" id="imagem4">
+                        <img src="imagens/imagem4.jpg" id="imagem4">
                     </div>
 
-                    <div class="cell medium-2 raiz">
-                        
-                    </div>
+                    <div class="cell medium-2 raiz"></div>
 
                     <div class="cell medium-12 coeficiente" >
                         <h3>Coeficiente da função afim e inclinação da reta</h3> 
                     </div> 
                     
-                    <div class="cell medium-12 raiz" id="texto11">
+                    <div class="cell medium-12 coeficiente" id="texto11">
                             <label class="fonte">
                                     <a onclick="falar(11);">
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom12" ></a>
@@ -307,10 +302,12 @@
                     <div class="cell medium-6 coeficiente">
                         <img src="imagens/imagem7.jpg" id="imagem7">
                     </div>                     
-            </div> <!--containter-->
-        </div> <!--grid-->
+            </div> <!--grid-->
+        </div> <!--containter-->
         <div class="referencia">
-            <hr class="hr"></hr>
+            <hr style="border-color: #1779ba;"></hr>
+            <div>Icons from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            <hr style="border-color: white;"></hr>
                 Nos baseamos no livro Matemática volume único para formular a teoria. 
                 <br>
                 FUNÇÃO Afim. In: IEZZI, Gelson et al. Matemática volume único . 

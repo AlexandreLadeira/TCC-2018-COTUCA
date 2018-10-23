@@ -131,9 +131,16 @@ function falar(indice)
 }
 
 var menu = document.querySelector('.menu');
+var body = document.querySelector('body');
 
 function tratarMenu() {
 	menu.classList.toggle('active');
+	if(screen.width <= 430 || (window.outerWidth-10)/window.innerWidth > 5.7) {
+		if(!body.classList.contains('active'))
+			body.classList.add('active');
+	}
+	else
+		body.classList.remove('active');
 }
 
 var casosParticulares = document.querySelectorAll('.casosParticulares');
@@ -163,157 +170,5 @@ function iniciar() {
 
 function tratarContainer(opcao) {
 	switch(opcao) {
-		case 0:
-			for(i = 0; i < introducao.length; i++)
-				if(!introducao[i].classList.contains('active'))
-					introducao[i].classList.add('active');
-
-			if(definicao[0].classList.contains('active'))
-				for(i = 0; i < definicao.length; i++)
-						definicao[i].classList.remove('active');
-
-			if(grafico[0].classList.contains('active'))
-				for(i = 0; i < grafico.length; i++)
-					grafico[i].classList.remove('active');
-
-			if(casosParticulares[0].classList.contains('active'))
-				for(i = 0; i < casosParticulares.length; i++)
-					casosParticulares[i].classList.remove('active');
-
-			if(raiz[0].classList.contains('active'))
-				for(i = 0; i < raiz.length; i++)
-					raiz[i].classList.remove('active');
-
-			if(coeficiente[0].classList.contains('active'))
-				for(i = 0; i < coeficiente.length; i++)
-					coeficiente[i].classList.remove('active');
-			break;
-		case 1:		
-			for(i = 0; i < definicao.length; i++)
-				if(!definicao[i].classList.contains('active'))
-					definicao[i].classList.add('active');
-
-			if(introducao[0].classList.contains('active'))
-				for(i = 0; i < introducao.length; i++)
-					introducao[i].classList.remove('active');
-
-			if(grafico[0].classList.contains('active'))
-				for(i = 0; i < grafico.length; i++)
-					grafico[i].classList.remove('active');
-
-			if(casosParticulares[0].classList.contains('active'))
-				for(i = 0; i < casosParticulares.length; i++)
-					casosParticulares[i].classList.remove('active');
-
-			if(raiz[0].classList.contains('active'))
-				for(i = 0; i < raiz.length; i++)
-					raiz[i].classList.remove('active');
-
-			if(coeficiente[0].classList.contains('active'))
-				for(i = 0; i < coeficiente.length; i++)
-					coeficiente[i].classList.remove('active');
-			break;
-		case 2:		
-			for(i = 0; i < grafico.length; i++)
-				if(!grafico[i].classList.contains('active'))
-					grafico[i].classList.add('active');
-
-			if(definicao[0].classList.contains('active'))
-				for(i = 0; i < definicao.length; i++)
-						definicao[i].classList.remove('active');
-
-			if(introducao[0].classList.contains('active'))
-				for(i = 0; i < introducao.length; i++)
-					introducao[i].classList.remove('active');
-
-			if(casosParticulares[0].classList.contains('active'))
-				for(i = 0; i < casosParticulares.length; i++)
-					casosParticulares[i].classList.remove('active');
-
-			if(raiz[0].classList.contains('active'))
-				for(i = 0; i < raiz.length; i++)
-					raiz[i].classList.remove('active');
-
-			if(coeficiente[0].classList.contains('active'))
-				for(i = 0; i < coeficiente.length; i++)
-					coeficiente[i].classList.remove('active');
-			break;
-		case 3:		
-			for(i = 0; i < casosParticulares.length; i++)
-				if(!casosParticulares[i].classList.contains('active'))
-					casosParticulares[i].classList.add('active');
-
-			if(definicao[0].classList.contains('active'))
-				for(i = 0; i < definicao.length; i++)
-						definicao[i].classList.remove('active');
-
-			if(grafico[0].classList.contains('active'))
-				for(i = 0; i < grafico.length; i++)
-					grafico[i].classList.remove('active');
-
-			if(introducao[0].classList.contains('active'))
-				for(i = 0; i < introducao.length; i++)
-					introducao[i].classList.remove('active');
-
-			if(raiz[0].classList.contains('active'))
-				for(i = 0; i < raiz.length; i++)
-					raiz[i].classList.remove('active');
-
-			if(coeficiente[0].classList.contains('active'))
-				for(i = 0; i < coeficiente.length; i++)
-					coeficiente[i].classList.remove('active');
-			break;
-		case 4:		
-			for(i = 0; i < raiz.length; i++)
-				if(!raiz[i].classList.contains('active'))
-					raiz[i].classList.add('active');
-
-			if(definicao[0].classList.contains('active'))
-				for(i = 0; i < definicao.length; i++)
-						definicao[i].classList.remove('active');
-
-			if(grafico[0].classList.contains('active'))
-				for(i = 0; i < grafico.length; i++)
-					grafico[i].classList.remove('active');
-
-			if(casosParticulares[0].classList.contains('active'))
-				for(i = 0; i < casosParticulares.length; i++)
-					casosParticulares[i].classList.remove('active');
-
-			if(introducao[0].classList.contains('active'))
-				for(i = 0; i < introducao.length; i++)
-					introducao[i].classList.remove('active');
-
-			if(coeficiente[0].classList.contains('active'))
-				for(i = 0; i < coeficiente.length; i++)
-					coeficiente[i].classList.remove('active');
-			break;
-		case 5:		
-			for(i = 0; i < coeficiente.length; i++)
-				if(!coeficiente[i].classList.contains('active'))
-					coeficiente[i].classList.add('active');
-
-			if(definicao[0].classList.contains('active'))
-				for(i = 0; i < definicao.length; i++)
-						definicao[i].classList.remove('active');
-
-			if(grafico[0].classList.contains('active'))
-				for(i = 0; i < grafico.length; i++)
-					grafico[i].classList.remove('active');
-
-			if(casosParticulares[0].classList.contains('active'))
-				for(i = 0; i < casosParticulares.length; i++)
-					casosParticulares[i].classList.remove('active');
-
-			if(raiz[0].classList.contains('active'))
-				for(i = 0; i < raiz.length; i++)
-					raiz[i].classList.remove('active');
-
-			if(introducao[0].classList.contains('active'))
-				for(i = 0; i < introducao.length; i++)
-					introducao[i].classList.remove('active');
-			break;
-		default:
-			break;
 	}
 }
