@@ -4,29 +4,28 @@
         <meta charset="utf-8">
         <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found"/>
         <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
-        <link href="https://fonts.googleapis.com/css?family=Raleway"    rel="stylesheet" /> 
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">   
         <link rel="icon" href="logoFinal.png">
         
     </head>
     <body>
 
-        <label id="contraste"> Digite a função: </label>
+     <!--   <label id="contraste"> Digite a função: </label>
         <input id="funcao" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>    
         
         
-        <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()"> 
-        <center>
+        <input type="button" value="Gerar Gráfico"  class="button primary" onclick="validarFuncao()">  -->
 
-            <label style="font-family: Montserrat"> </label>
-            <img id="som"             src="imagens/IconeSom.png" style="display: none">
-            <img id="professorFuncio" src="imagens/ProfFuncio.jpg" style="display: none">
-            <span style="font-family: 'Montserrat'" />
-            
-            <div>
-                <canvas id="canvas"></canvas>
-            </div>
-        </center>
+        <label style="font-family: Montserrat;"></label>
+        <img id="img_expandir"        src="imagens/imagem_expandir.png"  style="display: none">
+        <img id="img_minimizar"       src="imagens/imagem_minimizar.png" style="display: none">
+        <img id="img_som"             src="imagens/IconeSom.png"         style="display: none">
+        <img id="img_professorFuncio" src="imagens/ProfFuncio.jpg"       style="display: none">
+        <span style="font-family: 'Montserrat'" />
+        
+        <div>
+            <canvas id="canvas"></canvas>
+        </div>
         
         <script src="js/canvas.js"> </script>
         <script src="js/vendor/jquery.js"></script>

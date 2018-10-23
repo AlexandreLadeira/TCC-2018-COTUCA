@@ -11,17 +11,10 @@ var qtasColunas = 0;
 
 var etapaAtual = 0;
 
-var mergemColunas, margemLinhas;
-
-// MessageBox
-var messageBoxProximoHabilitado  = false;
-var messageBoxAnteriorHabilitado = false;
-var messageBoxHabilitado         = false;
-
+var intervalos = [];
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
-function desenharGrade()
-{
+function desenharGrade() {
     // Configurações das linhas / colunas ------------------------------------------------------------- 
     c.strokeStyle = "rgb(169, 169, 169)";
     c.lineWidth = 1;
@@ -71,8 +64,7 @@ function desenharGrade()
 }
 
 // FUNÇÃO PARA DESENHAR OS EIXOS DO GRÁFICO
-function desenharEixos()
-{
+function desenharEixos() {
     c.beginPath();
 
     // Configurações dos eixos --------------------------------------------------------------------------
@@ -94,8 +86,7 @@ function desenharEixos()
 }
 
 // FUNÇÃO PARA ESCREVER AS POSIÇÕES DOS PONTOS NO GRÁFICO
-function escreverPontos(razaoLabels = 1)
-{
+function escreverPontos(razaoLabels = 1) {
     c.beginPath();
 
     // Configuração da fonte dos pontos -----------------------------------------------------------------
@@ -140,8 +131,7 @@ function escreverPontos(razaoLabels = 1)
 var a;
 var b;
 var funcao = "";
-function getAeBdaFuncao(x)
-{           
+function getAeBdaFuncao(x) {           
     let achou   = false; // Determina se achou um dos termos
 
     let aFunc   = ""; // Termo "a" da função
@@ -219,8 +209,7 @@ function getAeBdaFuncao(x)
     return [aFunc, bFunc]; // Retorna um vetor com duas posições, a primeira é o termo "a" e a segundo o termo "b"
 }
 
-function validarFuncao()
-{
+function validarFuncao() {
     
     funcao = document.getElementById("funcao").value;
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
@@ -250,142 +239,7 @@ function validarFuncao()
     }
 }
 
-
-/*
-// VARIÁVEIS SERÃO DEFINIDAS NO MÉTODO PROSSEGUIR
-var larguraMensagem;
-var alturaTitulo;
-var alturaMensagem;
-var ondeComecarX;
-var ondeComecarY;
-
-var alturaBotoes = 40;
-var larguraBotoes;
-var paddingBotoes = 20;
-var ondeComecarBotaoX;
-
-function prosseguir(titulo, mensagem, anteriorHabilitado, proximoHabilitado)
-{
-    let larguraDoCanvas = canvas.width;
-    let alturaDoCanvas  = canvas.height;
-
-    messageBoxHabilitado = true;
-
-    larguraMensagem = larguraDoCanvas * 5/6;
-    alturaTitulo    = alturaDoCanvas  * 1/12;
-
-    ondeComecarX = larguraDoCanvas * 1/12;
-    ondeComecarY = larguraDoCanvas * 1/12;
-
-    // Caixa de Título
-    c.beginPath();
-    c.shadowColor = "black";
-    c.shadowBlur = 10;
-    c.fillStyle = '#1779ba';
-    c.fillRect(ondeComecarX, ondeComecarY, larguraMensagem, alturaTitulo);
-    c.stroke();
-
-    // Texto do Título
-    c.beginPath();
-    c.shadowBlur = 0;
-    let margemTexto = 20;
-    c.fillStyle = 'white';
-    c.font = "36px Montserrat";
-    c.fillText(titulo, ondeComecarX + margemTexto, ondeComecarY + alturaTitulo - margemTexto, larguraMensagem - 2*margemTexto);
-    c.stroke();
-
-    // Caixa de Mensagem
-    c.shadowColor = "black";
-    c.shadowBlur = 10;
-
-    let qtasLinhas = c.measureText(mensagem).width /  (larguraMensagem - 2 * margemTexto);
-
-    alturaMensagem = qtasLinhas * 16 + margemTexto + 2*paddingBotoes + alturaBotoes;
-
-    c.fillStyle = "white";
-    c.fillRect(ondeComecarX, ondeComecarY + alturaTitulo, larguraMensagem, alturaMensagem);
-    c.stroke;
-    c.shadowBlur = 0;
-
-    // Texto da Mensagem
-    c.fillStyle = "black";
-    c.font = "24px Montserrat";
-
-    let palavras = mensagem.split(' ');
-    let linhaAtual = '';
-    let y = ondeComecarY + alturaTitulo + 2 * margemTexto;
-    let alturaLinha = 26;   // Recomendado: Tamanho da fonte + 2
-
-    for(let i = 0; i < palavras.length; i++) {
-        linhaAtual += palavras[i] + ' ';
-        var tamanhoLinhaAtual = c.measureText(linhaAtual);
-        var widthAtual = tamanhoLinhaAtual.width;
-        if (widthAtual > larguraMensagem - 2 * margemTexto) 
-        {
-            c.fillText(linhaAtual, ondeComecarX + margemTexto, y, larguraMensagem - 2*margemTexto);
-            linhaAtual = '';
-            y += alturaLinha;
-        }
-    }
-    c.fillText(linhaAtual, ondeComecarX + margemTexto, y, larguraMensagem - 2*margemTexto);
-
-    // Caixas dos Botões
-    c.shadowColor = "black";
-    c.shadowBlur = 5;
-    larguraBotoes = larguraMensagem / 5;
-    paddingBotoes = 20;
-    ondeComecarBotaoX = larguraMensagem / 2;
-
-    c.fillStyle = '#1779ba';
-
-    if (anteriorHabilitado)
-        c.fillRect(ondeComecarBotaoX - larguraBotoes - paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
-    
-    if(proximoHabilitado)
-        c.fillRect(ondeComecarBotaoX + larguraBotoes + paddingBotoes, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, larguraBotoes, alturaBotoes);
-    
-    c.stroke;
-    c.shadowBlur = 0;   
-
-    // Imagem do som
-    let imagem = new Image;
-    imagem.src = "imagens/IconeSom.png";
-    c.drawImage(document.getElementById("som"), canvas.width / 2 - 20, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes, 40, 40);
-
-
-    // Texto dos Botões
-
-    // -- Anterior
-    c.font = "24px Montserrat";
-    c.fillStyle = "white";
-
-    if (anteriorHabilitado)
-    {
-        messageBoxAnteriorHabilitado = true;
-
-        let tamanhoAnterior = c.measureText("Anterior");
-        let widthAnterior = tamanhoAnterior.width;
-        let paddingTextoAnterior = (larguraBotoes - widthAnterior)/2;
-    
-        c.fillText("Anterior", ondeComecarBotaoX - larguraBotoes - paddingBotoes + paddingTextoAnterior, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
-    }
-
-    // -- Próximo
-    if (proximoHabilitado)
-    {
-        messageBoxProximoHabilitado = true;
-
-        let tamanhoProximo = c.measureText("Próximo");
-        let widthProximo = tamanhoProximo.width;
-        let paddingTextoProximo = (larguraBotoes - widthProximo)/2;
-
-        c.fillText("Próximo",ondeComecarBotaoX + larguraBotoes + paddingBotoes + paddingTextoProximo, ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 26);
-    }
-}
-*/
-
-function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
-{
+function desenharMessageBox(titulo, mensagem, temAnterior, temProximo) {
     // Caixa base da mensagem ----------------------------------------------------------------------------
     c.beginPath();
     c.fillStyle = "white";
@@ -416,10 +270,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 
     // Para tornar o texto o menor possível: 
 
-    if (canvas.width > canvas.height)
-        c.font = canvas.height * 0.021 + "pt Montserrat";
-    else
-        c.font = canvas.width * 0.021 + "pt Montserrat";
+    c.font = canvas.height * 0.021 + "pt Montserrat";
 
     let posicaoY = canvas.height * 0.73 + 40;   // Posição depois da caixa de título com uma margem de 40px
     let palavras = mensagem.split(' ');
@@ -451,7 +302,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
 
     // Professor Funcio -----------------------------------------------------------------------------------
 
-    c.drawImage(document.getElementById("professorFuncio"), 
+    c.drawImage(document.getElementById("img_professorFuncio"), 
     canvas.width * 0.85625, canvas.height * 0.73 + 30, 
     canvas.width * 0.1, canvas.width * 0.078);
 
@@ -467,6 +318,8 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
     let heightBotoes     = canvas.height * 0.04;
 
     c.beginPath();
+    c.shadowColor = "black";
+    c.shadowBlur = 4;
     c.fillStyle = "rgb(23,121,186)";
     c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
     c.stroke();
@@ -477,6 +330,8 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
     let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
     c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
     c.stroke();
+
+    c.shadowBlur = 0;
 
     // Texto do Anterior:
     c.beginPath();
@@ -504,18 +359,57 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo)
     // Imagem de Ouvir Texto -------------------------------------------------------------------------------
     c.beginPath();
 
-    c.drawImage(document.getElementById("som"), 
-    20, canvas.height * 0.73 + canvas.width * 0.0105, 
+    c.drawImage(document.getElementById("img_som"), 
+    20, canvas.height * 0.73 + 45 - canvas.width * 0.021, 
     canvas.width * 0.021, canvas.width * 0.021);
 
     c.stroke();
 
-
     //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
+    c.beginPath();
+    c.drawImage(document.getElementById("img_minimizar"),
+    canvas.width * 0.958, canvas.height * 0.65 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
+    canvas.width * 0.013, canvas.width * 0.013);
+    c.stroke();
     
 }
 
-var anguloAtual = 0;
+// FUNÇÃO PARA ANIMAR O DESENHO DE UM PONTO EM UMA DADA POSIÇÃO DO CANVAS
+function desenharPonto(x, y, intervalo = 33.3) {
+    c.beginPath();
+    let anguloAtual = 0;
+    let animacao = setInterval(function(){
+        c.beginPath();
+        c.strokeStyle = '#1779ba';
+        c.lineWidth = 1;
+        c.arc(x, y, 10, anguloAtual - Math.PI / 180, anguloAtual + Math.PI / 180);
+        c.stroke();
+
+        anguloAtual += Math.PI / 180;
+
+        if (anguloAtual > Math.PI * 2)
+        {
+            c.beginPath();
+            
+            c.arc(x, y, 10, 0, Math.PI * 2);
+            c.fillStyle = '#1779ba';
+            c.fill();
+            c.stroke();
+            clearInterval(animacao);
+
+            let indice = intervalos.indexOf(animacao);
+
+            if(indice >= 0)
+                intervalos.splice(indice, 1);
+        }
+
+    }, intervalo);
+
+    intervalos.push(animacao);
+    return animacao;
+}
+
+/*
 function desenharPontos(x1, y1, x2, y2)
 {
     anguloAtual += 0.1;
@@ -567,7 +461,8 @@ function desenharPonto2(x2, y2)
         }, 400);  
     }
 }
-
+*/
+/*
 function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
 { 
     let deltaX = Math.abs(xFinal - xInicial);
@@ -713,7 +608,6 @@ function encontrarRazaoLabels(pontoX, pontoY)
     return razaoLabels;
 }
 
-/*
 var razaoLabels = 1;
 var x1, x2, y1, y2;
 var textoX1 = 0, textoX2 = 0, textoY1 = 0, textoY2 = 0;
@@ -851,7 +745,15 @@ function desenharGrafico(etapaAtual)
 }
 */
 
-function desenharGrafico(){
+function desenharGrafico() {
+
+    canvas.width = canvas.width;    // Reseta o Canvas
+
+    // Cancela todos os intervalos:
+    intervalos.forEach(function(indice, intervaloAtual){
+        clearInterval(intervaloAtual);
+    });
+
     desenharGrade();
     desenharEixos();
     escreverPontos();
@@ -860,8 +762,24 @@ function desenharGrafico(){
     + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
     + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
     + "valor de x (que será, na função dada, igual a 45456465465 ).", true, true);
+
+    setTimeout(function(){
+        let desenhoPonto1 = desenharPonto(canvas.width/2, canvas.height / 2, 5);
+
+        /*
+        if(intervalos.indexOf(desenhoPonto1) < 0)
+        {
+            setTimeout(function(){
+                desenharPonto(50, 50, 6);
+            }, 1300);
+        } */
+
+    }, 300);
+
+
 }
 
+/*
 // EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)
 var elem = document.getElementById('canvas'),
 elemLeft = elem.offsetLeft,
@@ -980,4 +898,4 @@ function movimentoMouse(event)
         elem.style.cursor = 'pointer';
     else
         elem.style.cursor = 'default';
-}
+}*/
