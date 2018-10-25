@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="icon" href="logoFinal.png">
     </head>
-    <body onload="iniciar()" class="scrollbar">  
+    <body onload="iniciar()" class="body">  
         <div class="topbar">
             <div class="botao" onclick="tratarMenu()">&#9776;</div>
             <div class="logo" onclick="tratarContainer()"></div>
@@ -19,14 +19,29 @@
             <a href="funcaoPrimeiroGrau.html"><img src="imagens/grafico.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Gráfico</a>
             <a href="encontrarFuncaoPeloGrafico.html"><img src="imagens/funcao.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Função</a>
             <a onclick="trocaEstilo()"><img src="imagens/contraste.png" class="icone">&nbsp;&nbsp;&nbsp;Alto contraste</a>
-            <div class="vel"><input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div>
+            <a><div class="vel"><img src="imagens/velocidade.png" class="icone">&nbsp;&nbsp;&nbsp;<input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div></a>
         </div>
         <div class="grid-container">  
 
             <br>
             <br>
             <br>
-            
+            <div style="display: flex; justify-content: space-around;">
+                <div class="circulo" onclick="tratarContainer(0)" id="0"></div>
+                <div class="reta"></div>
+                <div class="circulo" onclick="tratarContainer(1)"></div>
+                <div class="reta"></div>
+                <div class="circulo" onclick="tratarContainer(2)"></div> 
+                <div class="reta"></div>
+                <div class="circulo" onclick="tratarContainer(3)"></div>
+                <div class="reta"></div>
+                <div class="circulo" onclick="tratarContainer(4)"></div>
+                <div class="reta"></div>
+                <div class="circulo" onclick="tratarContainer(5)"></div>
+            </div>
+            <br>
+            <br>
+            <br>
             <div class="grid-x grid-margin-x">                                            
                 <div class="cell medium-12 introducao">
                         <h3>Introdução</h3>

@@ -1,10 +1,16 @@
-body.active {
-  overflow-y: hidden;
+.body{
+  overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+}
+
+.body.active {
+  overflow-y: visible;
 }
 /* MENU */
 
 .topbar {
-  display: flex;
+  display: inline-flex;
   position: fixed;
   background-color: #1779ba;
   width: 100%;
@@ -72,6 +78,9 @@ body.active {
   .menu.active {
     max-width: 50%;
   }  
+  .body.active {
+    overflow-y: visible;
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -87,8 +96,8 @@ body.active {
   .menu > div {
     font-size: 22px;
   }
-  .menu > a {
-    font-size: 22px;    
+  .body.active {
+    overflow-y: visible;
   }
 }
 
@@ -103,15 +112,14 @@ body.active {
     font-size: 19px;
   }
   .menu > div {
-    font-size: 16px;
+    font-size: 19px;
   }
-  .menu > a {
-    font-size: 15px;
-  }
-
   .icone{
     width: 25px;
     height: 25px;
+  }  
+  .body.active {
+    overflow-y: visible;
   }
 }
 
@@ -131,15 +139,8 @@ body.active {
   .botao {
     font-size: 15px;
   }
-  .menu > div {
-    font-size: 13px;
-  }
-  .menu > a {
-    font-size: 10px;
-  }
-  .icone{
-    width: 17px;
-    height: 17px;
+  .body.active {
+    overflow-y: hidden;
   }
 }
 
@@ -224,6 +225,45 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background-color: rgba(23,121,186, 0.8);
 }
+
+/* SCROLLBAR MENU */
+.menu::-webkit-scrollbar {
+  width: 0.7%;  
+  background-color: #88cbf586;
+}
+.menu::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+.menu::-webkit-scrollbar-thumb {
+  background-color: rgba(7, 55, 85, 0.8);
+}
+
+/* REPRESENTAÇÃO PASSO A PASSO TEORIA */
+
+.circulo {
+  background-color: lightgray;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px 50px 50px 50px;
+  transition: 1s;
+}
+
+.reta { 
+  background-color: lightgray;
+  margin-top: 15px;
+  width: 194px;
+  height: 10px;
+  transition: 1s;
+}
+
+.circulo.active {
+  background-color: #1779ba;
+}
+
+.reta.active {
+  background-color: #1779ba;
+}
+
 /*-----------------------------------*/
 
 .tabelaExemplo
@@ -272,60 +312,6 @@ h3{
   text-align: center;
 }
 
-.menu-hover-lines {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 1px;
-    transition: all 0.35s ease;
-  }
-  
-  .menu-hover-lines li a {
-    padding: 0.75rem 0;
-    color: rgba(10, 10, 10, 0.5);
-    position: relative;
-    margin-left: 1rem;
-  }
-  
-  .menu-hover-lines li:first-child a {
-    margin-left: 0;
-  }
-  
-  .menu-hover-lines li.active > a {
-    background-color: transparent;
-  }
-  
-  .menu-hover-lines a:before,
-  .menu-hover-lines a::after {
-    height: 3px;
-    position: absolute;
-    content: '';
-    transition: all 0.35s ease;
-    background-color: #1779ba;
-    width: 0;
-  }
-  
-  .menu-hover-lines a::before {
-    top: 0;
-    left: 0;
-  }
-  
-  .menu-hover-lines a::after {
-    bottom: 0;
-    right: 0;
-  }
-  
-  .menu-hover-lines a:hover,
-  .menu-hover-lines li.active > a {
-    color: #0a0a0a;
-    transition: all 0.35s ease;
-  }
-  
-  .menu-hover-lines a:hover::before,
-  .menu-hover-lines .active a::before,
-  .menu-hover-lines a:hover::after,
-  .menu-hover-lines .active a::after {
-    width: 100%;
-  }
-  
-  
+.grid-container {
+  flex-grow: 1;
+}

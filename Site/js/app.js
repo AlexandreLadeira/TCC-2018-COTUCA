@@ -131,44 +131,55 @@ function falar(indice)
 }
 
 var menu = document.querySelector('.menu');
-var body = document.querySelector('body');
+var body = document.querySelector('.body');
 
 function tratarMenu() {
 	menu.classList.toggle('active');
-	if(screen.width <= 430 || (window.outerWidth-10)/window.innerWidth > 5.7) {
-		if(!body.classList.contains('active'))
-			body.classList.add('active');
-	}
-	else
-		body.classList.remove('active');
+	body.classList.toggle('active');
 }
 
-var casosParticulares = document.querySelectorAll('.casosParticulares');
-var coeficiente       = document.querySelectorAll('.coeficiente');
-var introducao        = document.querySelectorAll('.introducao');
-var definicao         = document.querySelectorAll('.definicao');
-var grafico           = document.querySelectorAll('.grafico');
-var raiz              = document.querySelectorAll('.raiz');
+var vetOpcoes = [document.querySelectorAll('.introducao'), 
+				 document.querySelectorAll('.definicao'), 				 
+				 document.querySelectorAll('.grafico'), 
+				 document.querySelectorAll('.casosParticulares'),
+				 document.querySelectorAll('.raiz'),
+				 document.querySelectorAll('.coeficiente')]
 
+var botoes = document.querySelectorAll('.circulo');
+var retas  = document.querySelectorAll('.reta');
+				 
 
 function iniciar() {
-	for(i = 0; i < definicao.length; i++)
-		definicao[i].classList.add('active');
-
-	for(i = 0; i < grafico.length; i++)
-		grafico[i].classList.add('active');
-
-	for(i = 0; i < casosParticulares.length; i++)
-		casosParticulares[i].classList.add('active');
-
-	for(i = 0; i < raiz.length; i++)
-		raiz[i].classList.add('active');
-
-	for(i = 0; i < coeficiente.length; i++)
-		coeficiente[i].classList.add('active');
+	for(i = 1; i < vetOpcoes.length; i++)
+		for(j = 0; j < vetOpcoes[i].length; j++)
+			vetOpcoes[i][j].classList.add('active');
 }
 
 function tratarContainer(opcao) {
-	switch(opcao) {
+	for(i = 0; i < vetOpcoes.length; i++) {
+		if(i == opcao) {
+			for(j = 0; j < vetOpcoes[i].length; j++)
+				vetOpcoes[i][j].classList.remove('active');
+		} else 
+		if(i != opcao) {
+			for(j = 0; j < vetOpcoes[i].length; j++)
+				vetOpcoes[i][j].classList.add('active');
+		}
 	}
+	tratarPassoAPasso(opcao);
+}
+
+function tratarPassoAPasso(opcao) {
+	for(i = 0; i <= opcao; i++)
+		botoes[i].classList.add('active');
+
+	for(i = opcao + 1; i < botoes.length; i++)
+		botoes[i].classList.remove('active');
+
+	for(i = 0; i < opcao; i++)
+		retas[i].classList.add('active');
+
+	for(i = opcao; i < retas.length; i++)
+		retas[i].classList.remove('active');
+
 }
