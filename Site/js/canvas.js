@@ -375,9 +375,11 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo) {
 }
 
 // FUNÇÃO PARA ANIMAR O DESENHO DE UM PONTO EM UMA DADA POSIÇÃO DO CANVAS
+// Retorna o tempo que leva para realizar a animação em MS
 function desenharPonto(x, y, intervalo = 33.3) {
     c.beginPath();
     let anguloAtual = 0;
+
     let animacao = setInterval(function(){
         c.beginPath();
         c.strokeStyle = '#1779ba';
@@ -406,62 +408,74 @@ function desenharPonto(x, y, intervalo = 33.3) {
     }, intervalo);
 
     intervalos.push(animacao);
-    return animacao;
+    return intervalo * 361; // Tempo total que levará a execução da animação (setInterval é executado 361 vezes)
 }
 
-/*
-function desenharPontos(x1, y1, x2, y2)
-{
-    anguloAtual += 0.1;
-    c.beginPath();
-    c.arc(x1, y1, 8, 0, anguloAtual);  
-    c.lineWidth = 0.05;
-    c.strokeStyle = '#1779ba';
-    c.stroke();
+// FUNÇÃO PARA DESENHAR UMA RETA ENTRE DOIS PONTOS DADOS
+// retorna o tempo que leva para realizar a animação em MS
+function animarReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
 
-    if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
-        requestAnimationFrame(function(){desenharPontos(x1, y1, x2, y2);});
-    else
+    let deltaX = Math.abs(xFinal - xInicial);
+    let deltaY = Math.abs(yFinal - yInicial);
+
+    let aumentoX, aumentoY;
+
+    if (deltaX < deltaY)
     {
-        c.beginPath();
-        c.arc(x1, y1, 8, 0, 360);      
-        c.fillStyle = '#002699';
-        c.fill();
-        c.lineWidth = 1;
-        c.stroke;
-
-        anguloAtual = 0;
-        desenharPonto2(x2, y2);
+        aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
+        aumentoY = 1;
     }
-}
-
-function desenharPonto2(x2, y2)
-{    
-    anguloAtual += 0.1;
-    c.beginPath();
-    c.arc(x2, y2, 8, 0, anguloAtual);  
-    c.lineWidth = 0.05;
-    c.strokeStyle = '#1779ba';
-    c.stroke();
-
-    if (anguloAtual <= Math.PI * 2 + Math.PI / 2)
-        requestAnimationFrame(function(){desenharPonto2(x2, y2);});
     else
     {
+        aumentoX = 1;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
+        aumentoY = deltaY/deltaX;
+    }
+
+    let xAtual = xInicial;
+    let yAtual = yInicial;
+
+    let inter = setInterval(function(){
+
         c.beginPath();
-        c.arc(x2, y2, 8, 0, 360);     
-        c.fillStyle = '#002699';
+        c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);   // Raio = 2;
+        
+        if (xInicial < xFinal)
+            xAtual += aumentoX;
+        else if (xInicial > xFinal)
+            xAtual -= aumentoX;
+
+        if (yInicial < yFinal)
+            yAtual += aumentoY;
+        else if (yInicial > yFinal)
+            yAtual -= aumentoY; 
+        
+        c.fillStyle ='#1779ba';
         c.fill();
-        c.lineWidth = 1;
+        c.strokeStyle = '#1779ba';
         c.stroke();
 
-        // PROSSEGUE PARA A PRÓXIMA ETAPA APÓS ANIMAR O DESENHO DOS PONTOS
-        setTimeout(function(){
-            prosseguirEtapa(); 
-        }, 400);  
-    }
+        if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width))
+        {
+            clearInterval(inter);
+            if (etapaAtual == 2)
+                setTimeout(function()
+                {
+                    prosseguirEtapa();
+                }, 400);
+        }
+        
+        if (xInicial > xFinal && (xAtual <= xFinal || xAtual < 0 || xAtual > canvas.width))
+        {
+            clearInterval(inter);
+            if (etapaAtual == 2)
+                setTimeout(function()
+                {
+                    prosseguirEtapa();
+                }, 400);
+        }
+    }, intervalo);
 }
-*/
+
 /*
 function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
 { 
@@ -750,8 +764,8 @@ function desenharGrafico() {
     canvas.width = canvas.width;    // Reseta o Canvas
 
     // Cancela todos os intervalos:
-    intervalos.forEach(function(indice, intervaloAtual){
-        clearInterval(intervaloAtual);
+    intervalos.forEach(function(elemento, indice, array){
+        clearInterval(elemento);
     });
 
     desenharGrade();
@@ -763,19 +777,22 @@ function desenharGrafico() {
     + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
     + "valor de x (que será, na função dada, igual a 45456465465 ).", true, true);
 
-    setTimeout(function(){
-        let desenhoPonto1 = desenharPonto(canvas.width/2, canvas.height / 2, 5);
+    let intervaloPontoA = setTimeout(function(){
+        
+        let tempoAnimacaoPrimeiroPonto = desenharPonto(canvas.width/2, canvas.height / 2, 4);
 
-        /*
-        if(intervalos.indexOf(desenhoPonto1) < 0)
-        {
-            setTimeout(function(){
-                desenharPonto(50, 50, 6);
-            }, 1300);
-        } */
+        
+        let intervaloPontoB = setTimeout(function(){
+            let tempoAnimacaoSegundoPonto = desenharPonto(50, 50, 4);
+        }, tempoAnimacaoPrimeiroPonto + 400);  
+
+        intervalos.push(intervaloPontoB);
 
     }, 300);
 
+    intervalos.push(intervaloPontoA);
+
+    //animarReta(50, 50, canvas.width / 2, canvas.height / 2);
 
 }
 
