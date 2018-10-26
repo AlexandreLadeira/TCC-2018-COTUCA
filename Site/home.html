@@ -1,114 +1,123 @@
 <html>
-        <head>
-                <title> Home </title>
-                <meta charset="utf-8">
-                <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
-                <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found"/>
-                <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-                <link rel="icon" href="logoFinal.png">
 
-        </head>
+<head>
+  <title> Home </title>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+  <link href="css/foundation.css" type="text/css" rel="stylesheet" id="found" />
+  <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="icon" href="logoFinal.png">
+
+</head>
+
 <body>
+  <div class="grid-x grid-margin-x">
+    <div class="cell medium-2">
+      <img src="logoFinal.png" class="logo">
+    </div>
+
+    <div class="cell medium-8">
+      <div class="grid-container">
+        <div class="cell medium-8">
+          <ul class="menu menu-hover-lines">
+            <li class="active"><a href="home.html">Home</a></li>
+            <li><a href="teoriaAfim.html">Teoria</a></li>
+            <li><a href="funcaoPrimeiroGrau.html">Encontrar Gráfico</a></li>
+            <li><a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a></li>
+            <li><a onclick="trocaEstilo()">Alto contraste</a></li>
+          </ul>
+        </div>
+
+
         <div class="grid-x grid-margin-x">
-                <div class="cell medium-2">
-                        <img src="logoFinal.png" class="logo">
-                </div>                   
-                   
-                <div class="cell medium-8">
-                <div class="grid-container">  
-                <div class="cell medium-8">
-                        <ul class="menu menu-hover-lines">
-                                <li class="active"><a href="home.html">Home</a></li>
-                                <li><a href="teoriaAfim.html">Teoria</a></li>
-                                <li><a href="funcaoPrimeiroGrau.html">Encontrar Gráfico</a></li>
-                                <li><a href="encontrarFuncaoPeloGrafico.html">Encontrar Função</a></li>
-                                <li><a onclick="trocaEstiloHome()">Alto contraste</a></li>
-                        </ul>
-                </div>
 
-        
-                <div class="grid-x grid-margin-x">
-                       
-                        <div class="cell medium-12">
-                                <br>
-                        </div>
+          <div class="cell medium-12">
+            <br>
+          </div>
 
-                        <div class="cell medium-12 fonte">
-                                <b>Velocidade de reprodução: </b> 
-                                <input id="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.5">
-                        </div>
+          <div class="cell medium-12 fonte">
+            <b>Velocidade de reprodução: </b>
+            <input id="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.5">
+          </div>
 
-                        <div class="cell medium-12" >
-                                <h3>O projeto             
-                                </h3>
-                        </div>
+          <div class="cell medium-12">
+            <h3>O projeto
+            </h3>
+          </div>
 
-                        <div class="cell medium-12" id="texto1">
-                                <label class="fonte">
-                                        <p><a id = "player" onclick="falar(1);">
-                                                <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom1" >
-                                        </a>
-                                        O problema estudado é a dificuldade 
-                                        no aprendizado de funções de primeiro grau de estudantes do ensino médio, 
-                                        focando também em alunos com baixa visão.
-                                        </p>                                        
-                                        <p>
-                                        Escolhemos analisar como ensinar esse assunto de forma mais envolvente e atrativa, 
-                                        utilizando as tecnologias atuais, para alunos na faixa etária de 16 a 18 anos, <label hidden="true">.</label>pois ela é de extrema 
-                                        importância durante todo o ensino médio e se aplica a outras áreas, como Física ou Química.
-                                        </p>
-                                        <p>
-                                        Tendo em vista a função social da Educação e que o assunto em pauta exige a interpretação e construção de 
-                                        gráficos e fórmulas que, na maioria das vezes, não são adaptados a estudantes com baixa visão,<label hidden="true">.</label>  nosso projeto abordará,
-                                        também, soluções para as dificuldades que essas pessoas têm de encontrar recursos para estudar essa matéria.
-                                        </p>
-                                        Concluímos que, para solucionar essas questões, deve ser criada uma nova metodologia que aplica as atuais Tecnologias 
-                                        de Informação e Comunicação, de forma integrada,<label hidden="true">.</label>para instigar o aprendizado dos alunos e colaborar para tornar mais 
-                                        inclusiva a Educação em geral.                                        
-                                </label>
-                        </div>
+          <div class="cell medium-12" id="texto1">
+            <label class="fonte">
+              <p><a id="player" onclick="falar(1);">
+                  <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom1">
+                </a>
+                O problema estudado é a dificuldade
+                no aprendizado de funções de primeiro grau de estudantes do ensino médio,
+                focando também em alunos com baixa visão.
+              </p>
+              <p>
+                Escolhemos analisar como ensinar esse assunto de forma mais envolvente e atrativa,
+                utilizando as tecnologias atuais, para alunos na faixa etária de 16 a 18 anos, <label hidden="true">.</label>pois
+                ela é de extrema
+                importância durante todo o ensino médio e se aplica a outras áreas, como Física ou Química.
+              </p>
+              <p>
+                Tendo em vista a função social da Educação e que o assunto em pauta exige a interpretação e construção
+                de
+                gráficos e fórmulas que, na maioria das vezes, não são adaptados a estudantes com baixa visão,<label
+                  hidden="true">.</label> nosso projeto abordará,
+                também, soluções para as dificuldades que essas pessoas têm de encontrar recursos para estudar essa
+                matéria.
+              </p>
+              Concluímos que, para solucionar essas questões, deve ser criada uma nova metodologia que aplica as atuais
+              Tecnologias
+              de Informação e Comunicação, de forma integrada,<label hidden="true">.</label>para instigar o aprendizado
+              dos alunos e colaborar para tornar mais
+              inclusiva a Educação em geral.
+            </label>
+          </div>
 
-                        <div class="cell medium-12" >
-                                <h3>Sobre nós             
-                                </h3>
-                        </div>
+          <div class="cell medium-12">
+            <h3>Sobre nós
+            </h3>
+          </div>
 
-                        <div class="cell medium-6" id="texto2">
-                                <label class="fonte">
-                                        <p>
-                                        <a id = "player" onclick="falar(2);">
-                                                <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom2" >        
-                                        </a>
-                                        Somos alunos do último semestre do curso de Informática do Colégio Técnico de Campinas. 
-                                        </p>
-                                        <p>
-                                        O projeto foi desevolvido como nosso trabalho de conclusão de curso e foi iniciado no 
-                                        começo de 2018.
-                                        </p>
-                                        <p></p>
-                                        Somos um grupo de 3 pessoas: Alexandre Ladeira, Lucas de Almeida e Matheus Sforça.
-                                        </p> 
-                                       <b>Orientador:</b>Francisco da Fonseca Rodrigues, <b>Coorientador:</b>Sérgio Luiz Moral Marques 
-                                        
+          <div class="cell medium-6" id="texto2">
+            <label class="fonte">
+              <p>
+                <a id="player" onclick="falar(2);">
+                  <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom2">
+                </a>
+                Somos alunos do último semestre do curso de Informática do Colégio Técnico de Campinas.
+              </p>
+              <p>
+                O projeto foi desevolvido como nosso trabalho de conclusão de curso e foi iniciado no
+                começo de 2018.
+              </p>
+              <p></p>
+              Somos um grupo de 3 pessoas: Alexandre Ladeira, Lucas de Almeida e Matheus Sforça.
+              </p>
+              <b>Orientador:</b>Francisco da Fonseca Rodrigues, <b>Coorientador:</b>Sérgio Luiz Moral Marques
 
-                                </label>
-                                        
-                        </div>
 
-                        <div class="cell medium-6">
-                                <br>
-                                <br>
-                                <img src="imagens/nos.jpg" >
-                        </div>
+            </label>
 
-                </div>
+          </div>
+
+          <div class="cell medium-6">
+            <br>
+            <br>
+            <img src="imagens/nos.jpg">
+          </div>
+
+        </div>
         <label id="modo" hidden="true"></label>
         <audio id="som" src="" class="falar" hidden></audio>
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/app.js">  </script>
-        <script src="js/vendor/foundation.js" >  </script>
+        <script src="js/vendor/foundation.js">  </script>
         <script src="js/menu.js"> </script>
-        </body>
+</body>
+
 </html>

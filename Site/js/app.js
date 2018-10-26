@@ -1,68 +1,33 @@
 //Troca o estilo do site, para se adapatar a casos de alto contrates
 function trocaEstilo()
 {
-	//se não estiver em alto contraste, aplica o alto contraste
-	if(document.getElementById('modo').innerHTML == "") 
-	{
-		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
-		document.getElementById('found').setAttribute('href','css/foundation2.css');
-		document.getElementById('modo').innerHTML = "altoContraste";
+	if (localStorage.contraste) 
+		localStorage.removeItem('contraste');
+	else
+		localStorage.setItem('contraste', true);
 
-		
-		for(i = 1; i <= 7; i++)
-		{
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
-			document.getElementById('imagem'+i).src = "imagens/imagemc"+i+".jpg";
-		}
-
-		for (i = 8; i <= 14; i++)
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
-
-	}
-	else // se estiver volta ao normal
-	{
-		document.getElementById('estilo').setAttribute('href','css/app.css');
-		document.getElementById('found').setAttribute('href','css/foundation.css');
-		document.getElementById('modo').innerHTML = "";
-
-		for(i = 1; i <= 7; i++)
-		{
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
-			document.getElementById('imagem'+i).src = "imagens/imagem"+i+".jpg";
-		}
-
-		for (i = 8; i <= 14; i++)
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
-	}	
-
+	setContraste(localStorage.contraste);
 }
 
-//Troca o estilo da home do site, para se adapatar a casos de alto contrates
-function trocaEstiloHome()
-{
-	//se não estiver em alto contraste, aplica o alto contraste
-	if(document.getElementById('modo').innerHTML == "") 
-	{
-		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
-		document.getElementById('found').setAttribute('href','css/foundation2.css');
-		document.getElementById('modo').innerHTML = "altoContraste";
-
-		
-		for(i = 1; i <= 2; i++)
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSomC.png";
-	}
-	else // se estiver volta ao normal
-	{
+function setContraste(state) {
+	if (!state) {
 		document.getElementById('estilo').setAttribute('href','css/app.css');
 		document.getElementById('found').setAttribute('href','css/foundation.css');
-		document.getElementById('modo').innerHTML = "";
 
-		for(i = 1; i <= 2; i++)
-			document.getElementById('ouvirSom'+i).src = "imagens/IconeSom.png";
-	}	
-
+		document.querySelectorAll('[id^=ouvirSom]').forEach(obj => obj.src = "imagens/iconeSom.png");
+		document.querySelectorAll('[id^=imagem]').forEach((obj, i) => {
+			obj.src = 'imagens/imagem' + i + '.jpg';
+		});
+	} else {
+		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
+		document.getElementById('found').setAttribute('href','css/foundation2.css');
+		
+		document.querySelectorAll('[id^=ouvirSom]').forEach(obj => obj.src = "imagens/iconeSomC.png");
+		document.querySelectorAll('[id^=imagem]').forEach((obj, i) => {
+			obj.src = 'imagens/imagem' + i + '.jpg';
+		});
+	}
 }
-
 
 function moeda(z)
 {
@@ -130,3 +95,4 @@ function falar(indice)
 
 }
 
+window.onload = () => setContraste(localStorage.contraste);
