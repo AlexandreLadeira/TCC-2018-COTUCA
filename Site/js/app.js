@@ -146,13 +146,15 @@ var vetOpcoes = [document.querySelectorAll('.introducao'),
 				 document.querySelectorAll('.coeficiente')]
 
 var botoes = document.querySelectorAll('.circulo');
-var retas  = document.querySelectorAll('.reta');
+var reta  = document.querySelector('.reta');
 				 
 
 function iniciar() {
 	for(i = 1; i < vetOpcoes.length; i++)
 		for(j = 0; j < vetOpcoes[i].length; j++)
 			vetOpcoes[i][j].classList.add('active');
+
+	botoes[0].classList.add('active');
 }
 
 function tratarContainer(opcao) {
@@ -174,12 +176,7 @@ function tratarPassoAPasso(opcao) {
 		botoes[i].classList.add('active');
 
 	for(i = opcao + 1; i < botoes.length; i++)
-		botoes[i].classList.remove('active');
+		botoes[i].classList.remove('active');	
 
-	for(i = 0; i < opcao; i++)
-		retas[i].classList.add('active');
-
-	for(i = opcao; i < retas.length; i++)
-		retas[i].classList.remove('active');
-
+	reta.style.width = (100 / (botoes.length - 1))*opcao + "%";
 }
