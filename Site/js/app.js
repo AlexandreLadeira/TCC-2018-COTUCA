@@ -95,9 +95,7 @@ function falar(indice)
 
 }
 
-<<<<<<< HEAD
 window.onload = () => setContraste(localStorage.contraste);
-=======
 var menu = document.querySelector('.menu');
 var body = document.querySelector('.body');
 
@@ -148,4 +146,3 @@ function tratarPassoAPasso(opcao) {
 
 	reta.style.width = (100 / (botoes.length - 1))*opcao + "%";
 }
->>>>>>> novoVisual
