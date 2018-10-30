@@ -1,4 +1,5 @@
 .body{
+  font-family: 'Raleway', sans-serif;
   overflow-y: visible;
   display: flex;
   flex-direction: column;
@@ -155,6 +156,17 @@
   color: white;
 }
 
+.referencia > div > a {
+  color: white;
+}
+
+.hr1 {
+  border-color: #1779ba;
+}
+
+.hr2 {
+  border-color: white;
+}
 /* VELOCIDADE DE REPRODUÇÃO*/
 
 .velocidade {
@@ -261,17 +273,23 @@ body::-webkit-scrollbar-thumb {
   z-index: 0;
 }
 
+/* .circulo */
 .passoApasso > div {
+  cursor: pointer;
   background-color: lightgray;
   width: 40px;
   height: 40px;
   border-radius: 50px 50px 50px 50px;
   transition: 1s;
   z-index: 2;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .circulo.active {
   background-color: #1779ba;
+  color: white;
 }
 
 .reta{
@@ -283,6 +301,34 @@ body::-webkit-scrollbar-thumb {
   background-color: #1779ba;
   transition: 1s;
   z-index: 1;
+}
+
+.mensagem {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  justify-content: space-around;
+  z-index: 0;
+}
+
+.msg{
+  visibility: hidden;
+  position: relative;
+  font-weight: bold;
+  white-space: nowrap;
+  background-color: #1779ba;
+  color: White;
+  border-radius: 3px;
+}
+
+.msg.active{
+  visibility: visible;
+}
+
+[data-tooltip]:hover:after {
+  display: block;
 }
 
 /*-----------------------------------*/

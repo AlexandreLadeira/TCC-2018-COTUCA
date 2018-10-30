@@ -1,3 +1,22 @@
+var vetOpcoes = [document.querySelectorAll('.introducao'), 
+ 				 document.querySelectorAll('.definicao'), 				  
+				 document.querySelectorAll('.grafico'), 
+				 document.querySelectorAll('.casosParticulares'),
+				 document.querySelectorAll('.raiz'),
+				 document.querySelectorAll('.coeficiente')]
+
+var botoes = document.querySelectorAll('.circulo');
+var reta   = document.querySelector('.reta');
+
+
+function iniciar() {
+	for(i = 1; i < vetOpcoes.length; i++)
+		for(j = 0; j < vetOpcoes[i].length; j++)
+			vetOpcoes[i][j].classList.add('active');
+
+	botoes[0].classList.add('active');
+}
+
 //Troca o estilo do site, para se adapatar a casos de alto contrates
 function trocaEstilo()
 {
@@ -16,7 +35,10 @@ function setContraste(state) {
 
 		document.querySelectorAll('[id^=ouvirSom]').forEach(obj => obj.src = "imagens/iconeSom.png");
 		document.querySelectorAll('[id^=imagem]').forEach((obj, i) => {
-			obj.src = 'imagens/imagem' + i + '.jpg';
+			obj.src = 'imagens/imagem' + (i+1) + '.jpg';
+		});
+		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
+			obj.src = 'imagens/menu' + (i+1) + '.png';
 		});
 	} else {
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
@@ -24,7 +46,10 @@ function setContraste(state) {
 		
 		document.querySelectorAll('[id^=ouvirSom]').forEach(obj => obj.src = "imagens/iconeSomC.png");
 		document.querySelectorAll('[id^=imagem]').forEach((obj, i) => {
-			obj.src = 'imagens/imagem' + i + '.jpg';
+			obj.src = 'imagens/imagemc' + (i+1) + '.jpg';
+		});
+		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
+			obj.src = 'imagens/menuc' + (i+1) + '.png';
 		});
 	}
 }
@@ -95,32 +120,12 @@ function falar(indice)
 
 }
 
-window.onload = () => setContraste(localStorage.contraste);
 var menu = document.querySelector('.menu');
 var body = document.querySelector('.body');
 
 function tratarMenu() {
 	menu.classList.toggle('active');
 	body.classList.toggle('active');
-}
-
-var vetOpcoes = [document.querySelectorAll('.introducao'), 
-				 document.querySelectorAll('.definicao'), 				 
-				 document.querySelectorAll('.grafico'), 
-				 document.querySelectorAll('.casosParticulares'),
-				 document.querySelectorAll('.raiz'),
-				 document.querySelectorAll('.coeficiente')]
-
-var botoes = document.querySelectorAll('.circulo');
-var reta  = document.querySelector('.reta');
-				 
-
-function iniciar() {
-	for(i = 1; i < vetOpcoes.length; i++)
-		for(j = 0; j < vetOpcoes[i].length; j++)
-			vetOpcoes[i][j].classList.add('active');
-
-	botoes[0].classList.add('active');
 }
 
 function tratarContainer(opcao) {
@@ -146,3 +151,11 @@ function tratarPassoAPasso(opcao) {
 
 	reta.style.width = (100 / (botoes.length - 1))*opcao + "%";
 }
+
+function mostrarMensagem(c) {
+	document.querySelector(c).classList.add('active');
+}
+
+
+window.onload = () => setContraste(localStorage.contraste);
+window.onload = () => iniciar();

@@ -8,18 +8,18 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="icon" href="logoFinal.png">
     </head>
-    <body onload="iniciar()" class="body">  
+    <body class="body">  
         <div class="topbar">
             <div class="botao" onclick="tratarMenu()">&#9776;</div>
             <div class="logo" onclick="tratarContainer()"></div>
         </div>
         <div class="menu">
             <div onclick="tratarMenu()">&#9776;</div>
-            <a href="teoriaAfim.html"><img src="imagens/teoria.png" class="icone">&nbsp;&nbsp;&nbsp;Teoria</a>
-            <a href="funcaoPrimeiroGrau.html"><img src="imagens/grafico.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Gráfico</a>
-            <a href="encontrarFuncaoPeloGrafico.html"><img src="imagens/funcao.png" class="icone">&nbsp;&nbsp;&nbsp;Encontrar Função</a>
-            <a onclick="trocaEstilo()"><img src="imagens/contraste.png" class="icone">&nbsp;&nbsp;&nbsp;Alto contraste</a>
-            <a><div class="vel"><img src="imagens/velocidade.png" class="icone">&nbsp;&nbsp;&nbsp;<input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div></a>
+            <a href="teoriaAfim.html"><img src="imagens/menu1.png" class="icone" id="menu1">&nbsp;&nbsp;&nbsp;Teoria</a>
+            <a href="funcaoPrimeiroGrau.html"><img src="imagens/menu2.png" class="icone" id="menu2">&nbsp;&nbsp;&nbsp;Encontrar Gráfico</a>
+            <a href="encontrarFuncaoPeloGrafico.html"><img src="imagens/menu3.png" class="icone" id="menu3">&nbsp;&nbsp;&nbsp;Encontrar Função</a>
+            <a onclick="trocaEstilo()"><img src="imagens/menu4.png" class="icone" id="menu4">&nbsp;&nbsp;&nbsp;Alto contraste</a>
+            <a><div class="vel"><img src="imagens/menu5.png" class="icone" id="menu5">&nbsp;&nbsp;&nbsp;<input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div></a>
         </div>
         <div class="grid-container">  
 
@@ -29,12 +29,20 @@
             <div class="passoApasso">
                 <span class="reta"></span>
                 <span class="retaFundo"></span>
-                <div class="circulo" onclick="tratarContainer(0)"></div>
-                <div class="circulo" onclick="tratarContainer(1)"></div>
-                <div class="circulo" onclick="tratarContainer(2)"></div> 
-                <div class="circulo" onclick="tratarContainer(3)"></div>
-                <div class="circulo" onclick="tratarContainer(4)"></div>
-                <div class="circulo" onclick="tratarContainer(5)"></div>
+                <div class="circulo" onclick="tratarContainer(0)" onmouseover="mostrarMensagem('msg0')">1</div>
+                <div class="circulo" onclick="tratarContainer(1)" onmouseover="mostrarMensagem('msg1')">2</div>
+                <div class="circulo" onclick="tratarContainer(2)" onmouseover="mostrarMensagem('msg2')">3</div>
+                <div class="circulo" onclick="tratarContainer(3)" onmouseover="mostrarMensagem('msg3')">4</div>
+                <div class="circulo" onclick="tratarContainer(4)" onmouseover="mostrarMensagem('msg4')">5</div>
+                <div class="circulo" onclick="tratarContainer(5)" onmouseover="mostrarMensagem('msg5')">6</div>
+            </div>
+            <div class="mensagem">
+                <div class="msg0">Introdução</div>
+                <div class="msg1">Definição</div>
+                <div class="msg2">Gráfico Cartesiano</div>
+                <div class="msg3">Casos Particulares</div>
+                <div class="msg4">Raiz da Equação</div>
+                <div class="msg5">Coeficiente e Inclinação</div>
             </div>
             <br>
             <br>
@@ -317,9 +325,9 @@
             </div> <!--grid-->
         </div> <!--containter-->
         <div class="referencia">
-            <hr style="border-color: #1779ba;"></hr>
+            <hr class="hr1"></hr>
             <div>Icons from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            <hr style="border-color: white;"></hr>
+            <hr class="hr2"></hr>
                 Nos baseamos no livro Matemática volume único para formular a teoria. 
                 <br>
                 FUNÇÃO Afim. In: IEZZI, Gelson et al. Matemática volume único . 
