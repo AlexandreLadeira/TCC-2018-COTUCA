@@ -95,4 +95,57 @@ function falar(indice)
 
 }
 
+<<<<<<< HEAD
 window.onload = () => setContraste(localStorage.contraste);
+=======
+var menu = document.querySelector('.menu');
+var body = document.querySelector('.body');
+
+function tratarMenu() {
+	menu.classList.toggle('active');
+	body.classList.toggle('active');
+}
+
+var vetOpcoes = [document.querySelectorAll('.introducao'), 
+				 document.querySelectorAll('.definicao'), 				 
+				 document.querySelectorAll('.grafico'), 
+				 document.querySelectorAll('.casosParticulares'),
+				 document.querySelectorAll('.raiz'),
+				 document.querySelectorAll('.coeficiente')]
+
+var botoes = document.querySelectorAll('.circulo');
+var reta  = document.querySelector('.reta');
+				 
+
+function iniciar() {
+	for(i = 1; i < vetOpcoes.length; i++)
+		for(j = 0; j < vetOpcoes[i].length; j++)
+			vetOpcoes[i][j].classList.add('active');
+
+	botoes[0].classList.add('active');
+}
+
+function tratarContainer(opcao) {
+	for(i = 0; i < vetOpcoes.length; i++) {
+		if(i == opcao) {
+			for(j = 0; j < vetOpcoes[i].length; j++)
+				vetOpcoes[i][j].classList.remove('active');
+		} else 
+		if(i != opcao) {
+			for(j = 0; j < vetOpcoes[i].length; j++)
+				vetOpcoes[i][j].classList.add('active');
+		}
+	}
+	tratarPassoAPasso(opcao);
+}
+
+function tratarPassoAPasso(opcao) {
+	for(i = 0; i <= opcao; i++)
+		botoes[i].classList.add('active');
+
+	for(i = opcao + 1; i < botoes.length; i++)
+		botoes[i].classList.remove('active');	
+
+	reta.style.width = (100 / (botoes.length - 1))*opcao + "%";
+}
+>>>>>>> novoVisual
