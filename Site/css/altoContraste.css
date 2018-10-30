@@ -1,9 +1,5 @@
-
-
 .tamanho{
 	font-size: 20px;
-	
-
 }
 
 #resultado{
@@ -64,19 +60,9 @@ a {
 }
 
 
-
 canvas{
     border: solid 1px black;
 }
-
-body {
-	background-color: black;
-    font-family: 'Raleway', sans-serif;
-
-
-}
-
-
 
 h3{
   background-color: black;
@@ -86,59 +72,334 @@ h3{
   text-align: center;
 }
 
-.menu-hover-lines {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 500;
-    letter-spacing: 1px;
-    transition: all 0.35s ease;
+/*----------------------------------------------------*/
+
+.body{
+  background-color: black;
+  font-family: 'Raleway', sans-serif;
+  overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+}
+
+.body.active {
+  overflow-y: visible;
+}
+
+/* DATA-TOLLTIP*/
+
+[data-tooltip] {
+  position: relative;
+  font-weight: bold;
+}
+
+[data-tooltip]:after {
+  display: none;
+  position: absolute;
+  top: 45px;  
+  padding: 5px;
+  border-radius: 3px;
+  content: attr(data-tooltip);
+  white-space: nowrap;
+  background-color: yellow;
+  color: black;
+}
+
+[data-tooltip]:hover:after {
+  display: block;
+}
+
+/* MENU */
+
+.topbar {
+  display: inline-flex;
+  position: fixed;
+  background-color: yellow;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  transition: 1s;
+  z-index: 1;
+}
+
+.logo {
+  width: 200px;
+  height: 50px;
+  background-color: #80c9f7; 
+  transition: 1s;
+}
+
+.botao {  
+  font-size: 35px;
+  cursor: pointer;
+  margin-left: 10px;
+  color: black;
+  width: 35px;
+}
+
+.menu {
+  position: fixed;
+  display: block;
+  top: 0;
+  height: 100%;
+  background-color: yellow;
+  transition: 1s ease;
+  overflow: hidden;
+  max-width: 20%;
+  left: -25%;  
+  z-index:1;
+}
+
+.menu > div {
+  font-size: 35px;
+  cursor: pointer;
+  margin-left: 10px;
+  color: black;
+}
+
+.menu > a {
+  color: black;
+  transition: 0.4s;
+  white-space: nowrap;
+  border-bottom: 1.5px block #054369;
+}
+
+.menu > a:hover {
+  color: black;
+  background-color: rgb(148, 148, 0);
+}
+
+.menu.active {
+  left: 0;
+}
+
+.icone {
+  width: 40px;
+  height: 40px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .menu.active {
+    max-width: 50%;
+  }  
+  .body.active {
+    overflow-y: visible;
   }
-  
-  .menu-hover-lines li a {
-    padding: 0.75rem 0;
-    color: yellow;
-    position: relative;
-    margin-left: 1rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .topbar {
+    height: 35px;
+  }  
+  .logo {
+    height: 35px;
   }
-  
-  .menu-hover-lines li:first-child a {
-    margin-left: 0;
+  .botao {
+    font-size: 22px;
   }
-  
-  .menu-hover-lines li.active > a {
-    background-color: transparent;
+  .menu > div {
+    font-size: 22px;
   }
-  
-  .menu-hover-lines a:before,
-  .menu-hover-lines a::after {
-    height: 3px;
-    position: absolute;
-    content: '';
-    transition: all 0.35s ease;
-    background-color: yellow;
-    width: 0;
+  .body.active {
+    overflow-y: visible;
   }
-  
-  .menu-hover-lines a::before {
-    top: 0;
-    left: 0;
+}
+
+@media only screen and (max-width: 700px) {
+  .topbar {
+    height: 30px;
+  } 
+  .logo{
+    height: 30px;
+  } 
+  .botao {
+    font-size: 19px;
   }
-  
-  .menu-hover-lines a::after {
-    bottom: 0;
-    right: 0;
+  .menu > div {
+    font-size: 19px;
   }
-  
-  .menu-hover-lines a:hover,
-  .menu-hover-lines li.active > a {
-    color: yellow;
-    transition: all 0.35s ease;
+  .icone{
+    width: 25px;
+    height: 25px;
+  }  
+  .body.active {
+    overflow-y: visible;
   }
-  
-  .menu-hover-lines a:hover::before,
-  .menu-hover-lines .active a::before,
-  .menu-hover-lines a:hover::after,
-  .menu-hover-lines .active a::after {
-    width: 100%;
+}
+
+/* Zoom de 400% */
+@media only screen and (max-width: 430px) {
+  .menu.active {
+      max-width: 100%;
+      width: 100%;
+      overflow-y: visible;
   }
-  
+  .topbar {
+    height: 25px;
+  } 
+  .logo {
+    height: 25px;
+  }
+  .botao {
+    font-size: 15px;
+  }
+  .body.active {
+    overflow-y: hidden;
+  }
+}
+
+/* RODAPE*/
+.referencia {
+  width: 100%;
+  background-color: yellow;
+  text-align: center;
+  font-size: 12px;
+  color: black;
+}
+
+.referencia > div > a {
+  color: black;
+}
+
+.hr1 {
+  border-color: yellow;
+}
+
+.hr2 {
+  border-color: black;
+}
+
+/* VELOCIDADE DE REPRODUÇÃO*/
+
+.velocidade {
+  -webkit-appearance: none;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.velocidade:hover {
+  opacity: 1;
+}
+
+.vel{
+  padding-top: 3px;
+}
+
+.velocidade::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: black;
+  cursor: pointer;
+}
+
+.velocidade::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: black;
+  cursor: pointer;
+}
+
+.introducao.active {
+  display: none;
+}
+
+.definicao.active {
+  display: none;
+}
+
+.grafico.active {
+  display: none;
+}
+
+.casosParticulares.active {
+  display: none;
+}
+
+.raiz.active {
+  display: none;
+}
+
+.coeficiente.active {
+  display: none;
+}
+
+/* SCROLLBAR WINDOWS */
+body::-webkit-scrollbar {
+  width: 0.7%;  
+}
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: yellow;
+}
+
+/* SCROLLBAR MENU */
+.menu::-webkit-scrollbar {
+  width: 0.7%;  
+  background-color: #88cbf586;
+}
+.menu::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+.menu::-webkit-scrollbar-thumb {
+  background-color: rgb(129, 129, 29);
+}
+
+/* REPRESENTAÇÃO PASSO A PASSO TEORIA */
+.passoApasso {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  justify-content: space-between;
+  z-index: 0;
+}
+
+.retaFundo {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  margin: 0 auto;
+  background-color: lightgray;
+  align-self: center;
+  z-index: 0;
+}
+
+/* Circulo */
+
+.passoApasso > div {
+  background-color: lightgray;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px 50px 50px 50px;
+  transition: 1s;
+  z-index: 2;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.circulo.active {
+  background-color: yellow;
+}
+
+.reta{
+  position: absolute;
+  align-self: center;
+  margin: 0 auto;
+  width: 0px;
+  height: 5px;
+  background-color: yellow;
+  transition: 1s;
+  z-index: 1;
+}
