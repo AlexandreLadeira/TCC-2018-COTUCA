@@ -13,6 +13,12 @@ var etapaAtual = 0;
 
 var intervalos = [];
 
+// Message Box
+var messageBoxHabilitado         = true;
+var messageBoxAnteriorHabilitado = true;
+var messageBoxProximoHabilitado  = true;
+var messageBoxMinimizado         = true;
+
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
     // Configurações das linhas / colunas ------------------------------------------------------------- 
@@ -239,139 +245,176 @@ function validarFuncao() {
     }
 }
 
-function desenharMessageBox(titulo, mensagem, temAnterior, temProximo) {
-    // Caixa base da mensagem ----------------------------------------------------------------------------
-    c.beginPath();
-    c.fillStyle = "white";
-    c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.35);
-    c.stroke();
+function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizado = false) {
 
-    // Caixa do título da mensagem -----------------------------------------------------------------------
-    c.beginPath();
-    c.fillStyle = "rgb(23,121,186)";
-    c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.08);
-    c.stroke();   
+    if (!minimizado)
+    {
+        // Caixa base da mensagem ----------------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "white";
+        c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.35);
+        c.stroke();
 
-    // Texto do título -----------------------------------------------------------------------------------
-    c.beginPath();
-    c.fillStyle = "white";
-    c.font = canvas.height * 0.03 + "pt Montserrat";
-    
-    // Responsividade => Layout funcional até 320px
-    if (c.measureText(titulo).width >= canvas.width)
+        // Caixa do título da mensagem -----------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "rgb(23,121,186)";
+        c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.08);
+        c.stroke();   
+
+        // Texto do título -----------------------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "white";
+        c.font = canvas.height * 0.03 + "pt Montserrat";
+        
+        // Responsividade => Layout funcional até 320px
+        if (c.measureText(titulo).width >= canvas.width)
+            c.font = canvas.height * 0.021 + "pt Montserrat";
+
+        c.fillText(titulo, 20, canvas.height * 0.705, canvas.width); // 20 é a margem
+        c.stroke();
+
+        // Texto da mensagem ---------------------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "black";
+
+        // Para tornar o texto o menor possível: 
+
         c.font = canvas.height * 0.021 + "pt Montserrat";
 
-    c.fillText(titulo, 20, canvas.height * 0.705, canvas.width); // 20 é a margem
-    c.stroke();
+        let posicaoY = canvas.height * 0.73 + 40;   // Posição depois da caixa de título com uma margem de 40px
+        let palavras = mensagem.split(' ');
+        let linhaAtual = "";
+        let indice = 0;
+        let primeiraLinha = true;
 
-    // Texto da mensagem ---------------------------------------------------------------------------------
-    c.beginPath();
-    c.fillStyle = "black";
-
-    // Para tornar o texto o menor possível: 
-
-    c.font = canvas.height * 0.021 + "pt Montserrat";
-
-    let posicaoY = canvas.height * 0.73 + 40;   // Posição depois da caixa de título com uma margem de 40px
-    let palavras = mensagem.split(' ');
-    let linhaAtual = "";
-    let indice = 0;
-    let primeiraLinha = true;
-
-    for(let i = 0; i < palavras.length; i++) 
-    {
-        linhaAtual += palavras[i] + " ";
-
-        if (c.measureText(linhaAtual).width > canvas.width * 0.8125) 
+        for(let i = 0; i < palavras.length; i++) 
         {
-            if (primeiraLinha)
+            linhaAtual += palavras[i] + " ";
+
+            if (c.measureText(linhaAtual).width > canvas.width * 0.8125) 
             {
-                c.fillText(linhaAtual, canvas.width * 0.024 + 20 , posicaoY, canvas.width * 0.7885);
-                primeiraLinha = false;
+                if (primeiraLinha)
+                {
+                    c.fillText(linhaAtual, canvas.width * 0.024 + 20 , posicaoY, canvas.width * 0.7885);
+                    primeiraLinha = false;
+                }
+                else
+                    c.fillText(linhaAtual, 20, posicaoY, canvas.width * 0.8125);
+
+                linhaAtual = "";
+                posicaoY += canvas.width * 0.021;
             }
-            else
-                c.fillText(linhaAtual, 20, posicaoY, canvas.width * 0.8125);
-
-            linhaAtual = "";
-            posicaoY += canvas.width * 0.021;
         }
+
+        c.fillText(linhaAtual, 20, posicaoY);
+        c.stroke();
+
+        // Professor Funcio -----------------------------------------------------------------------------------
+
+        c.drawImage(document.getElementById("img_professorFuncio"), 
+        canvas.width * 0.85625, canvas.height * 0.73 + 30, 
+        canvas.width * 0.1, canvas.width * 0.078);
+
+        // Botões ----------------------------------------------------------------------------------------------
+
+        let centroPrincipalBotoes = canvas.width * 0.90625; // Centro base para os botões (Coincide com o 
+                                                            // centro da imagem do personagem)
+
+        // Anterior: 
+        let posicaoXAnterior = canvas.width  * 0.8125 + 36;
+        let posicaoYBotoes   = canvas.height * 0.73 + 40 + canvas.width * 0.078;
+        let widthBotoes      = canvas.width  * 0.055;
+        let heightBotoes     = canvas.height * 0.04;
+
+        c.beginPath();
+        c.shadowColor = "black";
+        c.shadowBlur = 4;
+        c.fillStyle = "rgb(23,121,186)";
+        c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
+        c.stroke();
+
+        // Próximo:
+        c.beginPath();
+        c.fillStyle = "rgb(23,121,186)";
+        let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
+        c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
+        c.stroke();
+
+        c.shadowBlur = 0;
+
+        // Texto do Anterior:
+        c.beginPath();
+        c.font = canvas.height * 0.017 + "pt Montserrat";
+        c.fillStyle = "white";
+        let margemTextoAnterior = (widthBotoes - c.measureText("Anterior").width) / 2;
+
+        c.fillText("Anterior", posicaoXAnterior + margemTextoAnterior, 
+                posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+
+        c.stroke();
+
+        // Texto do Próximo:
+        c.beginPath();
+        c.font = canvas.height * 0.017 + "pt Montserrat";
+        c.fillStyle = "white";
+        let margemTextoProximo = (canvas.width * 0.055 - c.measureText("Próximo").width) / 2;
+
+        c.fillText("Próximo", centroPrincipalBotoes + distanciaCentroAoAnterior + margemTextoProximo, 
+                posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+
+        c.stroke();
+
+
+        // Imagem de Ouvir Texto -------------------------------------------------------------------------------
+        c.beginPath();
+
+        c.drawImage(document.getElementById("img_som"), 
+        20, canvas.height * 0.73 + 45 - canvas.width * 0.021, 
+        canvas.width * 0.021, canvas.width * 0.021);
+
+        c.stroke();
+
+        //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
+        c.beginPath();
+        c.drawImage(document.getElementById("img_minimizar"),
+        canvas.width * 0.958, canvas.height * 0.65 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
+        canvas.width * 0.013, canvas.width * 0.013);
+        c.stroke();
     }
+    // DESENHAR O MESSAGE BOX MINIMIZADO
+    else    
+    {
+        // Caixa do título da mensagem -----------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "rgb(23,121,186)";
+        c.fillRect(0, canvas.height * 0.93, canvas.width, canvas.height * 0.07);
+        c.stroke();   
 
-    c.fillText(linhaAtual, 20, posicaoY);
-    c.stroke();
+        // Texto do título -----------------------------------------------------------------------------------
+        c.beginPath();
+        c.fillStyle = "white";
+        c.font = canvas.height * 0.03 + "pt Montserrat";
+        
+        // Responsividade => Layout funcional até 320px
+        if (c.measureText(titulo).width >= canvas.width)
+            c.font = canvas.height * 0.021 + "pt Montserrat";
 
-    // Professor Funcio -----------------------------------------------------------------------------------
+        c.fillText(titulo, 20, canvas.height * 0.985, canvas.width); // 20 é a margem
+        c.stroke();
 
-    c.drawImage(document.getElementById("img_professorFuncio"), 
-    canvas.width * 0.85625, canvas.height * 0.73 + 30, 
-    canvas.width * 0.1, canvas.width * 0.078);
+        //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
+        c.beginPath();
+        c.drawImage(document.getElementById("img_expandir"),
+        canvas.width * 0.958, canvas.height * 0.93 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
+        canvas.width * 0.013, canvas.width * 0.013);
+        c.stroke();
+    }
+}
 
-    // Botões ----------------------------------------------------------------------------------------------
-
-    let centroPrincipalBotoes = canvas.width * 0.90625; // Centro base para os botões (Coincide com o 
-                                                        // centro da imagem do personagem)
-
-    // Anterior: 
-    let posicaoXAnterior = canvas.width  * 0.8125 + 36;
-    let posicaoYBotoes   = canvas.height * 0.73 + 40 + canvas.width * 0.078;
-    let widthBotoes      = canvas.width  * 0.055;
-    let heightBotoes     = canvas.height * 0.04;
-
-    c.beginPath();
-    c.shadowColor = "black";
-    c.shadowBlur = 4;
-    c.fillStyle = "rgb(23,121,186)";
-    c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
-    c.stroke();
-
-    // Próximo:
-    c.beginPath();
-    c.fillStyle = "rgb(23,121,186)";
-    let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
-    c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
-    c.stroke();
-
-    c.shadowBlur = 0;
-
-    // Texto do Anterior:
-    c.beginPath();
-    c.font = canvas.height * 0.017 + "pt Montserrat";
-    c.fillStyle = "white";
-    let margemTextoAnterior = (widthBotoes - c.measureText("Anterior").width) / 2;
-
-    c.fillText("Anterior", posicaoXAnterior + margemTextoAnterior, 
-               posicaoYBotoes + canvas.height * 0.03, widthBotoes);
-
-    c.stroke();
-
-    // Texto do Próximo:
-    c.beginPath();
-    c.font = canvas.height * 0.017 + "pt Montserrat";
-    c.fillStyle = "white";
-    let margemTextoProximo = (canvas.width * 0.055 - c.measureText("Próximo").width) / 2;
-
-    c.fillText("Próximo", centroPrincipalBotoes + distanciaCentroAoAnterior + margemTextoProximo, 
-               posicaoYBotoes + canvas.height * 0.03, widthBotoes);
-
-    c.stroke();
-
-
-    // Imagem de Ouvir Texto -------------------------------------------------------------------------------
-    c.beginPath();
-
-    c.drawImage(document.getElementById("img_som"), 
-    20, canvas.height * 0.73 + 45 - canvas.width * 0.021, 
-    canvas.width * 0.021, canvas.width * 0.021);
-
-    c.stroke();
-
-    //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
-    c.beginPath();
-    c.drawImage(document.getElementById("img_minimizar"),
-    canvas.width * 0.958, canvas.height * 0.65 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
-    canvas.width * 0.013, canvas.width * 0.013);
-    c.stroke();
-    
+function fecharMessageBox() {
+    messageBoxHabilitado         = false;
+    messageBoxAnteriorHabilitado = false;
+    messageBoxProximoHabilitado  = false;
 }
 
 // FUNÇÃO PARA ANIMAR O DESENHO DE UM PONTO EM UMA DADA POSIÇÃO DO CANVAS
@@ -413,7 +456,7 @@ function desenharPonto(x, y, intervalo = 33.3) {
 
 // FUNÇÃO PARA DESENHAR UMA RETA ENTRE DOIS PONTOS DADOS
 // retorna o tempo que leva para realizar a animação em MS
-function animarReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
+function desenharReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
 
     let deltaX = Math.abs(xFinal - xInicial);
     let deltaY = Math.abs(yFinal - yInicial);
@@ -477,68 +520,6 @@ function animarReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
 }
 
 /*
-function animarReta(xInicial, yInicial, xFinal, yFinal, velocidade) // Velocidade: Quanto maior, mais lento
-{ 
-    let deltaX = Math.abs(xFinal - xInicial);
-    let deltaY = Math.abs(yFinal - yInicial);
-
-    let aumentoX, aumentoY;
-
-    if (deltaX < deltaY)
-    {
-        aumentoX = deltaX/deltaY;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
-        aumentoY = 1;
-    }
-    else
-    {
-        aumentoX = 1;   //Ao aumentar Y em 1, devemos aumentar X em aumentoX
-        aumentoY = deltaY/deltaX;
-    }
-
-    let xAtual = xInicial;
-    let yAtual = yInicial;
-
-    let intervalo = setInterval(function(){
-
-        c.beginPath();
-        c.arc(xAtual, yAtual, 2, 0, Math.PI * 2);   // Raio = 2;
-        
-        if (xInicial < xFinal)
-            xAtual += aumentoX;
-        else if (xInicial > xFinal)
-            xAtual -= aumentoX;
-
-        if (yInicial < yFinal)
-            yAtual += aumentoY;
-        else if (yInicial > yFinal)
-            yAtual -= aumentoY; 
-        
-        c.fillStyle ='#1779ba';
-        c.fill();
-        c.strokeStyle = '#1779ba';
-        c.stroke();
-
-        if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width))
-        {
-            clearInterval(intervalo);
-            if (etapaAtual == 2)
-                setTimeout(function()
-                {
-                    prosseguirEtapa();
-                }, 400);
-        }
-        
-        if (xInicial > xFinal && (xAtual <= xFinal || xAtual < 0 || xAtual > canvas.width))
-        {
-            clearInterval(intervalo);
-            if (etapaAtual == 2)
-                setTimeout(function()
-                {
-                    prosseguirEtapa();
-                }, 400);
-        }
-    }, velocidade);
-}
 
 function prosseguirEtapa()
 {
@@ -764,18 +745,21 @@ function desenharGrafico() {
     canvas.width = canvas.width;    // Reseta o Canvas
 
     // Cancela todos os intervalos:
-    intervalos.forEach(function(elemento, indice, array){
+    intervalos.forEach(function(elemento, indice, array) {
         clearInterval(elemento);
     });
 
     desenharGrade();
     desenharEixos();
     escreverPontos();
+
+    
+    /*
     desenharMessageBox("Etapa 1: Definição de Dois Pontos", "O primeiro passo para determinar o gráfico da função "
-    + "dada (f(x) = 99999x + 1516), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
+    + "dada (f(x) = 3x), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
     + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
     + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-    + "valor de x (que será, na função dada, igual a 45456465465 ).", true, true);
+    + "valor de x (que será, na função dada, igual a 0).", true, true, messageBoxMinimizado);
 
     let intervaloPontoA = setTimeout(function(){
         
@@ -783,92 +767,105 @@ function desenharGrafico() {
 
         
         let intervaloPontoB = setTimeout(function(){
-            let tempoAnimacaoSegundoPonto = desenharPonto(50, 50, 4);
+            let tempoAnimacaoSegundoPonto = desenharPonto(canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 4);
+
+            let intervaloReta = setTimeout(function(){
+             //   animarReta(canvas.width/2, canvas.height/2, canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 5);
+            }, tempoAnimacaoSegundoPonto)
+
+            intervalos.push(intervaloReta);
+
         }, tempoAnimacaoPrimeiroPonto + 400);  
 
         intervalos.push(intervaloPontoB);
 
     }, 300);
 
-    intervalos.push(intervaloPontoA);
-
-    //animarReta(50, 50, canvas.width / 2, canvas.height / 2);
-
+    intervalos.push(intervaloPontoA); */
 }
 
-/*
+
 // EVENTOS (MOVIMENTO DO MOUSE E CLIQUE DO MOUSE)
 var elem = document.getElementById('canvas'),
 elemLeft = elem.offsetLeft,
 elemTop = elem.offsetTop;
 
-
-function mouseSobreAnterior(x, y)
-{
-    return messageBoxAnteriorHabilitado && 
-    (x > ondeComecarBotaoX - larguraBotoes - paddingBotoes && x < ondeComecarBotaoX - paddingBotoes) && // Coordenada X
+function mouseSobreAnterior(x, y) {
+    return messageBoxAnteriorHabilitado &&  !messageBoxMinimizado &&
+    (
+        x >= canvas.width  * 0.8125 + 36 &&  // Coordenada X
+        x <= canvas.width  * 0.8675 + 36     // Coordenada X
+    ) 
+    && 
     (   
-    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&  // Coordenada Y
-    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes)                    // Coordenada Y
+        y >= canvas.height * 0.73 + 40 + canvas.width * 0.078 &&   // Coordenada Y
+        y <= canvas.height * 0.77 + 40 + canvas.width * 0.078      // Coordenada Y
     );
 }
 
-function mouseSobreProximo(x, y)
-{
-    return messageBoxProximoHabilitado && 
-    (x > ondeComecarBotaoX + larguraBotoes + paddingBotoes && x < ondeComecarBotaoX + 2 * larguraBotoes + paddingBotoes) && // Coord. X
+
+function mouseSobreProximo(x, y) {
+    return messageBoxProximoHabilitado && !messageBoxMinimizado &&
     (
-    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&    // Coordenada Y
-    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes)                      // Coordenada Y
-    );
-}
-
-function mouseSobreAudio(x, y)
-{
-    return messageBoxHabilitado && 
-    (x > canvas.width / 2  - 20 && x < canvas.width/2 + 20) && // Coordenada X
+        x >= canvas.width * 0.945 - 36 &&      // Coordenada X
+        x <= canvas.width - 36                 // Coordenada X
+    )
+    &&             
     (
-    (y > ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes) &&    // Coordenada Y
-    (y < ondeComecarY + alturaTitulo + alturaMensagem - paddingBotoes - alturaBotoes + 40)  // Coordenada Y
+        y >= canvas.height * 0.73 + 40 + canvas.width * 0.078 &&   // Coordenada Y
+        y <= canvas.height * 0.77 + 40 + canvas.width * 0.078      // Coordenada Y
     );
-
 }
+
+function mouseSobreAudio(x, y) {
+    return messageBoxHabilitado && !messageBoxMinimizado &&
+    (
+        x >= 20 &&                       // Coordenada X 
+        x <= 20 + canvas.width * 0.021   // Coordenada X
+    )    
+    && 
+    (
+        y > canvas.height * 0.73 + 45 - canvas.width * 0.021 &&     // Coordenada Y
+        y < canvas.height * 0.73 + 45                               // Coordenada Y
+    );
+}
+
+function mouseSobreCaixaDeTitulo(x, y) {
+    if (!messageBoxMinimizado)
+        return messageBoxHabilitado &&
+        (
+            y >= canvas.height * 0.65 &&     // Coordenada Y
+            y <= canvas.height * 0.73        // Coordenada Y
+        );
+    else
+        return messageBoxHabilitado &&
+        (
+            y >= canvas.height * 0.93 &&     // Coordenada Y
+            y <= canvas.height        // Coordenada Y
+        );      
+}
+
 
 elem.addEventListener('click', function(event) {
     let x = event.pageX - elemLeft,
         y = event.pageY - elemTop;
    if (mouseSobreAnterior(x, y))
     {
-        messageBoxAnteriorHabilitado = false;
-        messageBoxProximoHabilitado  = false;
-        messageBoxHabilitado = false;
+        etapaAtual--;
 
-        if (b == 0 && etapaAtual == 1)
-            etapaAtual -= 0.5;
-        else
-            etapaAtual--;
-
-        desenharGrafico(etapaAtual);
-        elem.style.cursor = 'default';
+        desenharGrafico();
         window.speechSynthesis.cancel();
     }
    else if (mouseSobreProximo(x, y))
     {
-        messageBoxProximoHabilitado  = false;
-        messageBoxAnteriorHabilitado = false;
-        messageBoxHabilitado = false;
+        etapaAtual++;
 
-        if (etapaAtual == 0.5)
-            etapaAtual+= 0.5;
-        else
-            etapaAtual++;
-
-        desenharGrafico(etapaAtual);
-        elem.style.cursor = 'default';
+        desenharGrafico();
         window.speechSynthesis.cancel();
     }
     else if (mouseSobreAudio(x, y))
     {
+        /*
         let velocidade = document.getElementById("velocidade").value;
 
         if(window.speechSynthesis.speaking)	
@@ -892,11 +889,16 @@ elem.addEventListener('click', function(event) {
                 window.speechSynthesis.speak(msg);
             }
 
-        }
+        } */
+    }
+    else if (mouseSobreCaixaDeTitulo(x, y))
+    {
+        messageBoxMinimizado = !messageBoxMinimizado;
+        desenharGrafico();
     }
     
 
-}, false);
+}, false); 
 
 elem.onmousemove = movimentoMouse;
 function movimentoMouse(event)
@@ -904,15 +906,9 @@ function movimentoMouse(event)
     let x = event.pageX - elemLeft,
         y = event.pageY - elemTop;
 
+    elem.style.cursor = "default";
+
     // Botão Anterior
-    if (mouseSobreAnterior(x, y))
+    if (mouseSobreAnterior(x, y) || mouseSobreProximo(x,y) || mouseSobreAudio(x, y) || mouseSobreCaixaDeTitulo(x, y))
         elem.style.cursor = 'pointer';
-    //Botão Próximo
-    else if (mouseSobreProximo(x, y))
-        elem.style.cursor = 'pointer';
-    // Botão de Som
-    else if (mouseSobreAudio(x, y))
-        elem.style.cursor = 'pointer';
-    else
-        elem.style.cursor = 'default';
-}*/
+}
