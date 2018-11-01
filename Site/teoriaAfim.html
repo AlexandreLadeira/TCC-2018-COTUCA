@@ -11,7 +11,7 @@
     <body class="body">  
         <div class="topbar">
             <div class="botao" onclick="tratarMenu()">&#9776;</div>
-            <div class="logo" onclick="tratarContainer()"></div>
+            <img src="imagens/logo.png" class="logo">
         </div>
         <div class="menu">
             <div onclick="tratarMenu()">&#9776;</div>
@@ -29,22 +29,21 @@
             <div class="passoApasso">
                 <span class="reta"></span>
                 <span class="retaFundo"></span>
-                <div class="circulo" onclick="tratarContainer(0)" onmouseover="mostrarMensagem('msg0')">1</div>
-                <div class="circulo" onclick="tratarContainer(1)" onmouseover="mostrarMensagem('msg1')">2</div>
-                <div class="circulo" onclick="tratarContainer(2)" onmouseover="mostrarMensagem('msg2')">3</div>
-                <div class="circulo" onclick="tratarContainer(3)" onmouseover="mostrarMensagem('msg3')">4</div>
-                <div class="circulo" onclick="tratarContainer(4)" onmouseover="mostrarMensagem('msg4')">5</div>
-                <div class="circulo" onclick="tratarContainer(5)" onmouseover="mostrarMensagem('msg5')">6</div>
+                <div class="circulo" onclick="tratarContainer(0)" onmouseover="mostrarMensagem(0)" onmouseleave="mostrarMensagem(0)">1</div>
+                <div class="circulo" onclick="tratarContainer(1)" onmouseover="mostrarMensagem(1)" onmouseleave="mostrarMensagem(1)">2</div>
+                <div class="circulo" onclick="tratarContainer(2)" onmouseover="mostrarMensagem(2)" onmouseleave="mostrarMensagem(2)">3</div>
+                <div class="circulo" onclick="tratarContainer(3)" onmouseover="mostrarMensagem(3)" onmouseleave="mostrarMensagem(3)">4</div>
+                <div class="circulo" onclick="tratarContainer(4)" onmouseover="mostrarMensagem(4)" onmouseleave="mostrarMensagem(4)">5</div>
+                <div class="circulo" onclick="tratarContainer(5)" onmouseover="mostrarMensagem(5)" onmouseleave="mostrarMensagem(5)">6</div>
             </div>
             <div class="mensagem">
-                <div class="msg0">Introdução</div>
-                <div class="msg1">Definição</div>
-                <div class="msg2">Gráfico Cartesiano</div>
-                <div class="msg3">Casos Particulares</div>
-                <div class="msg4">Raiz da Equação</div>
-                <div class="msg5">Coeficiente e Inclinação</div>
+                <div class="msg">Introdução</div>
+                <div class="msg" style="left: 20%;">Definição</div>
+                <div class="msg" style="left: 40%;">Gráfico Cartesiano</div>
+                <div class="msg" style="right: 40%;">Casos Particulares</div>
+                <div class="msg" style="right: 20%;">Raiz da Equação</div>
+                <div class="msg" style="right: 0%;">Coeficiente e Inclinação</div>
             </div>
-            <br>
             <br>
             <br>
             <div class="grid-x grid-margin-x">                                            
@@ -75,6 +74,7 @@
                             <img src="imagens/iconeSom.png" title="Ouvir Texto" class="iconeSom" id="ouvirSom2" >
                             </a>
                             Resolução.</b>
+                            <br>
                             <br>
                             <br>
                             <br>
@@ -145,10 +145,10 @@
                         </label>
                    </div>
                    <div class="cell medium-4 introducao">
-                        <input type="text" id="quilometro"  ></input>
+                        <input type="text" id="quilometro"></input>
                    </div>
                    <div class="cell medium-6 introducao">
-                        <label id="resultado"  style="font-size: 40px;"></label>
+                        <label id="resultado"  style="font-size: 30px;"></label>
                    </div>
                    <div class="cell medium-2 introducao">
                         <label class="fonte">
@@ -232,7 +232,6 @@
                     <div class="cell medium-6 grafico">
                             <img src="imagens/imagem1.jpg" id="imagem1">
                     </div>
-
                     <div class="cell medium-12 casosParticulares">
                         <h3>Casos particulares</h3> 
                     </div> 
@@ -243,8 +242,7 @@
                             <label hidden="true">Casos particulares.</label></a>
                             Função linear: acontece quando b = 0, assim a lei de formação fica  f(x) = a <label hidden="true">vezes </label> x,  com f: R -> R.
                             Nesse caso a reta do gráfico intercepta a origem do eixo cartesiano (ponto x=0 y=0). 
-                            <img src="imagens/imagem2.jpg" id="imagem2">                            
-                            <!-- Possivel imagem-->
+                            <img src="imagens/imagem2.jpg" id="imagem2">          
                         </label>
                     </div>
                     <div class="cell medium-6 casosParticulares" id="texto12">
@@ -256,7 +254,7 @@
                             <img src="imagens/imagem3.jpg" id="imagem3">    
                         </label>
                     </div>
-                    
+                    <br>
                     <div class="cell medium-12 raiz">
                         <h3>Raiz da equação de 1º grau</h3> 
                     </div>  
@@ -280,7 +278,7 @@
                     </div>
 
                     <div class="cell medium-2 raiz"></div>
-
+                    <br>
                     <div class="cell medium-12 coeficiente" >
                         <h3>Coeficiente da função afim e inclinação da reta</h3> 
                     </div> 
@@ -321,9 +319,11 @@
 
                     <div class="cell medium-6 coeficiente">
                         <img src="imagens/imagem7.jpg" id="imagem7">
-                    </div>                     
+                    </div>  
+                    <br>                   
             </div> <!--grid-->
         </div> <!--containter-->
+        <br>
         <div class="referencia">
             <hr class="hr1"></hr>
             <div>Icons from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>

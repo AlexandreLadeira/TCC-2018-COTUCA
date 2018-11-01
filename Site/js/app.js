@@ -40,6 +40,7 @@ function setContraste(state) {
 		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
 			obj.src = 'imagens/menu' + (i+1) + '.png';
 		});
+		document.querySelector('.logo').src = 'imagens/logo.png';
 	} else {
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
@@ -51,6 +52,7 @@ function setContraste(state) {
 		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
 			obj.src = 'imagens/menuc' + (i+1) + '.png';
 		});
+		document.querySelector('.logo').src = 'imagens/logoc.png';
 	}
 }
 
@@ -152,8 +154,8 @@ function tratarPassoAPasso(opcao) {
 	reta.style.width = (100 / (botoes.length - 1))*opcao + "%";
 }
 
-function mostrarMensagem(c) {
-	document.querySelector(c).classList.add('active');
+function mostrarMensagem(i) {
+	document.querySelectorAll('.msg')[i].classList.toggle('active');
 }
 
 
