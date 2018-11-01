@@ -752,7 +752,6 @@ function desenharGrafico() {
     desenharGrade();
     desenharEixos();
     escreverPontos();
-
     
     /*
     desenharMessageBox("Etapa 1: Definição de Dois Pontos", "O primeiro passo para determinar o gráfico da função "
@@ -760,7 +759,7 @@ function desenharGrafico() {
     + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
     + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
     + "valor de x (que será, na função dada, igual a 0).", true, true, messageBoxMinimizado);
-
+    
     let intervaloPontoA = setTimeout(function(){
         
         let tempoAnimacaoPrimeiroPonto = desenharPonto(canvas.width/2, canvas.height / 2, 4);
