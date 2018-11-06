@@ -8,18 +8,29 @@
   <link href="css/app.css" type="text/css" rel="stylesheet" id="estilo" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="icon" href="logoFinal.png">
-
 </head>
 
-<body>
+<body class="body">
+  <div class="topbar">
+      <div class="botao" onclick="tratarMenu()">&#9776;</div>
+      <img src="imagens/logo.png" class="logo">
+  </div>
+  <div class="menu">
+      <div onclick="tratarMenu()">&#9776;</div>
+      <a href="home.html"><img src="imagens/menu0.png" class="icone" id="menu0">&nbsp;&nbsp;&nbsp;Home</a>
+      <a href="teoriaAfim.html"><img src="imagens/menu1.png" class="icone" id="menu1">&nbsp;&nbsp;&nbsp;Teoria</a>
+      <a href="funcaoPrimeiroGrau.html"><img src="imagens/menu2.png" class="icone" id="menu2">&nbsp;&nbsp;&nbsp;Encontrar Gráfico</a>
+      <a href="encontrarFuncaoPeloGrafico.html"><img src="imagens/menu3.png" class="icone" id="menu3">&nbsp;&nbsp;&nbsp;Encontrar Função</a>
+      <a onclick="trocaEstilo()"><img src="imagens/menu4.png" class="icone" id="menu4">&nbsp;&nbsp;&nbsp;Alto contraste</a>
+      <a><div class="vel"><img src="imagens/menu5.png" class="icone" id="menu5">&nbsp;&nbsp;&nbsp;<input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div></a>
+  </div>  
+  <br>
+  <br>
+  <br>
   <div class="grid-x grid-margin-x">
-    <div class="cell medium-2">
-      <img src="logoFinal.png" class="logo">
-    </div>
-
-    <div class="cell medium-8">
+    <div class="cell medium-12">
       <div class="grid-container">
-        <div class="cell medium-8">
+        <div class="cell medium-12">
           <ul class="menu menu-hover-lines">
             <li class="active"><a href="home.html">Home</a></li>
             <li><a href="teoriaAfim.html">Teoria</a></li>
@@ -34,11 +45,6 @@
 
           <div class="cell medium-12">
             <br>
-          </div>
-
-          <div class="cell medium-12 fonte">
-            <b>Velocidade de reprodução: </b>
-            <input id="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.5">
           </div>
 
           <div class="cell medium-12">
@@ -109,7 +115,18 @@
             <br>
             <img src="imagens/nos.jpg">
           </div>
-
+        </div>
+        <br>
+        <div class="referencia">          
+            <hr class="hr1"></hr>
+            <div>Icons from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            <hr class="hr2"></hr>
+                Nos baseamos no livro Matemática volume único para formular a teoria. 
+                <br>
+                FUNÇÃO Afim. In: IEZZI, Gelson et al. Matemática volume único . 
+                5º. ed. São Paulo - SP: Atual Editora, 2011. cap. 4, p. 56-72. v. Único.
+                <br>
+                <br>
         </div>
         <label id="modo" hidden="true"></label>
         <audio id="som" src="" class="falar" hidden></audio>

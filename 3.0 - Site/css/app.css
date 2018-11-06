@@ -1,5 +1,5 @@
 .body{
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   overflow-y: visible;
   display: flex;
   flex-direction: column;
@@ -328,6 +328,65 @@ body::-webkit-scrollbar-thumb {
 
 [data-tooltip]:hover:after {
   display: block;
+}
+
+/* ESCREVER FUNÇÃO PARA O GRÁFICO DESENHAR */ 
+
+#contraste {
+  font-size: 18px;
+}
+
+#funcao {
+  border-radius: 50px 50px 50px 50px;
+  height: 30px;  
+}
+
+.funcao {
+  position: absolute;
+  display: flex;
+  top: 100px;  
+  left: -256px;
+  width: 320px;
+  height: 65px;
+  z-index: 0;
+  transition: 1s;
+}
+
+.funcao.active {
+  left: 0px;
+}
+
+.digitarFuncao {
+  width: 80%;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 100px;  
+  background-color: white;
+}
+
+.botaoFuncao {
+  display: none;
+  width: 20%;
+  background-color: #1779ba;
+  border-radius: 0px 10px 10px 0px;
+  padding: 8px 8px 8px 8px;
+}
+
+.botaoFuncao.active {
+  display: block;
+}
+
+.mostrarCampoFuncao {
+  display: block;
+  text-align: center;
+  width: 20%;
+  background-color: #1779ba;
+  border-radius: 0px 10px 10px 0px;
+  padding: 8px 8px 5px 5px;
+}
+
+.mostrarCampoFuncao.active {
+  display: none;
 }
 
 /*-----------------------------------*/

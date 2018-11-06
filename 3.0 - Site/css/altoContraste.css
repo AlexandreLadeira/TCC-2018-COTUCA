@@ -65,9 +65,11 @@ h3{
 .body{
   background-color: black;
   font-family: 'Raleway', sans-serif;
+  overflow-x: hidden;
   overflow-y: visible;
   display: flex;
   flex-direction: column;
+  
 }
 
 .body.active {
@@ -420,4 +422,64 @@ body::-webkit-scrollbar-thumb {
 
 .grid-container {
   flex-grow: 1;
+}
+
+/* ESCREVER FUNÇÃO PARA O GRÁFICO DESENHAR */ 
+
+#contraste {
+  font-size: 18px;
+  color: yellow;
+}
+
+#funcao {
+  border-radius: 50px 50px 50px 50px;
+  height: 30px;  
+}
+
+.funcao {
+  position: absolute;
+  display: flex;
+  top: 100px;  
+  left: -256px;
+  width: 320px;
+  height: 65px;
+  z-index: 0;
+  transition: 1s;
+}
+
+.funcao.active {
+  left: 0px;
+}
+
+.digitarFuncao {
+  width: 80%;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 100px;  
+  background-color: black;
+}
+
+.botaoFuncao {
+  display: none;
+  width: 20%;
+  background-color: yellow;
+  border-radius: 0px 10px 10px 0px;
+  padding: 8px 8px 8px 8px;
+}
+
+.botaoFuncao.active {
+  display: block;
+}
+
+.mostrarCampoFuncao {
+  display: block;
+  text-align: center;
+  width: 20%;
+  background-color: yellow;
+  border-radius: 0px 10px 10px 0px;
+  padding: 8px 8px 5px 5px;
+}
+
+.mostrarCampoFuncao.active {
+  display: none;
 }

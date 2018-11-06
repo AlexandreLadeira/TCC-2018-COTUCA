@@ -1,3 +1,6 @@
+var menu = document.querySelector('.menu');
+var body = document.querySelector('.body');
+
 var vetOpcoes = [document.querySelectorAll('.introducao'), 
  				 document.querySelectorAll('.definicao'), 				  
 				 document.querySelectorAll('.grafico'), 
@@ -8,6 +11,9 @@ var vetOpcoes = [document.querySelectorAll('.introducao'),
 var botoes = document.querySelectorAll('.circulo');
 var reta   = document.querySelector('.reta');
 
+var campoFuncao        = document.querySelector('.funcao');
+var botaoFuncao 	   = document.querySelector('.botaoFuncao');
+var botaoMostrarFuncao = document.querySelector('.mostrarCampoFuncao');
 
 function iniciar() {
 	for(i = 1; i < vetOpcoes.length; i++)
@@ -38,9 +44,11 @@ function setContraste(state) {
 			obj.src = 'imagens/imagem' + (i+1) + '.jpg';
 		});
 		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
-			obj.src = 'imagens/menu' + (i+1) + '.png';
+			obj.src = 'imagens/menu' + i + '.png';
 		});
 		document.querySelector('.logo').src = 'imagens/logo.png';
+		document.getElementById('funcao1').src = 'imagens/funcao1.png';
+		document.getElementById('funcao2').src = 'imagens/menu3.png';
 	} else {
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
@@ -50,9 +58,11 @@ function setContraste(state) {
 			obj.src = 'imagens/imagemc' + (i+1) + '.jpg';
 		});
 		document.querySelectorAll('[id^=menu]').forEach((obj, i) => {
-			obj.src = 'imagens/menuc' + (i+1) + '.png';
+			obj.src = 'imagens/menuc' + i + '.png';
 		});
 		document.querySelector('.logo').src = 'imagens/logoc.png';
+		document.getElementById('funcao1').src = 'imagens/funcaoc1.png';
+		document.getElementById('funcao2').src = 'imagens/menuc3.png';
 	}
 }
 
@@ -122,9 +132,6 @@ function falar(indice)
 
 }
 
-var menu = document.querySelector('.menu');
-var body = document.querySelector('.body');
-
 function tratarMenu() {
 	menu.classList.toggle('active');
 	body.classList.toggle('active');
@@ -156,6 +163,17 @@ function tratarPassoAPasso(opcao) {
 
 function mostrarMensagem(i) {
 	document.querySelectorAll('.msg')[i].classList.toggle('active');
+}
+
+function tratarCampoFuncao(){
+	campoFuncao.classList.toggle('active');
+	botaoFuncao.classList.toggle('active');
+	botaoMostrarFuncao.classList.toggle('active');
+}
+
+function teste() {
+	alert('Arruma logo, Sforça');
+	tratarCampoFuncao();
 }
 
 
