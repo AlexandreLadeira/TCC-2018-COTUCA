@@ -9,7 +9,7 @@ espacoLinha = espacoColuna = 50;
 var qtasLinhas  = 0;
 var qtasColunas = 0;
 
-var etapaAtual = 0;
+var etapaAtual = 1;
 
 var intervalos = [];
 
@@ -17,7 +17,7 @@ var intervalos = [];
 var messageBoxHabilitado         = true;
 var messageBoxAnteriorHabilitado = true;
 var messageBoxProximoHabilitado  = true;
-var messageBoxMinimizado         = true;
+var messageBoxMinimizado         = false;
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -106,11 +106,11 @@ function escreverPontos(razaoLabels = 1) {
     // Percorre até o final do canvas ( à direita)
     for (let i = posicaoInicial; i < canvas.width; i += espacoColuna) 
     {
-        let tamanhoTextoPonto = c.measureText(pontoAtual).width;
+        let tamanhoTextoPonto = c.measureText(Math.round(pontoAtual * 100) / 100).width;
 
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0) 
-            c.fillText(pontoAtual * razaoLabels, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna / 2);
+            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna * 0.8);
 
         pontoAtual++;
     }
@@ -124,7 +124,7 @@ function escreverPontos(razaoLabels = 1) {
     {
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0)        
-            c.fillText(pontoAtual * razaoLabels, canvas.width / 2, i + tamanhoFonte / 2);
+            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, canvas.width / 2, i + tamanhoFonte / 2);
 
         pontoAtual--;
     }
@@ -134,9 +134,11 @@ function escreverPontos(razaoLabels = 1) {
 
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
-var a;
-var b;
-var funcao = "";
+var a = 3;
+var b = 3;
+var x1, y1;
+var x2, y2;
+var funcao = "f(x) = 3x + 3";
 function getAeBdaFuncao(x) {           
     let achou   = false; // Determina se achou um dos termos
 
@@ -211,7 +213,7 @@ function getAeBdaFuncao(x) {
     else
         if(qtsNumerosAchou == 2 && achou) // Terminou o "for" e não colocou o número lido em b
             bFunc = aux;
-    
+
     return [aFunc, bFunc]; // Retorna um vetor com duas posições, a primeira é o termo "a" e a segundo o termo "b"
 }
 
@@ -230,6 +232,15 @@ function validarFuncao() {
         let valores = getAeBdaFuncao(funcao);
         a = valores[0];
         b = valores[1];
+
+        x1 = -b/a;
+        y2 = b;
+
+        // Não cruza no ponto (0, 0):
+        if (b != 0) {
+            y1 = 0;
+            x2 = 0;
+        }
 
         if (b == 0)
             etapaAtual = 0.5;
@@ -306,7 +317,10 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
             }
         }
 
-        c.fillText(linhaAtual, 20, posicaoY);
+        if (!primeiraLinha)
+            c.fillText(linhaAtual, 20, posicaoY);
+        else
+            c.fillText(linhaAtual, canvas.width * 0.024 + 20 , posicaoY);
         c.stroke();
 
         // Professor Funcio -----------------------------------------------------------------------------------
@@ -326,43 +340,57 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
         let widthBotoes      = canvas.width  * 0.055;
         let heightBotoes     = canvas.height * 0.04;
 
-        c.beginPath();
         c.shadowColor = "black";
         c.shadowBlur = 4;
-        c.fillStyle = "rgb(23,121,186)";
-        c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
-        c.stroke();
+        c.fillStyle = "rgb(23,121,186)";      
+
+        if (temAnterior)
+        {
+            c.beginPath();
+            messageBoxAnteriorHabilitado = true;
+            c.fillRect(posicaoXAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
+            c.stroke();
+        }
+        else
+            messageBoxAnteriorHabilitado = false;
 
         // Próximo:
-        c.beginPath();
         c.fillStyle = "rgb(23,121,186)";
         let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
-        c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
-        c.stroke();
+        if (temProximo)
+        {
+            c.beginPath();
+            messageBoxProximoHabilitado = true;
+            c.fillRect(centroPrincipalBotoes + distanciaCentroAoAnterior, posicaoYBotoes, widthBotoes, heightBotoes);
+            c.stroke();
+        }
+        else
+            messageBoxProximoHabilitado = false;
 
         c.shadowBlur = 0;
 
         // Texto do Anterior:
-        c.beginPath();
         c.font = canvas.height * 0.017 + "pt Montserrat";
         c.fillStyle = "white";
         let margemTextoAnterior = (widthBotoes - c.measureText("Anterior").width) / 2;
-
-        c.fillText("Anterior", posicaoXAnterior + margemTextoAnterior, 
-                posicaoYBotoes + canvas.height * 0.03, widthBotoes);
-
-        c.stroke();
+        if (temAnterior)
+        {
+            c.beginPath();
+            c.fillText("Anterior", posicaoXAnterior + margemTextoAnterior, posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+            c.stroke();
+        }
 
         // Texto do Próximo:
-        c.beginPath();
         c.font = canvas.height * 0.017 + "pt Montserrat";
         c.fillStyle = "white";
         let margemTextoProximo = (canvas.width * 0.055 - c.measureText("Próximo").width) / 2;
 
-        c.fillText("Próximo", centroPrincipalBotoes + distanciaCentroAoAnterior + margemTextoProximo, 
-                posicaoYBotoes + canvas.height * 0.03, widthBotoes);
-
-        c.stroke();
+        if (temProximo)
+        {
+            c.beginPath();
+            c.fillText("Próximo", centroPrincipalBotoes + distanciaCentroAoAnterior + margemTextoProximo, posicaoYBotoes + canvas.height * 0.03, widthBotoes);
+            c.stroke();
+        }
 
 
         // Imagem de Ouvir Texto -------------------------------------------------------------------------------
@@ -531,62 +559,109 @@ function prosseguirEtapa()
     prosseguir(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo);
 }
 
-function getTituloDaEtapa(etapaAtual)
-{
-    if (etapaAtual == 0 || etapaAtual == 0.5)
-        return "Etapa 1: Definição de Dois Pontos";
-    else if (etapaAtual == 1)
-        return "Etapa 2: Traçar a Reta";
+if (etapaAtual == 0)
+    return "O primeiro passo para determinar o gráfico da função "
+    + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
+    + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
+    + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
+    + "valor de x (que será, na função dada, igual a " + x1 + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
+    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
+    + "de acordo com a função dada, será " + y2 + ".";
+else if (etapaAtual == 0.5)  // Passa por (0, 0)
+    return "O primeiro passo para determinar o gráfico da função "
+    + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
+    + "posições pelas quais a reta passará pelos eixos ordenados, pois esses dois pontos serão na mesma posição (0, 0). "
+    + "Assim, devemos determinar um ponto a mais qualquer, escolhendo um valor de x aleatório e encontrando o seu y. "
+    + "Para não encontrarmos um valor muito diferente entre x e y, escolheremos o valor de x com base no primeiro ponto "
+    + "que marcamos no gráfico (ponto ("+ razaoLabels +", 0)), e substituindo x na função por esse valor, encontramos o ponto "
+    + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
+else if (etapaAtual == 1)
+    return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
+    + "seus dois pontos, anteriormente definidos (pontos (0, "+ y2 +") e ("+ x1 + ", 0)). Para isso, basta "
+    + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
+else if (etapaAtual == 2)
+    return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
+    + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
+    + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
+    + "nova linha até atingir os limites do gráfico.";
+else
+    return "";
+
+
+*/
+
+function getTituloDaEtapa(etapaAtual) {
+    if (etapaAtual == 1)
+        return "Como encontrar o gráfico?";
     else if (etapaAtual == 2)
-        return "Etapa 3: Prolongar a Reta";
-    else
-        return "";
+        return "Etapa 1: Encontrar dois pontos";
+    else if (etapaAtual == 3)
+        return "Etapa 1: Encontrar dois pontos";
+    else if (etapaAtual == 4)
+        return "Etapa 1: Encontrar dois pontos";
+    else if (etapaAtual == 5)
+        return "Etapa 2: Traçar a reta";
+    else if (etapaAtual == 6)
+        return "Etapa 3: Prolongar a reta";
+    else if (etapaAtual == 7)
+        return "Gráfico encontrado!"; 
 }
 
-function getTextoDaEtapa(etapaAtual)
-{
-    if (etapaAtual == 0)
-        return "O primeiro passo para determinar o gráfico da função "
-        + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
-        + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
-        + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-        + "valor de x (que será, na função dada, igual a " + x1 + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
-        + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-        + "de acordo com a função dada, será " + y2 + ".";
-    else if (etapaAtual == 0.5)  // Passa por (0, 0)
-        return "O primeiro passo para determinar o gráfico da função "
-        + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
-        + "posições pelas quais a reta passará pelos eixos ordenados, pois esses dois pontos serão na mesma posição (0, 0). "
-        + "Assim, devemos determinar um ponto a mais qualquer, escolhendo um valor de x aleatório e encontrando o seu y. "
-        + "Para não encontrarmos um valor muito diferente entre x e y, escolheremos o valor de x com base no primeiro ponto "
-        + "que marcamos no gráfico (ponto ("+ razaoLabels +", 0)), e substituindo x na função por esse valor, encontramos o ponto "
-        + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
-    else if (etapaAtual == 1)
-        return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
-        + "seus dois pontos, anteriormente definidos (pontos (0, "+ y2 +") e ("+ x1 + ", 0)). Para isso, basta "
-        + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
+function getTextoDaEtapa(etapaAtual) {
+    if (etapaAtual == 1)
+        return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar o gráfico da função " + funcao + "! " +
+        "Vou te mostrar que não é nem um pouco difícil!";
     else if (etapaAtual == 2)
-        return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
-        + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
-        + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
-        + "nova linha até atingir os limites do gráfico.";
-    else
-        return "";
+        return "Certo, vamos começar! O primeiro passo é encontrar dois pontos dessa função, uma vez que toda reta é " +
+        "definida por dois pontos. A maneira mais comum de fazer isso é determinando os dois pontos pelos quais a função " +
+        "cruza o eixo x e o eixo y, e como sabemos que nossa função não passa pela origem, pois 'b' é diferente de 0 (é igual " +
+        "a " + b + "), podemos ter certeza que nossa reta cruza o eixo x e o eixo y em pontos diferentes!";
+    else if (etapaAtual == 3)
+    {
+        let texto = "Muito bem! Sabendo disso, devemos encontrar os pontos em que a nossa função cruza o eixo X e o eixo Y. Vamos " + 
+        "começar pelo eixo X. Para isso, substituiremos o valor de f(x) (ou y), da função " + funcao + " por 0, pois queremos " + 
+        "encontrar o valor que x equivale quando y é igual a 0. Assim, encontraremos uma equação: 0 = " + a + "x ";
+
+        if (b >= 0)
+            texto += "+ " + b;
+        else
+            texto = "- " + Math.abs(b);
+
+        return texto;
+    }
+    else if (etapaAtual == 4)
+        return "Com essa equação, tudo o que devemos fazer é resolvê-la, e assim podemos concluir que x = " + (-b / a) + ". " +
+        "Desse modo, já encontramos um dos pontos, que no caso é o (" + x1 + ", " + y1 + ")! Agora, nós devemos encontrar o outro ponto, e " +
+        "para fazer isso, faremos a mesma coisa, mas agora substituiremos x por 0, encontrando assim uma outra equação: " +
+        "y = " + b + ". Muito mais fácil, não? E assim, temos o segundo ponto: (" + x2 + ", " + y2 + ")!";
+    else if (etapaAtual == 5)
+        return "Assim, nós já temos dois pontos, e agora podemos traçar nossa função! Para isso, caso você esteja fazendo " + 
+        "em uma folha de papel, basta apoiar uma régua sobre os dois pontos e ligá-los, assim traçando uma reta!";
+    else if (etapaAtual == 6)
+        return "Agora que já ligamos os pontos, nossa função já está praticamente pronta! Tudo o que falta fazer é prolongar " + 
+        "a reta do nosso gráfico. Assim, basta que aumentemos a nossa reta até os limites do gráfico!";
+    else if (etapaAtual == 7)
+        return "E assim, encontramos o gráfico da função " + funcao + "!"; 
 
 }
 
-function encontrarRazaoLabels(pontoX, pontoY)
+function encontrarRazaoLabels(x1, y1, x2, y2)
 {    
-    let maiorPonto;
+    let maiorValorX, maiorValorY;
     
-    if (Math.abs(pontoX) > Math.abs(pontoY))
-        maiorPonto = Math.abs(pontoX);
+    if (Math.abs(x1) > Math.abs(x2))
+        maiorValorX = Math.abs(x1);
     else
-        maiorPonto = Math.abs(pontoY);
+        maiorValorX = Math.abs(x2);
+    
+
+    if (Math.abs(y1) > Math.abs(y2))
+        maiorValorY = y1;
+    else
+        maiorValorY = y2;
     
     let achouRazao = false;
     let razaoLabels = 1;
-    let deQuantoEmQuanto = 5;
     while (!achouRazao)
     {
         if (maiorPonto / razaoLabels <= deQuantoEmQuanto)
@@ -602,7 +677,7 @@ function encontrarRazaoLabels(pontoX, pontoY)
 
     return razaoLabels;
 }
-
+/*
 var razaoLabels = 1;
 var x1, x2, y1, y2;
 var textoX1 = 0, textoX2 = 0, textoY1 = 0, textoY2 = 0;
@@ -752,6 +827,37 @@ function desenharGrafico() {
     desenharGrade();
     desenharEixos();
     escreverPontos();
+
+    let botaoAnterior = true, botaoProximo = true;
+    if (etapaAtual === 1)
+        botaoAnterior = false;
+    else if (etapaAtual === 7)
+        botaoProximo = false;  
+
+    if (etapaAtual === 5) {
+
+        let intervaloPontoA = setTimeout(function(){
+        
+            let tempoAnimacaoPrimeiroPonto = desenharPonto(canvas.width/2, canvas.height / 2, 4);
+        
+            let intervaloPontoB = setTimeout(function(){
+                let tempoAnimacaoSegundoPonto = desenharPonto(canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 4);
+                let intervaloProsseguir = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+                }, tempoAnimacaoSegundoPonto)
+    
+            intervalos.push(intervaloProsseguir);
+    
+            }, tempoAnimacaoPrimeiroPonto + 400);  
+    
+            intervalos.push(intervaloPontoB);
+    
+        }, 300);
+    
+        intervalos.push(intervaloPontoA);
+    }
+    else
+        desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
     
     /*
     desenharMessageBox("Etapa 1: Definição de Dois Pontos", "O primeiro passo para determinar o gráfico da função "
@@ -864,11 +970,10 @@ elem.addEventListener('click', function(event) {
     }
     else if (mouseSobreAudio(x, y))
     {
-        /*
         let velocidade = document.getElementById("velocidade").value;
 
         if(window.speechSynthesis.speaking)	
-		    window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
+		   window.speechSynthesis.cancel(); // Reiniciar caso já esteja executando
         else
         {
             let texto = getTituloDaEtapa(etapaAtual);    // Pega o título para falá-lo
@@ -888,7 +993,7 @@ elem.addEventListener('click', function(event) {
                 window.speechSynthesis.speak(msg);
             }
 
-        } */
+        } 
     }
     else if (mouseSobreCaixaDeTitulo(x, y))
     {
