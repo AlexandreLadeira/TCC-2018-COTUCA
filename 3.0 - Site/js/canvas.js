@@ -2,6 +2,8 @@
 var canvas = document.querySelector('canvas');
 var c      = canvas.getContext('2d');
 
+c.save();
+
 // Gráfico
 var espacoLinha , espacoColuna;
 espacoLinha = espacoColuna = 50;
@@ -9,7 +11,7 @@ espacoLinha = espacoColuna = 50;
 var qtasLinhas  = 0;
 var qtasColunas = 0;
 
-var etapaAtual = 1;
+var etapaAtual = 0;
 
 var intervalos = [];
 
@@ -134,8 +136,7 @@ function escreverPontos(razaoLabels = 1) {
 
 // Duas variáveis de cada tipo para fazer a reta crescer nos dois sentidos
 
-var a = 3;
-var b = -3;
+var a, b;
 var x1, y1;
 var x2, y2;
 var funcao = "f(x) = 3x + 3";
@@ -220,6 +221,8 @@ function getAeBdaFuncao(x) {
 function validarFuncao() {
     
     funcao = document.getElementById("funcao").value;
+    funcao = "f(x) = 3x + 3";
+
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
     let expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;   
 
@@ -228,7 +231,6 @@ function validarFuncao() {
 
     if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
     {
-
         let valores = getAeBdaFuncao(funcao);
         a = valores[0];
         b = valores[1];
@@ -245,7 +247,7 @@ function validarFuncao() {
         if (b == 0)
             etapaAtual = 0.5;
         else
-            etapaAtual  = 0;
+            etapaAtual  = 1;
     
         desenharGrafico(etapaAtual);
     }
@@ -544,39 +546,6 @@ function desenharReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
     return Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), 1/2) / Math.pow(Math.pow(aumentoX, 2) + Math.pow(aumentoY, 2), 1/2) * intervalo;
 }
 
-/*
-
-if (etapaAtual == 0)
-    return "O primeiro passo para determinar o gráfico da função "
-    + "dada (" + funcao + "), é encontrar dois de seus pontos. A maneira mais fácil de fazer isso é determinando "
-    + "os dois pontos pelo qual a reta passa ao cruzar com os eixos ordenados. Para encontrar a posição na qual a reta cruzará "
-    + "o eixo x (eixo das abscissas), devemos substituir o 'f(x)'(também chamado de 'y'), da função dada por 0 e encontrar o "
-    + "valor de x (que será, na função dada, igual a " + x1 + "). Para encontrar o ponto no qual a reta cruzará o eixo y (eixo das ordenadas), "
-    + "devemos fazer algo parecido: substituir o 'x' da função por 0 e encontrar o valor de 'f(x)'. No caso, esse valor, "
-    + "de acordo com a função dada, será " + y2 + ".";
-else if (etapaAtual == 0.5)  // Passa por (0, 0)
-    return "O primeiro passo para determinar o gráfico da função "
-    + "dada (" + funcao + "), é encontrar dois de seus pontos. Como o valor de b é igual a 0, não podemos escolher as "
-    + "posições pelas quais a reta passará pelos eixos ordenados, pois esses dois pontos serão na mesma posição (0, 0). "
-    + "Assim, devemos determinar um ponto a mais qualquer, escolhendo um valor de x aleatório e encontrando o seu y. "
-    + "Para não encontrarmos um valor muito diferente entre x e y, escolheremos o valor de x com base no primeiro ponto "
-    + "que marcamos no gráfico (ponto ("+ razaoLabels +", 0)), e substituindo x na função por esse valor, encontramos o ponto "
-    + "(" + razaoLabels +"," + (a*razaoLabels) + ")."
-else if (etapaAtual == 1)
-    return "O segundo passo para definir o gráfico da função é traçar uma reta que ligará "
-    + "seus dois pontos, anteriormente definidos (pontos (0, "+ y2 +") e ("+ x1 + ", 0)). Para isso, basta "
-    + "colocar uma régua ou outro material de superfície reta sobre os dois pontos e traçar uma linha retilínea.";
-else if (etapaAtual == 2)
-    return "O último passo para definir o gráfico da função é prolongar a reta que desenhamos. "
-    + "Devemos fazer isso porque nossa função possui infinitas soluções, e não somente aquelas que estão especificadas atualmente. "
-    + "Assim, devemos apoiar uma régua ou um outro material de superfície retilínea sobre a reta já desenhada e traçar uma "
-    + "nova linha até atingir os limites do gráfico.";
-else
-    return "";
-
-
-*/
-
 function getTituloDaEtapa(etapaAtual) {
     if (etapaAtual == 1)
         return "Como encontrar o gráfico?";
@@ -590,8 +559,6 @@ function getTituloDaEtapa(etapaAtual) {
         return "Etapa 2: Traçar a reta";
     else if (etapaAtual == 6)
         return "Etapa 3: Prolongar a reta";
-    else if (etapaAtual == 7)
-        return "Gráfico encontrado!";
     else
         return ""; 
 }
@@ -629,8 +596,6 @@ function getTextoDaEtapa(etapaAtual) {
     else if (etapaAtual == 6)
         return "Agora que já ligamos os pontos, nossa função já está praticamente pronta! Tudo o que falta fazer é prolongar " + 
         "a reta do nosso gráfico. Assim, basta que aumentemos a nossa reta até os limites do gráfico!";
-    else if (etapaAtual == 7)
-        return "E assim, encontramos o gráfico da função " + funcao + "!"; 
     else
         return "";
 
@@ -668,143 +633,14 @@ function encontrarRazaoLabels(x1, y1, x2, y2)
 
     return razaoLabels;
 }
-/*
-var razaoLabels = 1;
-var x1, x2, y1, y2;
-var textoX1 = 0, textoX2 = 0, textoY1 = 0, textoY2 = 0;
-function desenharGrafico(etapaAtual)
-{
-    canvas.width = canvas.width;    // Resetar o canvas
 
-    desenharGrade();
-
-    x1 = -b/a;
-    y2 = b;
-
-    if (etapaAtual == 0 || etapaAtual == 0.5)
-    {
-        if (b != 0)
-            razaoLabels = encontrarRazaoLabels(x1, y2);
-        else
-            razaoLabels = encontrarRazaoLabels(0, a);
-    }
-
-    if (b != 0) // Não cruza no (0, 0)
-    {
-        y1 = 0;
-        x2 = 0;
-    }
-    else
-    {
-        y1 = 0;     // Ponto (0, 0)
-
-        x2 = razaoLabels;
-
-        y2 = a * razaoLabels;
-    }
-
-    desenharEixos(razaoLabels);
-    if (etapaAtual > 2)
-    {
-        // RETA
-        c.beginPath();
-
-        c.moveTo(canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels);
-        c.lineTo(canvas.width / 2 + (x2 * larguraLinha) /razaoLabels, canvas.height / 2 - (y2 * larguraLinha)/razaoLabels);
-        c.strokeStyle = '#1779ba';
-        c.lineWidth = 5;
-        c.stroke();
-    }
-
-    if (etapaAtual > 1)
-    {  
-        //PONTO (X)
-        c.beginPath();
-
-        c.arc(canvas.width / 2 + (x1 * larguraColuna) / razaoLabels, canvas.height / 2 - (y1 * larguraLinha)/razaoLabels, 8, 0, 360);      
-        c.fillStyle = '#002699';
-        c.fill();
-        c.lineWidth = 1;
-        c.strokeStyle = '#1779ba';
-        c.stroke();
-
-        //PONTO (Y)
-        c.beginPath();
-        c.arc(canvas.width / 2 + (x2 * larguraColuna)/razaoLabels, canvas.height / 2 - ( y2 * larguraLinha) / razaoLabels, 8, 0, 360);      
-        c.fillStyle = '#002699';
-        c.fill();
-        c.lineWidth = 1;
-        c.strokeStyle = '#1779ba';
-        c.stroke(); 
-    }
-
-
-    if (etapaAtual == 0 || etapaAtual == 0.5)
-        prosseguirEtapa();
-    else if (etapaAtual == 1)
-    {
-        anguloAtual = 0;
-
-        desenharPontos(
-            canvas.width / 2 + (x1 * larguraColuna)/razaoLabels, 
-            canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
-            canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
-            canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels
-        );   
-    }
-    else if (etapaAtual == 2)
-    {
-        animarReta(
-            canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels, 
-            canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels, 
-            canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels, 
-            canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels, 10 
-        );
-    }
-    else if (etapaAtual == 3)
-    {
-        let xInicial1 = canvas.width  / 2 + (x1 * larguraColuna) / razaoLabels;
-        let yInicial1 = canvas.height / 2 - (y1 * larguraLinha ) / razaoLabels;
-        let xInicial2 = canvas.width  / 2 + (x2 * larguraColuna) / razaoLabels;
-        let yInicial2 = canvas.height / 2 - (y2 * larguraLinha ) / razaoLabels;
-        let xFinal1, yFinal1, xFinal2, yFinal2;
-        let velocidade = 1;
-
-        let deltaX = x1 - x2;
-        let deltaY = y1 - y2;
-
-        let razao = Math.abs(deltaX /deltaY);
-    
-        let y = Number.MAX_SAFE_INTEGER;
-        let x = y * razao;
-
-        if (x1 > x2)
-        {
-            xFinal1 = canvas.width  / 2 + x;
-            xFinal2 = canvas.width  / 2 - x;
-        }
-        else
-        {
-            xFinal1 = canvas.width  / 2 - x;
-            xFinal2 = canvas.width  / 2 + x;
-        }
-
-        if (y1 > y2)
-        {
-            yFinal1 = canvas.height  / 2 - y;
-            yFinal2 = canvas.height  / 2 + y;
-        }
-        else
-        {
-            yFinal1 = canvas.height  / 2 + y;
-            yFinal2 = canvas.height  / 2 - y;
-        }
-
-        animarReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
-        animarReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
-    } 
+function getPosicaoX(ponto, razaoLabels = 1){
+    return canvas.width / 2 + ponto * espacoColuna / razaoLabels;
 }
-*/
+
+function getPosicaoY(ponto, razaoLabels = 1){
+    return canvas.height / 2 + ponto * espacoLinha / razaoLabels;
+}
 
 function desenharGrafico() {
 
@@ -819,6 +655,9 @@ function desenharGrafico() {
     desenharEixos();
     escreverPontos();
 
+    if (etapaAtual === 0)
+        return;
+
     let botaoAnterior = true, botaoProximo = true;
     if (etapaAtual === 1)
         botaoAnterior = false;
@@ -827,11 +666,11 @@ function desenharGrafico() {
 
     if (etapaAtual === 5) {
         let intervaloPontoA = setTimeout(function(){
-            let tempoAnimacaoPrimeiroPonto = desenharPonto(canvas.width/2, canvas.height / 2, 4);
+            let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
 
             let intervaloPontoB = setTimeout(function(){
 
-                let tempoAnimacaoSegundoPonto = desenharPonto(canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 4);
+                let tempoAnimacaoSegundoPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
                 let intervaloProsseguir = setTimeout(function(){
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
                 }, tempoAnimacaoSegundoPonto + 200)
@@ -845,7 +684,7 @@ function desenharGrafico() {
     }
     else if (etapaAtual === 6) {
         let intervaloReta = setTimeout(function() {
-            let tempoAnimacaoReta = desenharReta(canvas.width/2, canvas.height / 2, canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 10);
+            let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
             let intervaloProsseguir = setTimeout(function(){
                 desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
             }, tempoAnimacaoReta + 300)
@@ -854,56 +693,41 @@ function desenharGrafico() {
         intervalos.push(intervaloReta);
     }
     else if (etapaAtual === 7) { 
-        
-        let xInicial1 = canvas.width/2;
-        let yInicial1 = canvas.height / 2;
-        let xInicial2 = canvas.width/2 + espacoColuna;
-        let yInicial2 = canvas.height/2 - 3*espacoLinha;
+        let xInicial1 = getPosicaoX(x1);
+        let yInicial1 = getPosicaoY(y1);
+        let xInicial2 = getPosicaoX(x2);
+        let yInicial2 = getPosicaoY(y2);
         let xFinal1, yFinal1, xFinal2, yFinal2;
-        let velocidade = 10;
+        let velocidade = 1;
 
         let deltaX = x1 - x2;
         let deltaY = y1 - y2;
 
         let razao = Math.abs(deltaX /deltaY);
     
-        let y = canvas.height;
+        let y = Number.MAX_SAFE_INTEGER;
         let x = y * razao;
 
-        if (x1 > x2)
-        {
+        if (x1 > x2) {
             xFinal1 = canvas.width  / 2 + x;
             xFinal2 = canvas.width  / 2 - x;
         }
-        else
-        {
+        else {
             xFinal1 = canvas.width  / 2 - x;
             xFinal2 = canvas.width  / 2 + x;
         }
 
-        if (y1 > y2)
-        {
-            yFinal1 = canvas.height  / 2 - y;
-            yFinal2 = canvas.height  / 2 + y;
-        }
-        else
-        {
+        if (y1 > y2) {
             yFinal1 = canvas.height  / 2 + y;
             yFinal2 = canvas.height  / 2 - y;
         }
+        else {
+            yFinal1 = canvas.height  / 2 - y;
+            yFinal2 = canvas.height  / 2 + y;
+        }
 
-        let intervaloReta1 = setTimeout(function() {
-            let tempoAnimacaoReta1 = desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
-            let intervaloReta2 = setTimeout(function(){
-                let tempoAnimacaoReta2 = desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
-                let intervaloProsseguir = setTimeout(function(){
-                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-                }, tempoAnimacaoReta2)
-                intervalos.push(intervaloProsseguir);
-            }, tempoAnimacaoReta1 + 300)
-            intervalos.push(intervaloReta2);
-        }, 300);
-        intervalos.push(intervaloReta1);
+        desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
+        desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
     }
     else
         desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
@@ -914,23 +738,24 @@ function desenharGrafico() {
         c.fillStyle = '#1779ba';
 
         c.beginPath();    
-        c.arc(canvas.width/2, canvas.height / 2, 10, 0, Math.PI * 2 + Math.PI / 180);   
+        c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
         c.fill();
         c.stroke();
 
         c.beginPath();
-        c.arc(canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha, 10, 0, Math.PI * 2 + Math.PI / 180);  
+        c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
         c.fill();
         c.stroke();
     }
 
     if (etapaAtual > 6) {
         c.beginPath();
-        c.moveTo(canvas.width/2, canvas.height / 2);
-        c.lineTo(canvas.width/2 + espacoColuna, canvas.height/2 - 3*espacoLinha);
+        c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+        c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
         c.strokeStyle = '#1779ba';
         c.lineWidth = 5;
         c.stroke();
+        c.lineWidth = 1;
     }
 }
 
