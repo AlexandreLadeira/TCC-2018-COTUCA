@@ -365,6 +365,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .botaoFuncao {
+  cursor: pointer;
   display: none;
   width: 20%;
   background-color: #1779ba;
@@ -377,6 +378,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .mostrarCampoFuncao {
+  cursor: pointer;
   display: block;
   text-align: center;
   width: 20%;
