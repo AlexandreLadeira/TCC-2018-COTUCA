@@ -144,7 +144,7 @@ function escreverPontos() {
 var a, b;
 var x1, y1;
 var x2, y2;
-var funcao = "f(x) = 3x + 3";
+var funcao;
 function getAeBdaFuncao(x) {           
     let achou   = false; // Determina se achou um dos termos
 
