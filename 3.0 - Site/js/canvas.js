@@ -2,8 +2,6 @@
 var canvas = document.querySelector('canvas');
 var c      = canvas.getContext('2d');
 
-c.save();
-
 // Gráfico
 var espacoLinha , espacoColuna;
 espacoLinha = espacoColuna = 50;
@@ -15,11 +13,11 @@ var etapaAtual = 0;
 
 var Modos = {
     B_IGUAL_ZERO: "BIgualA0",
-    B_DIFERENTE_ZERO: "BDiferente0"
+    B_DIFERENTE_ZERO: "BDiferenteDe0"
 };
 
 var modo;
-
+var jaAnimou = false;
 var intervalos = [];
 
 // Message Box
@@ -253,10 +251,14 @@ function validarFuncao() {
         if (b != 0) {
             y1 = 0;
             x2 = 0;
-            modo = Modos.B_IGUAL_ZERO;
+            modo = Modos.B_DIFERENTE_ZERO;
         }
-        else    
+        else 
+        {
+            x1 = 0;
+            y1 = 0;
             modo = Modos.B_IGUAL_ZERO;
+        }   
             
         etapaAtual  = 1;
     
@@ -651,8 +653,8 @@ function getTextoDaEtapa(etapaAtual) {
             "da nossa função, ou seja, escolheremos um valor qualquer de 'x' e encontraremos o seu 'y' correspondente. Nesse caso, " +
             "escolheremos o primeiro valor positivo do nosso eixo x que temos marcado: " + razaoLabels + ".";
         else if (etapaAtual === 4)
-            return "Desse modo, encontraremos a seguinte equação: y = " + a + "x, e assim, podemos concluir que nosso segundo ponto é " +
-            "(" + x2 + ", " + y2 + ").";
+            return "Desse modo, encontraremos a seguinte equação: y = " + a + "*" + razaoLabels + ", e assim, podemos concluir" + 
+            "que nosso segundo ponto é (" + x2 + ", " + y2 + ").";
         else if (etapaAtual === 5)
             return "Assim, nós já temos dois pontos, e agora podemos traçar a nossa função! Para isso, caso você esteja fazendo em uma " +
             "folha de papel, basta apoiar uma régua sobre os dois pontos e ligá-los, assim traçando uma reta!";
@@ -704,7 +706,7 @@ function getPosicaoX(ponto, razaoLabels = 1){
 }
 
 function getPosicaoY(ponto, razaoLabels = 1){
-    return canvas.height / 2 + ponto * espacoLinha / razaoLabels;
+    return canvas.height / 2 - ponto * espacoLinha / razaoLabels;
 }
 
 function desenharGrafico() {
@@ -723,15 +725,86 @@ function desenharGrafico() {
     if (etapaAtual === 0)
         return;
 
-    if (modo === Modos.B_DIFERENTE_ZERO)
-    {
+    if (modo === Modos.B_DIFERENTE_ZERO) {
+        
+        if (etapaAtual > 5 || (etapaAtual === 5 && jaAnimou)) {        
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 1;         
+            c.fillStyle = '#1779ba';
+
+            c.beginPath();    
+            c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
+            c.fill();
+            c.stroke();
+
+            c.beginPath();
+            c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
+            c.fill();
+            c.stroke();
+        }
+
+        if (etapaAtual > 6 || (etapaAtual === 6 && jaAnimou)) {
+            c.beginPath();
+            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+            c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 5;
+            c.stroke();
+            c.lineWidth = 1;
+        }
+
+        if (etapaAtual === 7 && jaAnimou) {
+            let xFinal1, yFinal1, xFinal2, yFinal2;
+
+            let deltaX = x1 - x2;
+            let deltaY = y1 - y2;
+
+            let razao = Math.abs(deltaY /deltaX);
+        
+            let x = qtasColunas + 1;
+            let y = razao * x;
+
+            if (x1 > x2) {
+                xFinal1 = getPosicaoX(x);
+                xFinal2 = getPosicaoX(-x);
+            }
+            else {
+                xFinal1 = getPosicaoX(-x);
+                xFinal2 = getPosicaoX(x);
+            }
+
+            if (y1 > y2) {
+                yFinal1 = getPosicaoY(y);
+                yFinal2 = getPosicaoY(-y);
+            }
+            else {
+                yFinal1 = getPosicaoY(-y);
+                yFinal2 = getPosicaoY(y);
+            }
+
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 5;
+
+            c.beginPath();
+            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+            c.lineTo(xFinal1, yFinal1);
+            c.stroke();
+
+            c.beginPath();
+            c.moveTo(getPosicaoX(x2), getPosicaoY(y2));
+            c.lineTo(xFinal2, yFinal2);
+            c.stroke();
+
+            c.lineWidth = 1;
+        }
+
         let botaoAnterior = true, botaoProximo = true;
         if (etapaAtual === 1)
             botaoAnterior = false;
         else if (etapaAtual === 7)
             botaoProximo = false;  
 
-        if (etapaAtual === 5) {
+        if (etapaAtual === 5 && !jaAnimou) {
             let intervaloPontoA = setTimeout(function(){
                 let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
 
@@ -739,6 +812,7 @@ function desenharGrafico() {
 
                     let tempoAnimacaoSegundoPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
                     let intervaloProsseguir = setTimeout(function(){
+                        jaAnimou = true;
                         desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
                     }, tempoAnimacaoSegundoPonto + 200)
                 intervalos.push(intervaloProsseguir);
@@ -749,17 +823,18 @@ function desenharGrafico() {
         
             intervalos.push(intervaloPontoA);
         }
-        else if (etapaAtual === 6) {
+        else if (etapaAtual === 6 && !jaAnimou) {
             let intervaloReta = setTimeout(function() {
                 let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
                 let intervaloProsseguir = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
                 }, tempoAnimacaoReta + 300)
                 intervalos.push(intervaloProsseguir);
             }, 300);
             intervalos.push(intervaloReta);
         }
-        else if (etapaAtual === 7) { 
+        else if (etapaAtual === 7 && !jaAnimou) { 
             let xInicial1 = getPosicaoX(x1);
             let yInicial1 = getPosicaoY(y1);
             let xInicial2 = getPosicaoX(x2);
@@ -799,6 +874,7 @@ function desenharGrafico() {
             let intervalo1 = setTimeout(function(){
                 let tempo2 = desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
                 let intervalo2 = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);            
                 }, tempo2);
                 intervalos.push(intervalo2);
@@ -807,8 +883,14 @@ function desenharGrafico() {
         }
         else
             desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-        
-        if (etapaAtual > 5) {        
+
+    }
+    else if (modo === Modos.B_IGUAL_ZERO) {
+        x2 = razaoLabels;
+        y2 = a * razaoLabels;
+
+                
+        if (etapaAtual > 3 || (etapaAtual === 3 && jaAnimou)) { 
             c.strokeStyle = '#1779ba';
             c.lineWidth = 1;         
             c.fillStyle = '#1779ba';
@@ -817,6 +899,12 @@ function desenharGrafico() {
             c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
             c.fill();
             c.stroke();
+        }
+
+        if (etapaAtual > 5 || (etapaAtual === 5 && jaAnimou)) {        
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 1;         
+            c.fillStyle = '#1779ba';
 
             c.beginPath();
             c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
@@ -824,7 +912,7 @@ function desenharGrafico() {
             c.stroke();
         }
 
-        if (etapaAtual > 6) {
+        if (etapaAtual > 6 || (etapaAtual === 6 && jaAnimou)) {
             c.beginPath();
             c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
             c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
@@ -833,46 +921,92 @@ function desenharGrafico() {
             c.stroke();
             c.lineWidth = 1;
         }
-    }
-    else if (modo === Modos.B_IGUAL_ZERO)
-    {
+
+        if (etapaAtual === 7 && jaAnimou) {
+            let xFinal1, yFinal1, xFinal2, yFinal2;
+
+            let deltaX = x1 - x2;
+            let deltaY = y1 - y2;
+
+            let razao = Math.abs(deltaY /deltaX);
+        
+            let x = qtasColunas + 1;
+            let y = razao * x;
+
+            if (x1 > x2) {
+                xFinal1 = getPosicaoX(x);
+                xFinal2 = getPosicaoX(-x);
+            }
+            else {
+                xFinal1 = getPosicaoX(-x);
+                xFinal2 = getPosicaoX(x);
+            }
+
+            if (y1 > y2) {
+                yFinal1 = getPosicaoY(y);
+                yFinal2 = getPosicaoY(-y);
+            }
+            else {
+                yFinal1 = getPosicaoY(-y);
+                yFinal2 = getPosicaoY(y);
+            }
+
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 5;
+
+            c.beginPath();
+            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+            c.lineTo(xFinal1, yFinal1);
+            c.stroke();
+
+            c.beginPath();
+            c.moveTo(getPosicaoX(x2), getPosicaoY(y2));
+            c.lineTo(xFinal2, yFinal2);
+            c.stroke();
+
+            c.lineWidth = 1;
+        }
+
         let botaoAnterior = true, botaoProximo = true;
         if (etapaAtual === 1)
             botaoAnterior = false;
         else if (etapaAtual === 7)
             botaoProximo = false;  
 
-        if (etapaAtual === 3) {
+        if (etapaAtual === 3 && !jaAnimou) {
             let intervaloPonto = setTimeout(function(){
                 let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
                 let intervaloProsseguir = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-                }, tempoAnimacaoPrimeiroPonto)
+                }, tempoAnimacaoPrimeiroPonto + 200)
                 intervalos.push(intervaloProsseguir);
             }, 300)
             intervalos.push(intervaloPonto);
         }
-        else if (etapaAtual === 5) {
+        else if (etapaAtual === 5 && !jaAnimou) {
             let intervaloPonto = setTimeout(function(){
                 let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
                 let intervaloProsseguir = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-                }, tempoAnimacaoPrimeiroPonto)
+                }, tempoAnimacaoPrimeiroPonto + 200)
                 intervalos.push(intervaloProsseguir);
             }, 300)
             intervalos.push(intervaloPonto);
         }
-        else if (etapaAtual === 6) {
+        else if (etapaAtual === 6 && !jaAnimou) {
             let intervaloReta = setTimeout(function() {
                 let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
                 let intervaloProsseguir = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
                 }, tempoAnimacaoReta + 300)
                 intervalos.push(intervaloProsseguir);
             }, 300);
             intervalos.push(intervaloReta);
         }
-        else if (etapaAtual === 7) { 
+        else if (etapaAtual === 7 && !jaAnimou) { 
             let xInicial1 = getPosicaoX(x1);
             let yInicial1 = getPosicaoY(y1);
             let xInicial2 = getPosicaoX(x2);
@@ -912,6 +1046,7 @@ function desenharGrafico() {
             let intervalo1 = setTimeout(function(){
                 let tempo2 = desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
                 let intervalo2 = setTimeout(function(){
+                    jaAnimou = true;
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);            
                 }, tempo2);
                 intervalos.push(intervalo2);
@@ -920,38 +1055,6 @@ function desenharGrafico() {
         }
         else
             desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-        
-        if (etapaAtual > 3) { 
-            c.strokeStyle = '#1779ba';
-            c.lineWidth = 1;         
-            c.fillStyle = '#1779ba';
-
-            c.beginPath();    
-            c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
-            c.fill();
-            c.stroke();
-        }
-
-        if (etapaAtual > 5) {        
-            c.strokeStyle = '#1779ba';
-            c.lineWidth = 1;         
-            c.fillStyle = '#1779ba';
-
-            c.beginPath();
-            c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
-            c.fill();
-            c.stroke();
-        }
-
-        if (etapaAtual > 6) {
-            c.beginPath();
-            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
-            c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
-            c.strokeStyle = '#1779ba';
-            c.lineWidth = 5;
-            c.stroke();
-            c.lineWidth = 1;
-        }
     }
 }
 
@@ -1022,6 +1125,7 @@ elem.addEventListener('click', function(event) {
         y = event.pageY - elemTop;
    if (mouseSobreAnterior(x, y))
     {
+        jaAnimou = true;
         etapaAtual--;
         fecharMessageBox();
         desenharGrafico();
@@ -1029,6 +1133,7 @@ elem.addEventListener('click', function(event) {
     }
    else if (mouseSobreProximo(x, y))
     {
+        jaAnimou = false;
         etapaAtual++;
         fecharMessageBox();
         desenharGrafico();
