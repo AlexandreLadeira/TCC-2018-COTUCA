@@ -172,8 +172,8 @@ function tratarCampoFuncao(){
 }
 
 function gerarGrafico() {
-	if(!validarFuncao())
-		tratarCampoFuncao();
+	validarFuncao();
+	tratarCampoFuncao();
 }
 
 

@@ -483,3 +483,7 @@ body::-webkit-scrollbar-thumb {
 .mostrarCampoFuncao.active {
   display: none;
 }
+
+.container{
+  flex-grow: 1;
+}
