@@ -439,3 +439,7 @@ h3{
 .grid-container {
   flex-grow: 1;
 }
+
+.container{
+  flex-grow: 1;
+}

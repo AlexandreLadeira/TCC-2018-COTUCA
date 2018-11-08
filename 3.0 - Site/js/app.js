@@ -171,9 +171,9 @@ function tratarCampoFuncao(){
 	botaoMostrarFuncao.classList.toggle('active');
 }
 
-function teste() {
-	alert('Arruma logo, Sforça');
-	tratarCampoFuncao();
+function gerarGrafico() {
+	if(!validarFuncao())
+		tratarCampoFuncao();
 }
 
 

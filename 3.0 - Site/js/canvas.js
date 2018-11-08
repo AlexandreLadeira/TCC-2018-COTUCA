@@ -221,7 +221,12 @@ function getAeBdaFuncao(x) {
 function validarFuncao() {
     
     funcao = document.getElementById("funcao").value;
-    funcao = "f(x) = 3x + 3";
+
+    if(funcao === "") {
+        desenharEixos();
+        desenharGrade();
+        return;
+    }
 
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
     let expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)|(\s*))$/;   
@@ -254,7 +259,7 @@ function validarFuncao() {
     else
     {
         alert("A função deve serguir o padrão f(x) = ax + b ou y = ax + b");
-        return; 
+        return false; 
     }
 }
 

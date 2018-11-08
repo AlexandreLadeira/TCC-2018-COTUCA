@@ -22,12 +22,13 @@
             <a onclick="trocaEstilo()"><img src="imagens/menu4.png" class="icone" id="menu4">&nbsp;&nbsp;&nbsp;Alto contraste</a>
             <a><div class="vel"><img src="imagens/menu5.png" class="icone" id="menu5">&nbsp;&nbsp;&nbsp;<input id="velocidade" class="velocidade" type="range" name="points" min="0.5" max="2.0" step="0.1"></div></a>
         </div>
+        
         <div class="funcao">
             <div class="digitarFuncao">
                 <label id="contraste"> Digite a função: </label>
                 <input id="funcao" type="text" placeholder="f(x) = ...x + ... ou y = ...x + ..." onfocus="if(this.value == '') this.value = 'f(x) = '"/>
             </div>
-            <div class="botaoFuncao" onclick="teste()"><img src="imagens/funcao1.png" id="funcao1"></div>
+            <div class="botaoFuncao" onclick="gerarGrafico()"><img src="imagens/funcao1.png" id="funcao1"></div>
             <div class="mostrarCampoFuncao" onclick="tratarCampoFuncao()"><img src="imagens/menu3.png" id="funcao2"></div>
         </div>
 
