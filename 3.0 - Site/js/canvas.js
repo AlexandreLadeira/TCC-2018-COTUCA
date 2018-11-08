@@ -10,8 +10,15 @@ espacoLinha = espacoColuna = 50;
 
 var qtasLinhas  = 0;
 var qtasColunas = 0;
-
+var razaoLabels = 1;
 var etapaAtual = 0;
+
+var Modos = {
+    B_IGUAL_ZERO: "BIgualA0",
+    B_DIFERENTE_ZERO: "BDiferente0"
+};
+
+var modo;
 
 var intervalos = [];
 
@@ -94,7 +101,7 @@ function desenharEixos() {
 }
 
 // FUNÇÃO PARA ESCREVER AS POSIÇÕES DOS PONTOS NO GRÁFICO
-function escreverPontos(razaoLabels = 1) {
+function escreverPontos() {
     c.beginPath();
 
     // Configuração da fonte dos pontos -----------------------------------------------------------------
@@ -223,8 +230,7 @@ function validarFuncao() {
     funcao = document.getElementById("funcao").value;
 
     if(funcao === "") {
-        desenharEixos();
-        desenharGrade();
+        desenharGrafico();
         return;
     }
 
@@ -240,19 +246,19 @@ function validarFuncao() {
         a = valores[0];
         b = valores[1];
 
-        x1 = -b/a;
-        y2 = b;
+        x1 = Math.round(-b/a * 100) / 100;
+        y2 = Math.round(b * 100) /100;
 
         // Não cruza no ponto (0, 0):
         if (b != 0) {
             y1 = 0;
             x2 = 0;
+            modo = Modos.B_IGUAL_ZERO;
         }
-
-        if (b == 0)
-            etapaAtual = 0.5;
-        else
-            etapaAtual  = 1;
+        else    
+            modo = Modos.B_IGUAL_ZERO;
+            
+        etapaAtual  = 1;
     
         desenharGrafico(etapaAtual);
     }
@@ -548,61 +554,115 @@ function desenharReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
         }
     }, intervalo);
 
-    return Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), 1/2) / Math.pow(Math.pow(aumentoX, 2) + Math.pow(aumentoY, 2), 1/2) * intervalo;
+    return Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), 1/2) / (Math.pow(Math.pow(aumentoX, 2) + Math.pow(aumentoY, 2), 1/2) / intervalo);
 }
 
 function getTituloDaEtapa(etapaAtual) {
-    if (etapaAtual == 1)
-        return "Como encontrar o gráfico?";
-    else if (etapaAtual == 2)
-        return "Etapa 1: Encontrar dois pontos";
-    else if (etapaAtual == 3)
-        return "Etapa 1: Encontrar dois pontos";
-    else if (etapaAtual == 4)
-        return "Etapa 1: Encontrar dois pontos";
-    else if (etapaAtual == 5)
-        return "Etapa 2: Traçar a reta";
-    else if (etapaAtual == 6)
-        return "Etapa 3: Prolongar a reta";
-    else
-        return ""; 
+
+    if (modo === Modos.B_DIFERENTE_ZERO)
+    {
+        if (etapaAtual === 1)
+            return "Como encontrar o gráfico?";
+        else if (etapaAtual === 2)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 3)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 4)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 5)
+            return "Etapa 2: Traçar a reta";
+        else if (etapaAtual === 6)
+            return "Etapa 3: Prolongar a reta";
+        else if (etapaAtual === 7)
+            return "Gráfico encontrado!";
+    }
+    
+    if (modo === Modos.B_IGUAL_ZERO)
+    {
+        if (etapaAtual === 1)
+            return "Como encontrar o gráfico?";
+        else if (etapaAtual === 2)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 3)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 4)
+            return "Etapa 1: Encontrar dois pontos";
+        else if (etapaAtual === 5)
+            return "Etapa 2: Traçar a reta";
+        else if (etapaAtual === 6)
+            return "Etapa 3: Prolongar a reta";
+        else if (etapaAtual === 7)
+            return "Gráfico encontrado!";
+    }
+
+    return ""; 
 }
 
 function getTextoDaEtapa(etapaAtual) {
-    if (etapaAtual == 1)
-        return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar o gráfico da função " + funcao + "! " +
-        "Vou te mostrar que não é nem um pouco difícil!";
-    else if (etapaAtual == 2)
-        return "Certo, vamos começar! O primeiro passo é encontrar dois pontos dessa função, uma vez que toda reta é " +
-        "definida por dois pontos. A maneira mais comum de fazer isso é determinando os dois pontos pelos quais a função " +
-        "cruza o eixo x e o eixo y, e como sabemos que nossa função não passa pela origem, pois 'b' é diferente de 0 (é igual " +
-        "a " + b + "), podemos ter certeza que nossa reta cruza o eixo x e o eixo y em pontos diferentes!";
-    else if (etapaAtual == 3)
+    if (modo === Modos.B_DIFERENTE_ZERO)
     {
-        let texto = "Muito bem! Sabendo disso, devemos encontrar os pontos em que a nossa função cruza o eixo X e o eixo Y. Vamos " + 
-        "começar pelo eixo X. Para isso, substituiremos o valor de f(x) (ou y), da função " + funcao + " por 0, pois queremos " + 
-        "encontrar o valor que x equivale quando y é igual a 0. Assim, encontraremos uma equação: 0 = " + a + "x ";
+        if (etapaAtual === 1)
+            return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar o gráfico da função " + funcao + "! " +
+            "Vou te mostrar que não é nem um pouco difícil!";
+        else if (etapaAtual === 2)
+            return "Certo, vamos começar! O primeiro passo é encontrar dois pontos dessa função, uma vez que toda reta é " +
+            "definida por dois pontos. A maneira mais comum de fazer isso é determinando os dois pontos pelos quais a função " +
+            "cruza o eixo x e o eixo y, e como sabemos que nossa função não passa pela origem, pois 'b' é diferente de 0 (é igual " +
+            "a " + b + "), podemos ter certeza que nossa reta cruza o eixo x e o eixo y em pontos diferentes!";
+        else if (etapaAtual === 3)
+        {
+            let texto = "Muito bem! Sabendo disso, devemos encontrar os pontos em que a nossa função cruza o eixo X e o eixo Y. Vamos " + 
+            "começar pelo eixo X. Para isso, substituiremos o valor de f(x) (ou y), da função " + funcao + " por 0, pois queremos " + 
+            "encontrar o valor que x equivale quando y é igual a 0. Assim, encontraremos uma equação: 0 = " + a + "x ";
 
-        if (b >= 0)
-            texto += "+ " + b;
-        else
-            texto += "- " + Math.abs(b);
+            if (b >= 0)
+                texto += "+ " + b;
+            else
+                texto += "- " + Math.abs(b);
 
-        return texto;
+            return texto;
+        }
+        else if (etapaAtual === 4)
+            return "Com essa equação, tudo o que devemos fazer é resolvê-la, e assim podemos concluir que x = " + x1 + ". " +
+            "Desse modo, já encontramos um dos pontos, que no caso é o (" + x1 + ", " + y1 + ")! Agora, nós devemos encontrar o outro ponto, e " +
+            "para fazer isso, faremos a mesma coisa, mas agora substituiremos x por 0, encontrando assim uma outra equação: " +
+            "y = " + b + ". Muito mais fácil, não? E assim, temos o segundo ponto: (" + x2 + ", " + y2 + ")!";
+        else if (etapaAtual === 5)
+            return "Assim, nós já temos dois pontos, e agora podemos traçar nossa função! Para isso, caso você esteja fazendo " + 
+            "em uma folha de papel, basta apoiar uma régua sobre os dois pontos e ligá-los, assim traçando uma reta!";
+        else if (etapaAtual === 6)
+            return "Agora que já ligamos os pontos, nossa função já está praticamente pronta! Tudo o que falta fazer é prolongar " + 
+            "a reta do nosso gráfico. Assim, basta que aumentemos a nossa reta até os limites do gráfico!";
+        else if (etapaAtual === 7)
+            return "E assim, encontramos o gráfico da função " + funcao + "!"; 
     }
-    else if (etapaAtual == 4)
-        return "Com essa equação, tudo o que devemos fazer é resolvê-la, e assim podemos concluir que x = " + (-b / a) + ". " +
-        "Desse modo, já encontramos um dos pontos, que no caso é o (" + x1 + ", " + y1 + ")! Agora, nós devemos encontrar o outro ponto, e " +
-        "para fazer isso, faremos a mesma coisa, mas agora substituiremos x por 0, encontrando assim uma outra equação: " +
-        "y = " + b + ". Muito mais fácil, não? E assim, temos o segundo ponto: (" + x2 + ", " + y2 + ")!";
-    else if (etapaAtual == 5)
-        return "Assim, nós já temos dois pontos, e agora podemos traçar nossa função! Para isso, caso você esteja fazendo " + 
-        "em uma folha de papel, basta apoiar uma régua sobre os dois pontos e ligá-los, assim traçando uma reta!";
-    else if (etapaAtual == 6)
-        return "Agora que já ligamos os pontos, nossa função já está praticamente pronta! Tudo o que falta fazer é prolongar " + 
-        "a reta do nosso gráfico. Assim, basta que aumentemos a nossa reta até os limites do gráfico!";
-    else
-        return "";
+    else if (modo === Modos.B_IGUAL_ZERO)
+    {
+        if (etapaAtual === 1)
+            return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar o gráfico da função " + funcao + "! " +
+            "Vou te mostrar que não é nem um pouco difícil!";
+        else if (etapaAtual === 2)
+            return "Certo, vamos começar! O primeiro passo é encontrar dois pontos dessa função, uma vez que toda reta é " +
+            "definida por dois pontos. A maneira mais comum de fazer isso é determinando os dois pontos pelos quais a função " +
+            "cruza o eixo x e o eixo y. Mas, como 'b' é igual a 0, temos de fazer isso de outra maneira. Entretando, graças a esse " +
+            "valor de 'b', podemos ter certeza de que a nossa função passará pelo ponto (0, 0).";
+        else if (etapaAtual === 3)
+            return "Então, sabendo disso, encontraremos o nosso gráfico da seguinte maneira: encontraremos um outro ponto qualquer " +
+            "da nossa função, ou seja, escolheremos um valor qualquer de 'x' e encontraremos o seu 'y' correspondente. Nesse caso, " +
+            "escolheremos o primeiro valor positivo do nosso eixo x que temos marcado: " + razaoLabels + ".";
+        else if (etapaAtual === 4)
+            return "Desse modo, encontraremos a seguinte equação: y = " + a + "x, e assim, podemos concluir que nosso segundo ponto é " +
+            "(" + x2 + ", " + y2 + ").";
+        else if (etapaAtual === 5)
+            return "Assim, nós já temos dois pontos, e agora podemos traçar a nossa função! Para isso, caso você esteja fazendo em uma " +
+            "folha de papel, basta apoiar uma régua sobre os dois pontos e ligá-los, assim traçando uma reta!";
+        else if (etapaAtual === 6)
+            return "Agora que já ligamos os pontos, nossa função já está praticamente pronta! Tudo o que falta fazer é prolongar " + 
+            "a reta do nosso gráfico. Assim, basta que aumentemos a nossa reta até os limites do gráfico!";
+        else if (etapaAtual === 7)
+            return "E assim, encontramos o gráfico da função " + funcao + "!";
+    }
+    return "";
 
 }
 
@@ -663,104 +723,235 @@ function desenharGrafico() {
     if (etapaAtual === 0)
         return;
 
-    let botaoAnterior = true, botaoProximo = true;
-    if (etapaAtual === 1)
-        botaoAnterior = false;
-    else if (etapaAtual === 7)
-        botaoProximo = false;  
+    if (modo === Modos.B_DIFERENTE_ZERO)
+    {
+        let botaoAnterior = true, botaoProximo = true;
+        if (etapaAtual === 1)
+            botaoAnterior = false;
+        else if (etapaAtual === 7)
+            botaoProximo = false;  
 
-    if (etapaAtual === 5) {
-        let intervaloPontoA = setTimeout(function(){
-            let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
+        if (etapaAtual === 5) {
+            let intervaloPontoA = setTimeout(function(){
+                let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
 
-            let intervaloPontoB = setTimeout(function(){
+                let intervaloPontoB = setTimeout(function(){
 
-                let tempoAnimacaoSegundoPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
+                    let tempoAnimacaoSegundoPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
+                    let intervaloProsseguir = setTimeout(function(){
+                        desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+                    }, tempoAnimacaoSegundoPonto + 200)
+                intervalos.push(intervaloProsseguir);
+
+                }, tempoAnimacaoPrimeiroPonto + 400);  
+                intervalos.push(intervaloPontoB);
+            }, 300);
+        
+            intervalos.push(intervaloPontoA);
+        }
+        else if (etapaAtual === 6) {
+            let intervaloReta = setTimeout(function() {
+                let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
                 let intervaloProsseguir = setTimeout(function(){
                     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-                }, tempoAnimacaoSegundoPonto + 200)
-            intervalos.push(intervaloProsseguir);
-
-            }, tempoAnimacaoPrimeiroPonto + 400);  
-            intervalos.push(intervaloPontoB);
-        }, 300);
-    
-        intervalos.push(intervaloPontoA);
-    }
-    else if (etapaAtual === 6) {
-        let intervaloReta = setTimeout(function() {
-            let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
-            let intervaloProsseguir = setTimeout(function(){
-                desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-            }, tempoAnimacaoReta + 300)
-            intervalos.push(intervaloProsseguir);
-        }, 300);
-        intervalos.push(intervaloReta);
-    }
-    else if (etapaAtual === 7) { 
-        let xInicial1 = getPosicaoX(x1);
-        let yInicial1 = getPosicaoY(y1);
-        let xInicial2 = getPosicaoX(x2);
-        let yInicial2 = getPosicaoY(y2);
-        let xFinal1, yFinal1, xFinal2, yFinal2;
-        let velocidade = 1;
-
-        let deltaX = x1 - x2;
-        let deltaY = y1 - y2;
-
-        let razao = Math.abs(deltaX /deltaY);
-    
-        let y = Number.MAX_SAFE_INTEGER;
-        let x = y * razao;
-
-        if (x1 > x2) {
-            xFinal1 = canvas.width  / 2 + x;
-            xFinal2 = canvas.width  / 2 - x;
+                }, tempoAnimacaoReta + 300)
+                intervalos.push(intervaloProsseguir);
+            }, 300);
+            intervalos.push(intervaloReta);
         }
-        else {
-            xFinal1 = canvas.width  / 2 - x;
-            xFinal2 = canvas.width  / 2 + x;
+        else if (etapaAtual === 7) { 
+            let xInicial1 = getPosicaoX(x1);
+            let yInicial1 = getPosicaoY(y1);
+            let xInicial2 = getPosicaoX(x2);
+            let yInicial2 = getPosicaoY(y2);
+            let xFinal1, yFinal1, xFinal2, yFinal2;
+            let velocidade = 1;
+
+            let deltaX = x1 - x2;
+            let deltaY = y1 - y2;
+
+            let razao = Math.abs(deltaY /deltaX);
+        
+            let x = qtasColunas + 1;
+            let y = razao * x;
+
+            if (x1 > x2) {
+                xFinal1 = getPosicaoX(x);
+                xFinal2 = getPosicaoX(-x);
+            }
+            else {
+                xFinal1 = getPosicaoX(-x);
+                xFinal2 = getPosicaoX(x);
+            }
+
+            if (y1 > y2) {
+                yFinal1 = getPosicaoY(y);
+                yFinal2 = getPosicaoY(-y);
+            }
+            else {
+                yFinal1 = getPosicaoY(-y);
+                yFinal2 = getPosicaoY(y);
+            }
+
+            /* TEMPO AINDA NÃO ESTÁ PERFEITO */
+
+            let tempo1 = desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
+            let intervalo1 = setTimeout(function(){
+                let tempo2 = desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
+                let intervalo2 = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);            
+                }, tempo2);
+                intervalos.push(intervalo2);
+            }, tempo1);
+            intervalos.push(intervalo1);
+        }
+        else
+            desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+        
+        if (etapaAtual > 5) {        
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 1;         
+            c.fillStyle = '#1779ba';
+
+            c.beginPath();    
+            c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
+            c.fill();
+            c.stroke();
+
+            c.beginPath();
+            c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
+            c.fill();
+            c.stroke();
         }
 
-        if (y1 > y2) {
-            yFinal1 = canvas.height  / 2 + y;
-            yFinal2 = canvas.height  / 2 - y;
+        if (etapaAtual > 6) {
+            c.beginPath();
+            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+            c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 5;
+            c.stroke();
+            c.lineWidth = 1;
         }
-        else {
-            yFinal1 = canvas.height  / 2 - y;
-            yFinal2 = canvas.height  / 2 + y;
-        }
-
-        desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
-        desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
     }
-    else
-        desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-    
-    if (etapaAtual > 5) {        
-        c.strokeStyle = '#1779ba';
-        c.lineWidth = 1;         
-        c.fillStyle = '#1779ba';
+    else if (modo === Modos.B_IGUAL_ZERO)
+    {
+        let botaoAnterior = true, botaoProximo = true;
+        if (etapaAtual === 1)
+            botaoAnterior = false;
+        else if (etapaAtual === 7)
+            botaoProximo = false;  
 
-        c.beginPath();    
-        c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
-        c.fill();
-        c.stroke();
+        if (etapaAtual === 3) {
+            let intervaloPonto = setTimeout(function(){
+                let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x1), getPosicaoY(y1), 4);
+                let intervaloProsseguir = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+                }, tempoAnimacaoPrimeiroPonto)
+                intervalos.push(intervaloProsseguir);
+            }, 300)
+            intervalos.push(intervaloPonto);
+        }
+        else if (etapaAtual === 5) {
+            let intervaloPonto = setTimeout(function(){
+                let tempoAnimacaoPrimeiroPonto = desenharPonto(getPosicaoX(x2), getPosicaoY(y2), 4);
+                let intervaloProsseguir = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+                }, tempoAnimacaoPrimeiroPonto)
+                intervalos.push(intervaloProsseguir);
+            }, 300)
+            intervalos.push(intervaloPonto);
+        }
+        else if (etapaAtual === 6) {
+            let intervaloReta = setTimeout(function() {
+                let tempoAnimacaoReta = desenharReta(getPosicaoX(x1), getPosicaoY(y1), getPosicaoX(x2), getPosicaoY(y2), 10);
+                let intervaloProsseguir = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+                }, tempoAnimacaoReta + 300)
+                intervalos.push(intervaloProsseguir);
+            }, 300);
+            intervalos.push(intervaloReta);
+        }
+        else if (etapaAtual === 7) { 
+            let xInicial1 = getPosicaoX(x1);
+            let yInicial1 = getPosicaoY(y1);
+            let xInicial2 = getPosicaoX(x2);
+            let yInicial2 = getPosicaoY(y2);
+            let xFinal1, yFinal1, xFinal2, yFinal2;
+            let velocidade = 1;
 
-        c.beginPath();
-        c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
-        c.fill();
-        c.stroke();
-    }
+            let deltaX = x1 - x2;
+            let deltaY = y1 - y2;
 
-    if (etapaAtual > 6) {
-        c.beginPath();
-        c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
-        c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
-        c.strokeStyle = '#1779ba';
-        c.lineWidth = 5;
-        c.stroke();
-        c.lineWidth = 1;
+            let razao = Math.abs(deltaY /deltaX);
+        
+            let x = qtasColunas + 1;
+            let y = razao * x;
+
+            if (x1 > x2) {
+                xFinal1 = getPosicaoX(x);
+                xFinal2 = getPosicaoX(-x);
+            }
+            else {
+                xFinal1 = getPosicaoX(-x);
+                xFinal2 = getPosicaoX(x);
+            }
+
+            if (y1 > y2) {
+                yFinal1 = getPosicaoY(y);
+                yFinal2 = getPosicaoY(-y);
+            }
+            else {
+                yFinal1 = getPosicaoY(-y);
+                yFinal2 = getPosicaoY(y);
+            }
+
+            /* TEMPO AINDA NÃO ESTÁ PERFEITO */
+
+            let tempo1 = desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
+            let intervalo1 = setTimeout(function(){
+                let tempo2 = desenharReta(xInicial2, yInicial2, xFinal2, yFinal2, velocidade);
+                let intervalo2 = setTimeout(function(){
+                    desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);            
+                }, tempo2);
+                intervalos.push(intervalo2);
+            }, tempo1);
+            intervalos.push(intervalo1);
+        }
+        else
+            desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+        
+        if (etapaAtual > 3) { 
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 1;         
+            c.fillStyle = '#1779ba';
+
+            c.beginPath();    
+            c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);   
+            c.fill();
+            c.stroke();
+        }
+
+        if (etapaAtual > 5) {        
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 1;         
+            c.fillStyle = '#1779ba';
+
+            c.beginPath();
+            c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
+            c.fill();
+            c.stroke();
+        }
+
+        if (etapaAtual > 6) {
+            c.beginPath();
+            c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+            c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
+            c.strokeStyle = '#1779ba';
+            c.lineWidth = 5;
+            c.stroke();
+            c.lineWidth = 1;
+        }
     }
 }
 
