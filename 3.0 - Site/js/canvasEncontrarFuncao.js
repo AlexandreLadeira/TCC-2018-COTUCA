@@ -136,6 +136,33 @@ function escreverPontos() {
     c.stroke();
 }
 
+
+var x1, y1, x2, y2;
+var a, b;
+function validarPontos()
+{
+    // Excluir Depois:
+
+    x1 = 0;
+    y1 = -1;
+    x2 = -2;
+    y2 = 2;
+
+    //////////////////
+
+    a = (y1 - y2) / (x1 - x2);
+    b = y1 - a*x1;
+
+    if (b === 0)
+        modo = Modos.B_IGUAL_ZERO;
+    else
+        modo = Modos.B_DIFERENTE_ZERO;
+    
+    etapaAtual = 1;
+
+    desenharGrafico();
+}
+
 function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizado = false) {
 
     messageBoxHabilitado = true;
@@ -367,17 +394,105 @@ function getTituloDaEtapa(etapaAtual) {
     return ""; 
 }
 
+/*
+var texto = "";
+
+if (etapaAtual == 0)
+{
+    texto = "Para encontrar a função, utilizaremos primeiramente o que chamamos de 'sistema'. Para isso, basta substituir tanto " +
+    "x quanto y do 'corpo' de uma função linear (y = ax + b) pelos valores de cada ponto que conhecemos, encontrando duas " +
+    "equações: "  + y1 + " = " + x1 + " * a + b e " + y2 + " = " + x2 + " * a + b. Devemos nos lembrar que tanto o valor de a " + 
+    "e b são iguais nas duas equações encontradas, e assim, podemos igualar o valor de 'b', encontrando uma única equação com " +
+    "uma única incógnita, 'a': ";
+
+    var comoEscreverX1, comoEscreverX2;
+    if (x1 >= 0)
+        comoEscreverX1 = " - a*" + x1;
+    else
+        comoEscreverX1 = " + a*" + x1*-1;
+    
+    if (x2 >= 0)
+        comoEscreverX2 = " - a*" + x2;
+    else
+        comoEscreverX2 = " + a*" + x2*-1;
+    
+    texto += y1 + comoEscreverX1 + " = " + y2 + comoEscreverX2;
+} 
+else if (etapaAtual == 0.5)
+    texto = "Para encontrar a função, devemos encontrar o valor tanto de 'a' quanto de 'b'. Como sabemos que temos um ponto que " +
+    "passa por (0, 0), encontrar o valor de 'b' fica ainda mais fácil. Substituindo os valores desse ponto no 'corpo' da função " +
+    "(y = ax + b), encontramos 0 = a*0 + b, e assim podemos concluir que o valor de 'b' é igual a 0.";
+else if (etapaAtual == 1)
+{
+    texto = "Como já encontramos uma equação com a incógnita 'a', podemos desenvolvê-la e assim encontraremos o valor de 'a', " +
+    "que será igual a " + a;
+}
+else if (etapaAtual == 1.5)
+{
+    texto = "Como já encontramos o valor de 'b', agora podemos encontrar o valor de 'a'. Para isso, basta substituir " +
+    "tanto o valor que encontramos de 'b' quanto os valores de um dos pontos no 'corpo' da função. Vamos utilizar o ponto x1, " +
+    "mas poderíamos utilizar o ponto x2. Substituindo, encontramos: ";
+    
+    var comoEscreverElemento;
+
+    if (x1 >= 0)
+        comoEscreverElemento = "a*" + x1;
+    else
+        comoEscreverElemento = "- a*" + x2*-1;
+
+    texto += "y = " + comoEscreverElemento + " + 0, que é o mesmo que y = " + comoEscreverElemento + ". Assim, encontramos " +
+    "que a = " + a; 
+}
+else if (etapaAtual == 2)
+{
+    texto = "Como já encontramos o valor de 'a', tudo o que devemos fazer é escolher um ponto dentre os que sabemos, substituir tanto seus valores de 'x' " +
+    "e de 'y' quanto o de 'a' no 'corpo' da função e encontrar o valor de 'b'. Utilizaremos o primeiro ponto: ";
+
+    var comoEscreverElemento;
+    if (a*x1 > 0)
+        comoEscreverElemento = "- " + (a*x1);
+    else
+        comoEscreverElemento = "+ " + (a*x1*-1); 
+
+    texto += y1 + comoEscreverElemento + " = b. Assim, concluímos que b = " + b;
+}
+else if (etapaAtual == 2.5)
+    texto = "Tudo o que devemos fazer agora é substituir todos os valores que encontramos de 'a' e 'b' na função. " + 
+    "Como 'a' equivale a " + a + " e 'b' equivale a 0, podemos concluir que a equação da função é y = " + a + "x.";
+else if (etapaAtual == 3)
+{
+    texto = "Agora que já encontramos os valores de 'a' e de 'b', tudo o que devemos fazer é substituir esses valores no corpo da função: " +
+    "y = " + a + "x";
+
+    var comoEscreverB;
+
+    if (b > 0)
+        comoEscreverB = "+ " + b;
+    else if (b == 0)
+        comoEscreverB = "";
+    else
+        comoEscreverB = "- " + b*-1;
+    
+    texto += comoEscreverB;
+}
+
+return texto;
+*/
+
 function getTextoDaEtapa(etapaAtual) {
     if (modo === Modos.B_DIFERENTE_ZERO)
     {
         if (etapaAtual === 1)
-            return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar o gráfico da função " + funcao + "! " +
-            "Vou te mostrar que não é nem um pouco difícil!";
+            return "Olá, tudo bem? Meu nome é Professor Funcio e vou ajudá-lo a encontrar a função a partir de seu gráfico, ou " +
+            "seja, a partir de dois de seus pontos: (" + x1 + ", " + y1 + ") e (" + x2 + ", " + y2 + ")!";
         else if (etapaAtual === 2)
-            return "Certo, vamos começar! O primeiro passo é encontrar dois pontos dessa função, uma vez que toda reta é " +
-            "definida por dois pontos. A maneira mais comum de fazer isso é determinando os dois pontos pelos quais a função " +
-            "cruza o eixo x e o eixo y, e como sabemos que nossa função não passa pela origem, pois 'b' é diferente de 0 (é igual " +
-            "a " + b + "), podemos ter certeza que nossa reta cruza o eixo x e o eixo y em pontos diferentes!";
+            return "Certo, vamos começar! Para encontrar ";
+
+            texto = "Para encontrar a função, utilizaremos primeiramente o que chamamos de 'sistema'. Para isso, basta substituir tanto " +
+            "x quanto y do 'corpo' de uma função linear (y = ax + b) pelos valores de cada ponto que conhecemos, encontrando duas " +
+            "equações: "  + y1 + " = " + x1 + " * a + b e " + y2 + " = " + x2 + " * a + b. Devemos nos lembrar que tanto o valor de a " + 
+            "e b são iguais nas duas equações encontradas, e assim, podemos igualar o valor de 'b', encontrando uma única equação com " +
+            "uma única incógnita, 'a': ";
         else if (etapaAtual === 3)
         {
             let texto = "Muito bem! Sabendo disso, devemos encontrar os pontos em que a nossa função cruza o eixo X e o eixo Y. Vamos " + 
@@ -487,6 +602,71 @@ function desenharGrafico() {
     if (etapaAtual === 0) 
         return;
 
+    c.strokeStyle = '#1779ba';
+    c.lineWidth = 1;         
+    c.fillStyle = '#1779ba';
+
+    c.beginPath();    
+    c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);  
+    c.fill();
+    c.stroke();
+
+    c.beginPath();    
+    c.arc(getPosicaoX(x2), getPosicaoY(y2), 10, 0, Math.PI * 2 + Math.PI / 180);  
+    c.fill();
+    c.stroke(); 
+
+    c.beginPath();
+    c.strokeStyle = '#1779ba';
+    c.lineWidth = 5;
+    c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+    c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
+    c.stroke();
+    c.lineWidth = 1;
+
+    let xFinal1, yFinal1, xFinal2, yFinal2;
+
+    let deltaX = x1 - x2;
+    let deltaY = y1 - y2;
+
+    let razao = Math.abs(deltaY /deltaX);
+
+    let x = qtasColunas + 1;
+    let y = razao * x;
+
+    if (x1 > x2) {
+        xFinal1 = getPosicaoX(x);
+        xFinal2 = getPosicaoX(-x);
+    }
+    else {
+        xFinal1 = getPosicaoX(-x);
+        xFinal2 = getPosicaoX(x);
+    }
+
+    if (y1 > y2) {
+        yFinal1 = getPosicaoY(y);
+        yFinal2 = getPosicaoY(-y);
+    }
+    else {
+        yFinal1 = getPosicaoY(-y);
+        yFinal2 = getPosicaoY(y);
+    }
+
+    c.strokeStyle = '#1779ba';
+    c.lineWidth = 5;
+
+    c.beginPath();
+    c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
+    c.lineTo(xFinal1, yFinal1);
+    c.stroke();
+
+    c.beginPath();
+    c.moveTo(getPosicaoX(x2), getPosicaoY(y2));
+    c.lineTo(xFinal2, yFinal2);
+    c.stroke();
+
+    c.lineWidth = 1;
+
     let botaoAnterior = true, botaoProximo = true;
 
     if (etapaAtual === 1)
@@ -496,7 +676,6 @@ function desenharGrafico() {
         botaoAnterior = false;
 
     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
-
 
 }
 
