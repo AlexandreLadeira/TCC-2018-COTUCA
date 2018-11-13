@@ -11,18 +11,17 @@ var qtasColunas = 0;
 var razaoLabels = 1;
 var etapaAtual = 0;
 
-var Modos = {
-    B_IGUAL_ZERO: "BIgualA0",
-    B_DIFERENTE_ZERO: "BDiferenteDe0"
-};
-
-var modo;
-
 // Message Box
 var messageBoxHabilitado         = true;
 var messageBoxAnteriorHabilitado = true;
 var messageBoxProximoHabilitado  = true;
 var messageBoxMinimizado         = false;
+
+// Caixa das funções
+var caixaFuncoesMinimizada = false;
+var funcaoExibida;
+var aExibido;
+var bExibido;
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -152,11 +151,6 @@ function validarPontos()
 
     a = Math.round((y1 - y2) / (x1 - x2) * 100)/ 100 ;
     b = Math.round((y1 - a*x1) * 100)/100 ;
-
-    if (b === 0)
-        modo = Modos.B_IGUAL_ZERO;
-    else
-        modo = Modos.B_DIFERENTE_ZERO;
     
     etapaAtual = 1;
 
@@ -353,8 +347,51 @@ function fecharMessageBox() {
     messageBoxProximoHabilitado  = false;
 }
 
-function getTituloDaEtapa(etapaAtual) {
+function desenharCaixaDasFuncoes() {
     
+    if (!caixaFuncoesMinimizada) {
+        c.beginPath();
+        c.fillStyle = "black";
+        c.fillRect(canvas.width * 0.42 - 1, 0, canvas.width * 0.16 + 2, canvas.height * 0.2 + 1);
+        c.fillStyle = "white";
+        c.fillRect(canvas.width * 0.42, 0, canvas.width * 0.16, canvas.height * 0.2);
+        c.stroke();
+
+        c.beginPath();
+        c.drawImage(document.getElementById("img_minimizar_caixa"),
+            canvas.width * 0.492, canvas.height * 0.16,
+            canvas.width * 0.015, canvas.width * 0.015
+        );
+        c.stroke();
+
+        c.beginPath();
+        c.fillStyle = "black"; 
+        c.font = canvas.height * 0.025 + "pt Montserrat";
+        c.fillText(funcaoExibida, canvas.width * 0.42 + 20 , 30);
+        c.fillText(aExibido, canvas.width * 0.42 + 20 , canvas.height * 0.025 + 40);
+        c.fillText(bExibido, canvas.width * 0.42 + 20 , 2 * canvas.height * 0.025 + 50);
+        c.stroke();
+        
+    }
+    else {
+        c.beginPath();
+        c.fillStyle = "black";
+        c.fillRect(canvas.width * 0.42 - 1, 0, canvas.width * 0.16 + 2, (canvas.height * 0.2 - (canvas.width * 0.015  + canvas.height * 0.16) ) * 2 + canvas.width * 0.015 + 1);
+        c.fillStyle = "white";
+        c.fillRect(canvas.width * 0.42, 0, canvas.width * 0.16, (canvas.height * 0.04 - canvas.width * 0.015) * 2 + canvas.width * 0.015);
+        c.stroke();
+
+        c.beginPath();
+        c.drawImage(document.getElementById("img_expandir_caixa"),
+            canvas.width * 0.492, canvas.height * 0.04 - canvas.width * 0.015,
+            canvas.width * 0.015, canvas.width * 0.015
+        );
+        c.stroke();
+    }
+}
+
+function getTituloDaEtapa(etapaAtual) {
+
     if (etapaAtual === 1)
         return "Como encontrar a função?";
     else if (etapaAtual === 2)
@@ -559,6 +596,27 @@ function desenharGrafico() {
         botaoProximo = false;
 
     desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
+
+    funcaoExibida = "y = ax + b";
+    aExibido = "a = ??";
+    bExibido = "b = ??";
+
+    if (etapaAtual > 3)
+        aExibido = "a = " + a;
+
+    if (etapaAtual > 5)
+    {
+        bExibido = "b = " + b;
+        funcaoExibida = "y = " + a + "x";
+
+        if (b < 0)
+            funcaoExibida += " - " + Math.abs(b);
+        else if (b > 0)
+            funcaoExibida += " + " + b;
+
+    } 
+
+    desenharCaixaDasFuncoes();
 }
 
 
@@ -622,6 +680,21 @@ function mouseSobreCaixaDeTitulo(x, y) {
         );      
 }
 
+function mouseSobreSetaCaixaFuncao(x, y) {        
+    if (caixaFuncoesMinimizada) 
+    {
+        return ( x >= canvas.width * 0.492 && x <= canvas.width * 0.507 ) 
+        &&
+        ( y >= canvas.height * 0.04 - canvas.width * 0.015 && y <= canvas.height * 0.04);
+    }
+    else 
+    {
+        return ( x >= canvas.width * 0.492 && x <= canvas.width * 0.507 ) 
+        && 
+        ( y >= canvas.height * 0.16 && y <= canvas.height * 0.16 + canvas.width * 0.015);
+        
+    }
+}
 
 elem.addEventListener('click', function(event) {
     let x = event.pageX - elemLeft,
@@ -674,6 +747,11 @@ elem.addEventListener('click', function(event) {
         messageBoxMinimizado = !messageBoxMinimizado;
         desenharGrafico();
     }
+    else if (mouseSobreSetaCaixaFuncao(x, y))
+    {
+        caixaFuncoesMinimizada = !caixaFuncoesMinimizada;
+        desenharGrafico();
+    }
     
 
 }, false); 
@@ -686,6 +764,7 @@ function movimentoMouse(event) {
     elem.style.cursor = "default";
 
     // Botão Anterior
-    if (mouseSobreAnterior(x, y) || mouseSobreProximo(x,y) || mouseSobreAudio(x, y) || mouseSobreCaixaDeTitulo(x, y))
+    if (mouseSobreAnterior(x, y) || mouseSobreProximo(x,y) || mouseSobreAudio(x, y) 
+    || mouseSobreCaixaDeTitulo(x, y) || mouseSobreSetaCaixaFuncao(x, y))
         elem.style.cursor = 'pointer';
 }

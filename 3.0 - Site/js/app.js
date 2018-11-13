@@ -189,6 +189,7 @@ function gerarPontos() {
 function teste(ponto) {
 	let expressaoReg = /^\(\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\;\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\)$/;
 
+	//////
 	let x   = "";
 	let y   = "";
 	let aux = "";
@@ -214,7 +215,6 @@ function teste(ponto) {
 	}
 
 	return [x,y];
-	*/
 }
 
 window.onload = () => setContraste(localStorage.contraste);
