@@ -30,7 +30,7 @@
                 <label class="contraste"> Ponto 2: </label>
                 <input class="ponto" type="text" placeholder="(x , y)" onfocus="if(this.value == '') this.value = '(,)'"/>
             </div>
-            <div class="botaoFuncao botao1" onclick="alert('Oi, Sforcinha s2')"><img src="imagens/funcao1.png" id="funcao1" class="botaoPontos"></div>
+            <div class="botaoFuncao botao1" onclick="gerarPontos()"><img src="imagens/funcao1.png" id="funcao1" class="botaoPontos"></div>
             <div class="mostrarCampoFuncao botao2" onclick="tratarCampoFuncao(1)"><img src="imagens/menu3.png" id="funcao2" class="botaoPontos"></div>
         </div>
 
@@ -56,7 +56,7 @@
                 <br>
                 <br>
         </div>
-        
+
         <script src="js/canvasEncontrarFuncao.js"> </script>
         <script src="js/vendor/jquery.js"></script>
         <script src="js/app.js">  </script>
@@ -75,6 +75,8 @@
                         
                         validarPontos();
                 }
+
+                
                 resizeCanvas();
             })();
         </script>

@@ -171,6 +171,7 @@ function tratarCampoFuncao(i){
 		campoFuncao.classList.toggle('active');
 	else
 		campoPontos.classList.toggle('active');
+
 	botaoFuncao.classList.toggle('active');
 	botaoMostrarFuncao.classList.toggle('active');
 }
@@ -180,6 +181,10 @@ function gerarGrafico() {
 	tratarCampoFuncao(0);
 }
 
+function gerarPontos() {
+	validarPontos();
+	tratarCampoFuncao(1);
+}
 
 window.onload = () => setContraste(localStorage.contraste);
 window.onload = () => iniciar();
