@@ -12,6 +12,7 @@ var botoes = document.querySelectorAll('.circulo');
 var reta   = document.querySelector('.reta');
 
 var campoFuncao        = document.querySelector('.funcao');
+var campoPontos        = document.querySelector('.pontos');
 var botaoFuncao 	   = document.querySelector('.botaoFuncao');
 var botaoMostrarFuncao = document.querySelector('.mostrarCampoFuncao');
 
@@ -165,15 +166,18 @@ function mostrarMensagem(i) {
 	document.querySelectorAll('.msg')[i].classList.toggle('active');
 }
 
-function tratarCampoFuncao(){
-	campoFuncao.classList.toggle('active');
+function tratarCampoFuncao(i){
+	if(i == 0)
+		campoFuncao.classList.toggle('active');
+	else
+		campoPontos.classList.toggle('active');
 	botaoFuncao.classList.toggle('active');
 	botaoMostrarFuncao.classList.toggle('active');
 }
 
 function gerarGrafico() {
 	validarFuncao();
-	tratarCampoFuncao();
+	tratarCampoFuncao(0);
 }
 
 
