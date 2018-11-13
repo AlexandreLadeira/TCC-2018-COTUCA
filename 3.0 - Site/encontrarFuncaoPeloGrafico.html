@@ -26,9 +26,9 @@
         <div class="pontos">
             <div class="digitarPontos">
                 <label class="contraste"> Ponto 1: </label>
-                <input class="ponto" type="text" placeholder="(x , y)" onfocus="if(this.value == '') this.value = '(,)'"/>
+                <input id="ponto1" class="ponto" type="text" placeholder="(x ; y)" onfocus="if(this.value == '') this.value = '(;)'"/>
                 <label class="contraste"> Ponto 2: </label>
-                <input class="ponto" type="text" placeholder="(x , y)" onfocus="if(this.value == '') this.value = '(,)'"/>
+                <input id="ponto2" class="ponto" type="text" placeholder="(x ; y)" onfocus="if(this.value == '') this.value = '(;)'"/>
             </div>
             <div class="botaoFuncao botao1" onclick="gerarPontos()"><img src="imagens/funcao1.png" id="funcao1" class="botaoPontos"></div>
             <div class="mostrarCampoFuncao botao2" onclick="tratarCampoFuncao(1)"><img src="imagens/menu3.png" id="funcao2" class="botaoPontos"></div>
