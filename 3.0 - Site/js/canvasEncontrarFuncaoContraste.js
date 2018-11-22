@@ -24,11 +24,11 @@ var aExibido;
 var bExibido;
 
 // Cores
-var corLinhas = "rgb(169, 169, 169)"; 
-var corEixos  = "rgb(49, 49, 49)";  
-var corPrimaria = "rgb(23,121,186)";  
-var corSecundaria = "white";
-var corTerciaria = "black"; 
+var corLinhas = "rgb(0, 255, 12)";     // "rgb(169, 169, 169)"
+var corEixos  = "rgb(246, 255, 0)";      // "rgb(49, 49, 49)"
+var corPrimaria = "rgb(0, 255, 242)";   // "rgb(23,121,186)"
+var corSecundaria = "black";            // "white"
+var corTerciaria = "rgb(0, 255, 242)";  // "black"
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -109,6 +109,7 @@ function escreverPontos() {
     // Configuração da fonte dos pontos -----------------------------------------------------------------
     let tamanhoFonte = Math.min(espacoColuna, espacoLinha) / 4;
     c.font           = tamanhoFonte + "pt Arial";
+    c.fillStyle = corEixos;
 
     // Eixo X -------------------------------------------------------------------------------------------
     let pontoAtual      = qtasColunas  * -1;                              // Começará na esquerda (pontos negativos)
@@ -521,6 +522,10 @@ function getPosicaoY(ponto, razaoLabels = 1){
 function desenharGrafico() {
 
     canvas.width = canvas.width;    // Reseta o Canvas
+    c.fillStyle = "black";
+    c.rect(0, 0, canvas.width, canvas.height);
+    c.fill();
+    c.stroke();
 
     desenharGrade();
     desenharEixos();

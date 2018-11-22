@@ -27,11 +27,11 @@ var messageBoxProximoHabilitado  = true;
 var messageBoxMinimizado         = false;
 
 // Cores
-var corLinhas;     // "rgb(169, 169, 169)"
-var corEixos;      // "rgb(49, 49, 49)"
-var corPrimaria;   // "rgb(23,121,186)"
-var corSecundaria; // "white"
-var corTerciaria;  // "black"
+var corLinhas = "rgb(169, 169, 169)";     // "rgb(169, 169, 169)"
+var corEixos  = "rgb(49, 49, 49)";      // "rgb(49, 49, 49)"
+var corPrimaria = "rgb(23,121,186)";   // "rgb(23,121,186)"
+var corSecundaria = "white"; // "white"
+var corTerciaria = "black";  // "black"
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -719,7 +719,7 @@ function getPosicaoY(ponto, razaoLabels = 1){
 function desenharGrafico() {
 
     canvas.width = canvas.width;    // Reseta o Canvas
-
+    
     // Cancela todos os intervalos:
     intervalos.forEach(function(elemento, indice, array) {
         clearInterval(elemento);

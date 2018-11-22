@@ -6,6 +6,9 @@
 	color: yellow;
 }
 
+.canvas {
+  margin-top: 50px;
+}
 
 input[type="text"]:focus{
 	color:yellow;
@@ -181,6 +184,9 @@ h3{
   .topbar {
     height: 35px;
   }  
+  .canvas {
+    margin-top: 35px;
+  }
   .logo {
     height: 35px;
     width: 128px;
@@ -200,6 +206,9 @@ h3{
   .topbar {
     height: 30px;
   } 
+  .canvas {
+    margin-top: 30px;
+  }
   .logo{
     height: 30px;
     width: 110px;
@@ -229,6 +238,9 @@ h3{
   .topbar {
     height: 25px;
   } 
+  .canvas {
+    margin-top: 25px;
+  }
   .logo {
     height: 25px;
     width: 91px;
