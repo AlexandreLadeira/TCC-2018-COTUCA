@@ -23,10 +23,17 @@ var funcaoExibida;
 var aExibido;
 var bExibido;
 
+// Cores
+var corLinhas;     // "rgb(169, 169, 169)"
+var corEixos;      // "rgb(49, 49, 49)"
+var corPrimaria;   // "rgb(23,121,186)"
+var corSecundaria; // "white"
+var corTerciaria;  // "black"
+
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
     // Configurações das linhas / colunas ------------------------------------------------------------- 
-    c.strokeStyle = "rgb(169, 169, 169)";
+    c.strokeStyle = corLinhas;
     c.lineWidth = 1;
 
     qtasColunas = 0;
@@ -80,7 +87,7 @@ function desenharEixos() {
     // Configurações dos eixos --------------------------------------------------------------------------
 
     c.lineWidth = 1.5;
-    c.strokeStyle = "rgb(49, 49, 49)";
+    c.strokeStyle = corEixos;
 
     // Desenhar os eixos --------------------------------------------------------------------------------
 
@@ -164,19 +171,19 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
     {
         // Caixa base da mensagem ----------------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.35);
         c.stroke();
 
         // Caixa do título da mensagem -----------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "rgb(23,121,186)";
+        c.fillStyle = corPrimaria;
         c.fillRect(0, canvas.height * 0.65, canvas.width, canvas.height * 0.08);
         c.stroke();   
 
         // Texto do título -----------------------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         c.font = canvas.height * 0.03 + "pt Montserrat";
         
         // Responsividade => Layout funcional até 320px
@@ -188,7 +195,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         // Texto da mensagem ---------------------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "black";
+        c.fillStyle = corTerciaria;
 
         // Para tornar o texto o menor possível: 
 
@@ -242,7 +249,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
         let widthBotoes      = canvas.width  * 0.055;
         let heightBotoes     = canvas.height * 0.04;
 
-        c.shadowColor = "black";
+        c.shadowColor = corTerciaria;
         c.shadowBlur = 4;
         c.fillStyle = "rgb(23,121,186)";      
 
@@ -273,7 +280,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         // Texto do Anterior:
         c.font = canvas.height * 0.017 + "pt Montserrat";
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         let margemTextoAnterior = (widthBotoes - c.measureText("Anterior").width) / 2;
         if (temAnterior)
         {
@@ -284,7 +291,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         // Texto do Próximo:
         c.font = canvas.height * 0.017 + "pt Montserrat";
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         let margemTextoProximo = (canvas.width * 0.055 - c.measureText("Próximo").width) / 2;
 
         if (temProximo)
@@ -316,13 +323,13 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
     {
         // Caixa do título da mensagem -----------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "rgb(23,121,186)";
+        c.fillStyle = corPrimaria;
         c.fillRect(0, canvas.height * 0.93, canvas.width, canvas.height * 0.07);
         c.stroke();   
 
         // Texto do título -----------------------------------------------------------------------------------
         c.beginPath();
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         c.font = canvas.height * 0.03 + "pt Montserrat";
         
         // Responsividade => Layout funcional até 320px
@@ -351,9 +358,9 @@ function desenharCaixaDasFuncoes() {
     
     if (!caixaFuncoesMinimizada) {
         c.beginPath();
-        c.fillStyle = "black";
+        c.fillStyle = corTerciaria;
         c.fillRect(canvas.width * 0.42 - 1, 0, canvas.width * 0.16 + 2, canvas.height * 0.2 + 1);
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         c.fillRect(canvas.width * 0.42, 0, canvas.width * 0.16, canvas.height * 0.2);
         c.stroke();
 
@@ -365,7 +372,7 @@ function desenharCaixaDasFuncoes() {
         c.stroke();
 
         c.beginPath();
-        c.fillStyle = "black"; 
+        c.fillStyle = corTerciaria; 
         c.font = canvas.height * 0.025 + "pt Montserrat";
         c.fillText(funcaoExibida, canvas.width * 0.42 + 20 , 30);
         c.fillText(aExibido, canvas.width * 0.42 + 20 , canvas.height * 0.025 + 40);
@@ -375,9 +382,9 @@ function desenharCaixaDasFuncoes() {
     }
     else {
         c.beginPath();
-        c.fillStyle = "black";
+        c.fillStyle = corTerciaria;
         c.fillRect(canvas.width * 0.42 - 1, 0, canvas.width * 0.16 + 2, (canvas.height * 0.2 - (canvas.width * 0.015  + canvas.height * 0.16) ) * 2 + canvas.width * 0.015 + 1);
-        c.fillStyle = "white";
+        c.fillStyle = corSecundaria;
         c.fillRect(canvas.width * 0.42, 0, canvas.width * 0.16, (canvas.height * 0.04 - canvas.width * 0.015) * 2 + canvas.width * 0.015);
         c.stroke();
 
@@ -522,9 +529,9 @@ function desenharGrafico() {
     if (etapaAtual === 0) 
         return;
 
-    c.strokeStyle = '#1779ba';
+    c.strokeStyle = corPrimaria;
     c.lineWidth = 1;         
-    c.fillStyle = '#1779ba';
+    c.fillStyle = corPrimaria;
 
     c.beginPath();    
     c.arc(getPosicaoX(x1), getPosicaoY(y1), 10, 0, Math.PI * 2 + Math.PI / 180);  
@@ -537,7 +544,7 @@ function desenharGrafico() {
     c.stroke(); 
 
     c.beginPath();
-    c.strokeStyle = '#1779ba';
+    c.strokeStyle = corPrimaria;
     c.lineWidth = 5;
     c.moveTo(getPosicaoX(x1), getPosicaoY(y1));
     c.lineTo(getPosicaoX(x2), getPosicaoY(y2));
@@ -572,7 +579,7 @@ function desenharGrafico() {
         yFinal2 = getPosicaoY(y);
     }
 
-    c.strokeStyle = '#1779ba';
+    c.strokeStyle = corPrimaria;
     c.lineWidth = 5;
 
     c.beginPath();

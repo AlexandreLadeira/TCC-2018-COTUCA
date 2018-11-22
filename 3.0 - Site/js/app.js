@@ -50,6 +50,13 @@ function setContraste(state) {
 		document.querySelector('.logo').src = 'imagens/logo.png';
 		document.getElementById('funcao1').src = 'imagens/funcao1.png';
 		document.getElementById('funcao2').src = 'imagens/menu3.png';
+
+		corLinhas 	  = "rgb(169, 169, 169)";    
+		corEixos  	  = "rgb(49, 49, 49)";     
+		corPrimaria   = "rgb(23,121,186)";  
+		corSecundaria = "rgb(255, 255, 255)"; 
+		corTerciaria  = "rgb(0, 0, 0)"; 
+
 	} else {
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
@@ -64,6 +71,12 @@ function setContraste(state) {
 		document.querySelector('.logo').src = 'imagens/logoc.png';
 		document.getElementById('funcao1').src = 'imagens/funcaoc1.png';
 		document.getElementById('funcao2').src = 'imagens/menuc3.png';
+
+		corLinhas 	  = "rgb(169, 169, 169)";    
+		corEixos  	  = "rgb(49, 49, 49)";     
+		corPrimaria   = "rgb(23,121,186)";  
+		corSecundaria = "rgb(255, 255, 255)"; 
+		corTerciaria  = "rgb(0, 0, 0)"; 
 	}
 }
 
