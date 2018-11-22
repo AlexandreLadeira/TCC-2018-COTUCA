@@ -41,7 +41,7 @@
         <span style="font-family: 'Montserrat'" />
         
         <div>
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas" class="canvas"></canvas>
         </div>
         <br>
         <div class="referencia">
@@ -70,7 +70,7 @@
     
                 function resizeCanvas() {
                         canvas.width = window.innerWidth;
-                        canvas.height = window.innerHeight;
+                        canvas.height = window.innerHeight - 50;
                         
                         validarFuncao();
                 }

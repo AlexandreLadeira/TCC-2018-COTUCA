@@ -8,6 +8,11 @@
 .body.active {
   overflow-y: visible;
 }
+
+.canvas {
+  margin-top: 50px;
+}
+
 /* MENU */
 
 .topbar {
@@ -89,6 +94,9 @@
   .topbar {
     height: 35px;
   }  
+  .canvas {
+    margin-top: 35px;
+  }
   .logo {
     height: 35px;
     width: 128px;
@@ -108,6 +116,9 @@
   .topbar {
     height: 30px;
   } 
+  .canvas {
+    margin-top: 30px;
+  }
   .logo{
     height: 30px;
     width: 110px;
@@ -136,6 +147,9 @@
   .topbar {
     height: 25px;
   } 
+  .canvas {
+    margin-top: 25px;
+  }
   .logo {
     height: 25px;
     width: 91px;
