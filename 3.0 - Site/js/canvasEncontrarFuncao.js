@@ -24,11 +24,13 @@ var aExibido;
 var bExibido;
 
 // Cores
-var corLinhas = "rgb(169, 169, 169)"; 
-var corEixos  = "rgb(49, 49, 49)";  
-var corPrimaria = "rgb(23,121,186)";  
-var corSecundaria = "white";
+var corLinhas = "rgb(169, 169, 169)";
+var corEixos  = "rgb(49, 49, 49)";   
+var corPrimaria = "rgb(23,121,186)"; 
+var corSecundaria = "white"; 
 var corTerciaria = "black"; 
+var corDeFundo = "white";
+var corFonte = "black";
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -109,6 +111,7 @@ function escreverPontos() {
     // Configuração da fonte dos pontos -----------------------------------------------------------------
     let tamanhoFonte = Math.min(espacoColuna, espacoLinha) / 4;
     c.font           = tamanhoFonte + "pt Arial";
+    c.fillStyle      = corFonte;
 
     // Eixo X -------------------------------------------------------------------------------------------
     let pontoAtual      = qtasColunas  * -1;                              // Começará na esquerda (pontos negativos)
@@ -121,7 +124,7 @@ function escreverPontos() {
 
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0) 
-            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna * 0.8);
+            c.fillText(Math.round(pontoAtual * -razaoLabels * 100) / 100, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna * 0.8);
 
         pontoAtual++;
     }
@@ -135,7 +138,7 @@ function escreverPontos() {
     {
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0)        
-            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, canvas.width / 2, i + tamanhoFonte / 2);
+            c.fillText(Math.round(pontoAtual * -razaoLabels * 100) / 100, canvas.width / 2, i + tamanhoFonte / 2);
 
         pontoAtual--;
     }
@@ -149,9 +152,9 @@ function validarPontos()
 {
     // Excluir Depois:
 
-    x1 = 1;
-    y1 = 3;
-    x2 = 2;
+    x1 = 10;
+    y1 = 30;
+    x2 = 20;
     y2 = 6;
 
     //////////////////
@@ -160,6 +163,7 @@ function validarPontos()
     b = Math.round((y1 - a*x1) * 100)/100 ;
     
     etapaAtual = 1;
+    encontrarRazaoLabels(x1, y1, x2, y2);
 
     desenharGrafico();
 }
@@ -491,36 +495,27 @@ function encontrarRazaoLabels(x1, y1, x2, y2)
         maiorValorY = y1;
     else
         maiorValorY = y2;
-    
-    let achouRazao = false;
-    let razaoLabels = 1;
-    while (!achouRazao)
-    {
-        if (maiorPonto / razaoLabels <= deQuantoEmQuanto)
-            achouRazao = true;
-        else
-        {
-            if (razaoLabels == 1)
-                razaoLabels = deQuantoEmQuanto;
-            else
-                razaoLabels += deQuantoEmQuanto;
-        }
-    }
 
-    return razaoLabels;
+    razaoLabels = Math.max(Math.ceil(maiorValorX/(qtasColunas-1)), Math.ceil(maiorValorY/(qtasLinhas-1)));
 }
 
-function getPosicaoX(ponto, razaoLabels = 1){
+function getPosicaoX(ponto){
     return canvas.width / 2 + ponto * espacoColuna / razaoLabels;
 }
 
-function getPosicaoY(ponto, razaoLabels = 1){
+function getPosicaoY(ponto){
     return canvas.height / 2 - ponto * espacoLinha / razaoLabels;
 }
 
 function desenharGrafico() {
 
     canvas.width = canvas.width;    // Reseta o Canvas
+
+    c.beginPath();
+    c.fillStyle = corDeFundo;
+    c.rect(0, 0, canvas.width, canvas.height);
+    c.fill();
+    c.stroke();
 
     desenharGrade();
     desenharEixos();

@@ -27,11 +27,13 @@ var messageBoxProximoHabilitado  = true;
 var messageBoxMinimizado         = false;
 
 // Cores
-var corLinhas = "rgb(169, 169, 169)";     // "rgb(169, 169, 169)"
-var corEixos  = "rgb(49, 49, 49)";      // "rgb(49, 49, 49)"
-var corPrimaria = "rgb(23,121,186)";   // "rgb(23,121,186)"
-var corSecundaria = "white"; // "white"
-var corTerciaria = "black";  // "black"
+var corLinhas = "rgb(169, 169, 169)";
+var corEixos  = "rgb(49, 49, 49)";   
+var corPrimaria = "rgb(23,121,186)"; 
+var corSecundaria = "white"; 
+var corTerciaria = "black"; 
+var corDeFundo = "white";
+var corFonte = "black";
 
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
@@ -112,6 +114,7 @@ function escreverPontos() {
     // Configuração da fonte dos pontos -----------------------------------------------------------------
     let tamanhoFonte = Math.min(espacoColuna, espacoLinha) / 4;
     c.font           = tamanhoFonte + "pt Arial";
+    c.fillStyle      = corFonte;
 
     // Eixo X -------------------------------------------------------------------------------------------
     let pontoAtual      = qtasColunas  * -1;                              // Começará na esquerda (pontos negativos)
@@ -264,10 +267,13 @@ function validarFuncao() {
         {
             x1 = 0;
             y1 = 0;
+            x2 = 1;
+            y2 = a;
             modo = Modos.B_IGUAL_ZERO;
         }   
             
         etapaAtual  = 1;
+        encontrarRazaoLabels(x1, y1, x2, y2);
     
         desenharGrafico(etapaAtual);
     }
@@ -658,9 +664,9 @@ function getTextoDaEtapa(etapaAtual) {
         else if (etapaAtual === 3)
             return "Então, sabendo disso, encontraremos o nosso gráfico da seguinte maneira: encontraremos um outro ponto qualquer " +
             "da nossa função, ou seja, escolheremos um valor qualquer de 'x' e encontraremos o seu 'y' correspondente. Nesse caso, " +
-            "escolheremos o primeiro valor positivo do nosso eixo x que temos marcado: " + razaoLabels + ".";
+            "escolheremos x = 1.";
         else if (etapaAtual === 4)
-            return "Desse modo, encontraremos a seguinte equação: y = " + a + "*" + razaoLabels + ", e assim, podemos concluir" + 
+            return "Desse modo, encontraremos a seguinte equação: y = " + a + "* 1" + ", e assim, podemos concluir" + 
             "que nosso segundo ponto é (" + x2 + ", " + y2 + ").";
         else if (etapaAtual === 5)
             return "Assim, nós já temos dois pontos, e agora podemos traçar a nossa função! Para isso, caso você esteja fazendo em uma " +
@@ -689,30 +695,15 @@ function encontrarRazaoLabels(x1, y1, x2, y2)
         maiorValorY = y1;
     else
         maiorValorY = y2;
-    
-    let achouRazao = false;
-    let razaoLabels = 1;
-    while (!achouRazao)
-    {
-        if (maiorPonto / razaoLabels <= deQuantoEmQuanto)
-            achouRazao = true;
-        else
-        {
-            if (razaoLabels == 1)
-                razaoLabels = deQuantoEmQuanto;
-            else
-                razaoLabels += deQuantoEmQuanto;
-        }
-    }
 
-    return razaoLabels;
+    razaoLabels = Math.max(Math.ceil(maiorValorX/(qtasColunas-1)), Math.ceil(maiorValorY/(qtasLinhas-1)));
 }
 
-function getPosicaoX(ponto, razaoLabels = 1){
+function getPosicaoX(ponto){
     return canvas.width / 2 + ponto * espacoColuna / razaoLabels;
 }
 
-function getPosicaoY(ponto, razaoLabels = 1){
+function getPosicaoY(ponto){
     return canvas.height / 2 - ponto * espacoLinha / razaoLabels;
 }
 
@@ -724,6 +715,12 @@ function desenharGrafico() {
     intervalos.forEach(function(elemento, indice, array) {
         clearInterval(elemento);
     });
+
+    c.beginPath();
+    c.fillStyle = corDeFundo;
+    c.rect(0, 0, canvas.width, canvas.height);
+    c.fill();
+    c.stroke();
 
     desenharGrade();
     desenharEixos();
@@ -893,10 +890,7 @@ function desenharGrafico() {
 
     }
     else if (modo === Modos.B_IGUAL_ZERO) {
-        x2 = razaoLabels;
-        y2 = a * razaoLabels;
 
-                
         if (etapaAtual > 3 || (etapaAtual === 3 && jaAnimou)) { 
             c.strokeStyle = corPrimaria;
             c.lineWidth = 1;         

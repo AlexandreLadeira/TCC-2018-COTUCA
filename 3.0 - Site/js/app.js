@@ -53,6 +53,7 @@ function setContraste(state) {
 		document.getElementById('funcao2').src = 'imagens/menu3.png';
 
 	} else {
+		
 		document.getElementById('estilo').setAttribute('href','css/altoContraste.css');
 		document.getElementById('found').setAttribute('href','css/foundation2.css');
 		
