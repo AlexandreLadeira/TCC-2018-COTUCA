@@ -32,6 +32,13 @@ var corTerciaria = "black";
 var corDeFundo = "white";
 var corFonte = "black";
 
+var imagemExpandir = document.getElementById("img_expandir");
+var imagemMinimizar = document.getElementById("img_minimizar");
+var imagemSom = document.getElementById("img_som");
+var imagemProfessorFuncio = document.getElementById("img_professorFuncio");
+var imagemMinimizarCaixa = document.getElementById("img_minimizar_caixa");
+var imagemExpandirCaixa = document.getElementById("img_expandir_caixa");
+
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
     // Configurações das linhas / colunas ------------------------------------------------------------- 
@@ -287,7 +294,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         // Professor Funcio -----------------------------------------------------------------------------------
 
-        c.drawImage(document.getElementById("img_professorFuncio"), 
+        c.drawImage(imagemProfessorFuncio, 
         canvas.width * 0.85625, canvas.height * 0.73 + 30, 
         canvas.width * 0.1, canvas.width * 0.078);
 
@@ -302,9 +309,9 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
         let widthBotoes      = canvas.width  * 0.055;
         let heightBotoes     = canvas.height * 0.04;
 
-        c.shadowColor = corTerciaria;
+        c.shadowColor = "black";
         c.shadowBlur = 4;
-        c.fillStyle = "rgb(23,121,186)";      
+        c.fillStyle = corPrimaria;      
 
         if (temAnterior)
         {
@@ -317,7 +324,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
             messageBoxAnteriorHabilitado = false;
 
         // Próximo:
-        c.fillStyle = "rgb(23,121,186)";
+        c.fillStyle = corPrimaria; 
         let distanciaCentroAoAnterior = canvas.width * 0.90625 - (posicaoXAnterior + widthBotoes);
         if (temProximo)
         {
@@ -358,7 +365,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
         // Imagem de Ouvir Texto -------------------------------------------------------------------------------
         c.beginPath();
 
-        c.drawImage(document.getElementById("img_som"), 
+        c.drawImage(imagemSom, 
         20, canvas.height * 0.73 + 45 - canvas.width * 0.021, 
         canvas.width * 0.021, canvas.width * 0.021);
 
@@ -366,7 +373,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
         c.beginPath();
-        c.drawImage(document.getElementById("img_minimizar"),
+        c.drawImage(imagemMinimizar,
         canvas.width * 0.958, canvas.height * 0.65 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
         canvas.width * 0.013, canvas.width * 0.013);
         c.stroke();
@@ -394,7 +401,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
         c.beginPath();
-        c.drawImage(document.getElementById("img_expandir"),
+        c.drawImage(imagemExpandir,
         canvas.width * 0.958, canvas.height * 0.93 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
         canvas.width * 0.013, canvas.width * 0.013);
         c.stroke();
@@ -418,7 +425,7 @@ function desenharCaixaDasFuncoes() {
         c.stroke();
 
         c.beginPath();
-        c.drawImage(document.getElementById("img_minimizar_caixa"),
+        c.drawImage(imagemMinimizarCaixa,
             canvas.width * 0.492, canvas.height * 0.16,
             canvas.width * 0.015, canvas.width * 0.015
         );
@@ -442,7 +449,7 @@ function desenharCaixaDasFuncoes() {
         c.stroke();
 
         c.beginPath();
-        c.drawImage(document.getElementById("img_expandir_caixa"),
+        c.drawImage(imagemExpandirCaixa,
             canvas.width * 0.492, canvas.height * 0.04 - canvas.width * 0.015,
             canvas.width * 0.015, canvas.width * 0.015
         );

@@ -35,12 +35,17 @@
         </div>
 
         <label style="font-family: Montserrat;"></label>
-        <img id="img_expandir"        src="imagens/imagem_expandir.png"        style="display: none">
-        <img id="img_minimizar"       src="imagens/imagem_minimizar.png"       style="display: none">
-        <img id="img_som"             src="imagens/IconeSom.png"               style="display: none">
-        <img id="img_professorFuncio" src="imagens/ProfFuncio.jpg"             style="display: none">
-        <img id="img_expandir_caixa"  src="imagens/imagem_expandir_caixa.png"  style="display: none">
-        <img id="img_minimizar_caixa" src="imagens/imagem_minimizar_caixa.png" style="display: none">
+        <img id="img_expandir_caixa"   src="imagens/imagem_expandir_caixa.png"   style="display: none">
+        <img id="img_minimizar_caixa"  src="imagens/imagem_minimizar_caixa.png"  style="display: none">
+        <img id="img_expandir_caixaC"  src="imagens/imagem_expandir_caixaC.png"  style="display: none">
+        <img id="img_minimizar_caixaC" src="imagens/imagem_minimizar_caixaC.png" style="display: none">
+        <img id="img_expandir"         src="imagens/imagem_expandir.png"         style="display: none">
+        <img id="img_expandirC"        src="imagens/imagem_expandirC.png"        style="display: none">
+        <img id="img_minimizar"        src="imagens/imagem_minimizar.png"        style="display: none">
+        <img id="img_minimizarC"       src="imagens/imagem_minimizarC.png"       style="display: none">
+        <img id="img_som"              src="imagens/iconeSom.png"                style="display: none">
+        <img id="img_somC"             src="imagens/iconeSomC.png"               style="display: none">
+        <img id="img_professorFuncio"  src="imagens/ProfFuncio.png"              style="display: none">
         <span style="font-family: 'Montserrat'" />
         
         <div>
@@ -88,6 +93,13 @@
                     corTerciaria = "yellow"; 
                     corDeFundo = "black";
                     corFonte = "white";
+
+                    imagemExpandir = document.getElementById("img_expandirC");
+                    imagemMinimizar = document.getElementById("img_minimizarC");
+                    imagemSom = document.getElementById("img_somC");
+                    imagemProfessorFuncio = document.getElementById("img_professorFuncio");
+                    imagemMinimizarCaixa = document.getElementById("img_minimizar_caixaC");
+                    imagemExpandirCaixa = document.getElementById("img_expandir_caixaC");
                 }
                 else  {
                     corLinhas = "rgb(169, 169, 169)";
@@ -97,6 +109,13 @@
                     corTerciaria = "black"; 
                     corDeFundo = "white";
                     corFonte = "black";
+
+                    imagemExpandir = document.getElementById("img_expandir");
+                    imagemMinimizar = document.getElementById("img_minimizar");
+                    imagemSom = document.getElementById("img_som");
+                    imagemProfessorFuncio = document.getElementById("img_professorFuncio");
+                    imagemMinimizarCaixa = document.getElementById("img_minimizar_caixa");
+                    imagemExpandirCaixa = document.getElementById("img_expandir_caixa");
                 }
 
                 resizeCanvas();

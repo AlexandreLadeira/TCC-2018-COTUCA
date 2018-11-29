@@ -35,6 +35,11 @@ var corTerciaria = "black";
 var corDeFundo = "white";
 var corFonte = "black";
 
+var imagemExpandir = document.getElementById("img_expandir");
+var imagemMinimizar = document.getElementById("img_minimizar");
+var imagemSom = document.getElementById("img_som");
+var imagemProfessorFuncio = document.getElementById("img_professorFuncio");
+
 // FUNÇÃO PARA DESENHAR A GRADE DO GRÁFICO
 function desenharGrade() {
     // Configurações das linhas / colunas ------------------------------------------------------------- 
@@ -354,7 +359,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         // Professor Funcio -----------------------------------------------------------------------------------
 
-        c.drawImage(document.getElementById("img_professorFuncio"), 
+        c.drawImage(imagemProfessorFuncio, 
         canvas.width * 0.85625, canvas.height * 0.73 + 30, 
         canvas.width * 0.1, canvas.width * 0.078);
 
@@ -425,7 +430,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
         // Imagem de Ouvir Texto -------------------------------------------------------------------------------
         c.beginPath();
 
-        c.drawImage(document.getElementById("img_som"), 
+        c.drawImage(imagemSom, 
         20, canvas.height * 0.73 + 45 - canvas.width * 0.021, 
         canvas.width * 0.021, canvas.width * 0.021);
 
@@ -433,7 +438,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
         c.beginPath();
-        c.drawImage(document.getElementById("img_minimizar"),
+        c.drawImage(imagemMinimizar,
         canvas.width * 0.958, canvas.height * 0.65 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
         canvas.width * 0.013, canvas.width * 0.013);
         c.stroke();
@@ -461,7 +466,7 @@ function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizad
 
         //Imagem de Minimizar a Caixa --------------------------------------------------------------------------
         c.beginPath();
-        c.drawImage(document.getElementById("img_expandir"),
+        c.drawImage(imagemExpandir,
         canvas.width * 0.958, canvas.height * 0.93 + (canvas.height * 0.08 - canvas.width * 0.013) / 2,
         canvas.width * 0.013, canvas.width * 0.013);
         c.stroke();
