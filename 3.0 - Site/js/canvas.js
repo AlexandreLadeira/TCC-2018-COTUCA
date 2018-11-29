@@ -285,8 +285,11 @@ function validarFuncao() {
 }
 
 function validarPontos() {
+    //expressao regular
     let expressaoReg = /^\(\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\;\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\)$/;
     
+
+    //metodo para pegar x e y
     let x   = "";
     let y   = "";
     let aux = "";
