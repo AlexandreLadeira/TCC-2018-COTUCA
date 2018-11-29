@@ -243,7 +243,7 @@ function validarFuncao() {
     }
 
     // expressao regular para validar uma funcao afim na for f(x) = ax + b
-    let expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*(((\+|\-)\s*\d+((\,|\/)\d+)?)(\s*))$/;   
+    let expressaoReg  = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?(\d+(\,|\/)\d+)?\d*[a-z]{1}\s*((\+|\-)\s*\d+((\,|\/)\d+)?(\s*))?\s*$/;   
 
     // expressao regular para validar uma funcao afim na for f(x) = b + ax
     let expressaoReg2 = /^((f\([a-z]{1}\)\s*=\s*)|(y\s*=\s*))\-?\s*\d+((\,|\/)\d+)?\s*(\-|\+)\s*(\d+(\,|\/)\d+)?\d*[a-z]{1}(\s*)$/;
