@@ -64,7 +64,6 @@
         <script>
             var canvas = document.getElementById('canvas');
 
-            // resize the canvas to fill browser window dynamically
             window.addEventListener('resize', resizeCanvas, false);
 
             function resizeCanvas() {
@@ -80,10 +79,10 @@
 
                 if (localStorage.contraste) {
                     corLinhas = "rgb(0, 255, 12)";   
-                    corEixos  = "rgb(246, 255, 0)";   
-                    corPrimaria = "rgb(0, 255, 242)";  
+                    corEixos  = "rgb(0, 255, 12)";   
+                    corPrimaria = "yellow";  
                     corSecundaria = "black";
-                    corTerciaria = "rgb(0, 255, 242)"; 
+                    corTerciaria = "yellow"; 
                     corDeFundo = "black";
                     corFonte = "white";
                 }

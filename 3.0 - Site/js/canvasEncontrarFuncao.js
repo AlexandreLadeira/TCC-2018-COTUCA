@@ -124,7 +124,7 @@ function escreverPontos() {
 
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0) 
-            c.fillText(Math.round(pontoAtual * -razaoLabels * 100) / 100, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna * 0.8);
+            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, i - tamanhoTextoPonto / 2, canvas.height / 2, espacoColuna * 0.8);
 
         pontoAtual++;
     }
@@ -138,7 +138,7 @@ function escreverPontos() {
     {
         // Não escrevemos o ponto (0, 0)
         if (pontoAtual !== 0)        
-            c.fillText(Math.round(pontoAtual * -razaoLabels * 100) / 100, canvas.width / 2, i + tamanhoFonte / 2);
+            c.fillText(Math.round(pontoAtual * razaoLabels * 100) / 100, canvas.width / 2, i + tamanhoFonte / 2);
 
         pontoAtual--;
     }
@@ -146,30 +146,63 @@ function escreverPontos() {
 }
 
 
+
+function getPontos (ponto) {
+
+    //metodo para pegar x e y
+    let x   = "";
+    let y   = "";
+    let aux = "";
+
+    for(let i = 0; i < ponto.length; i++) {
+        s = ponto.charAt(i);
+        
+        if(s != " ") {
+            if(s == "-")
+                aux = "-";
+            else
+                if(!isNaN(s) || s == "/" || s == ",")
+                    aux += s;
+                else
+                    if(s == ";") {
+                        x = aux;
+                        aux = "";
+                    }
+                    else
+                        if(s == ")")
+                            y = aux;
+        }
+    }
+
+    return [x, y];
+}
+
+
+
 var x1, y1, x2, y2;
 var a, b;
 function validarPontos()
 {
-    
-    /*funcao = document.getElementById("funcao").value;
+    let expressaoReg = /^\(\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\;\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\)$/;
+    let ponto1 = document.getElementById("ponto1").value;
+    let ponto2 = document.getElementById("ponto2").value;
 
-    if(funcao === "") {
+    if (ponto1 === "" || ponto2 === ""){
         desenharGrafico();
         return;
-    } */
+    }
 
-    if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
-    {
+    if ( (expressaoReg.test(ponto1)) && (expressaoReg.test(ponto2))) {
+    
+        let pontos1 = getPontos(ponto1);
+        let pontos2 = getPontos(ponto2);
 
-        // Excluir Depois:
-    
-        x1 = 0;
-        y1 = 0;
-        x2 = 20;
-        y2 = 5;
-    
-        //////////////////
-    
+        x1 = pontos1[0];
+        y1 = pontos1[1];
+
+        x2 = pontos2[0];
+        y2 = pontos2[1];
+
         a = Math.round((y1 - y2) / (x1 - x2) * 100)/ 100 ;
         b = Math.round((y1 - a*x1) * 100)/100 ;
             
@@ -178,8 +211,7 @@ function validarPontos()
     
         desenharGrafico();
     }
-    else
-    {
+    else {
         alert("Os pontos não estão digitados na maneira correta (P1, P2)! ");
         return false; 
     }

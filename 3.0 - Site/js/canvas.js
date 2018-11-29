@@ -284,36 +284,6 @@ function validarFuncao() {
     }
 }
 
-function validarPontos() {
-    //expressao regular
-    let expressaoReg = /^\(\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\;\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\)$/;
-    
-
-    //metodo para pegar x e y
-    let x   = "";
-    let y   = "";
-    let aux = "";
-
-    for(let i = 0; i < ponto.length; i++) {
-        s = ponto.charAt(i);
-        
-        if(s != " ") {
-            if(s == "-")
-                aux = "-";
-            else
-                if(!isNaN(s) || s == "/" || s == ",")
-                    aux += s;
-                else
-                    if(s == ";") {
-                        x = aux;
-                        aux = "";
-                    }
-                    else
-                        if(s == ")")
-                            y = aux;
-        }
-}
-
 function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizado = false) {
 
     messageBoxHabilitado = true;
