@@ -150,22 +150,39 @@ var x1, y1, x2, y2;
 var a, b;
 function validarPontos()
 {
-    // Excluir Depois:
-
-    x1 = 10;
-    y1 = 30;
-    x2 = 20;
-    y2 = 6;
-
-    //////////////////
-
-    a = Math.round((y1 - y2) / (x1 - x2) * 100)/ 100 ;
-    b = Math.round((y1 - a*x1) * 100)/100 ;
     
-    etapaAtual = 1;
-    encontrarRazaoLabels(x1, y1, x2, y2);
+    /*funcao = document.getElementById("funcao").value;
 
-    desenharGrafico();
+    if(funcao === "") {
+        desenharGrafico();
+        return;
+    } */
+
+    if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
+    {
+
+        // Excluir Depois:
+    
+        x1 = 0;
+        y1 = 0;
+        x2 = 20;
+        y2 = 5;
+    
+        //////////////////
+    
+        a = Math.round((y1 - y2) / (x1 - x2) * 100)/ 100 ;
+        b = Math.round((y1 - a*x1) * 100)/100 ;
+            
+        etapaAtual  = 1;
+        encontrarRazaoLabels(x1, y1, x2, y2);
+    
+        desenharGrafico();
+    }
+    else
+    {
+        alert("Os pontos não estão digitados na maneira correta (P1, P2)! ");
+        return false; 
+    }
 }
 
 function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizado = false) {
@@ -492,19 +509,19 @@ function encontrarRazaoLabels(x1, y1, x2, y2)
     
 
     if (Math.abs(y1) > Math.abs(y2))
-        maiorValorY = y1;
+        maiorValorY = Math.abs(y1);
     else
-        maiorValorY = y2;
+        maiorValorY = Math.abs(y2);
 
     razaoLabels = Math.max(Math.ceil(maiorValorX/(qtasColunas-1)), Math.ceil(maiorValorY/(qtasLinhas-1)));
 }
 
 function getPosicaoX(ponto){
-    return canvas.width / 2 + ponto * espacoColuna / razaoLabels;
+    return canvas.width / 2 + (ponto * espacoColuna / razaoLabels);
 }
 
 function getPosicaoY(ponto){
-    return canvas.height / 2 - ponto * espacoLinha / razaoLabels;
+    return canvas.height / 2 - (ponto * espacoLinha / razaoLabels);
 }
 
 function desenharGrafico() {
@@ -548,31 +565,40 @@ function desenharGrafico() {
 
     let xFinal1, yFinal1, xFinal2, yFinal2;
 
-    let deltaX = x1 - x2;
-    let deltaY = y1 - y2;
-
-    let razao = Math.abs(deltaY /deltaX);
-
-    let x = qtasColunas + 1;
-    let y = razao * x;
-
     if (x1 > x2) {
-        xFinal1 = getPosicaoX(x);
-        xFinal2 = getPosicaoX(-x);
+        xFinal1 = (qtasColunas + 1) * razaoLabels;
+        xFinal2 = (qtasColunas + 1) * -razaoLabels;
     }
     else {
-        xFinal1 = getPosicaoX(-x);
-        xFinal2 = getPosicaoX(x);
+        xFinal1 = (qtasColunas + 1) * -razaoLabels;
+        xFinal2 = (qtasColunas + 1) * razaoLabels;
     }
 
     if (y1 > y2) {
-        yFinal1 = getPosicaoY(y);
-        yFinal2 = getPosicaoY(-y);
+        yFinal1 = (qtasLinhas + 1) * razaoLabels;
+        yFinal2 = (qtasLinhas + 1) * -razaoLabels;
     }
     else {
-        yFinal1 = getPosicaoY(-y);
-        yFinal2 = getPosicaoY(y);
+        yFinal1 = (qtasLinhas + 1) * -razaoLabels;
+        yFinal2 = (qtasLinhas + 1) * razaoLabels;
     }
+
+    if (Math.pow( Math.pow(xFinal1, 2) + Math.pow(a * xFinal1 + b , 2) , 1/2) >
+    Math.pow( Math.pow(((yFinal1 - b) / a), 2) + Math.pow(yFinal1 , 2) , 1/2))
+        xFinal1 = (yFinal1 - b) / a;
+    else
+        yFinal1 = a * xFinal1 + b;
+    
+    if (Math.pow( Math.pow(xFinal2, 2) + Math.pow(a * xFinal2 + b , 2) , 1/2) >
+    Math.pow( Math.pow(((yFinal2 - b) / a), 2) + Math.pow(yFinal2 , 2) , 1/2))
+        xFinal2 = (yFinal2 - b) / a;
+    else
+        yFinal2 = a * xFinal2 + b;   
+
+    yFinal1 = getPosicaoY(yFinal1);
+    yFinal2 = getPosicaoY(yFinal2);
+    xFinal1 = getPosicaoX(xFinal1);
+    xFinal2 = getPosicaoX(xFinal2);
 
     c.strokeStyle = corPrimaria;
     c.lineWidth = 5;

@@ -251,8 +251,8 @@ function validarFuncao() {
     if (expressaoReg.test(funcao) || expressaoReg2.test(funcao))
     {
         let valores = getAeBdaFuncao(funcao);
-        a = valores[0];
-        b = valores[1];
+        a = Number(valores[0].replace(",", "."));
+        b = Number(valores[1].replace(",", "."));
 
         x1 = Math.round(-b/a * 100) / 100;
         y2 = Math.round(b * 100) /100;
@@ -552,24 +552,21 @@ function desenharReta(xInicial, yInicial, xFinal, yFinal, intervalo = 33.3) {
         c.strokeStyle = corPrimaria;
         c.stroke();
 
-        if (xInicial < xFinal && (xAtual >= xFinal || xAtual < 0 || xAtual > canvas.width)) {
-            clearInterval(inter);
-            if (etapaAtual == 2)
-                setTimeout(function() {
-                    prosseguirEtapa();
-                }, 400);
+        if (xInicial < xFinal && xAtual >= xFinal) {
+            if ( (yInicial < yFinal && yAtual >= yFinal) || (yInicial > yFinal && yAtual <= yFinal) )
+                clearInterval(inter);
         }
         
-        if (xInicial > xFinal && (xAtual <= xFinal || xAtual < 0 || xAtual > canvas.width)) {
-            clearInterval(inter);
-            if (etapaAtual == 2)
-                setTimeout(function() {
-                    prosseguirEtapa();
-                }, 400);
+        if (xInicial > xFinal && xAtual <= xFinal) {
+            if ( (yInicial < yFinal && yAtual >= yFinal) || (yInicial > yFinal && yAtual <= yFinal) )
+                clearInterval(inter);
         }
+
     }, intervalo);
 
-    return Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), 1/2) / (Math.pow(Math.pow(aumentoX, 2) + Math.pow(aumentoY, 2), 1/2) / intervalo);
+    let div = (Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), 1/2) / (Math.pow(Math.pow(aumentoX, 2) + Math.pow(aumentoY, 2), 1/2)));
+    return div * intervalo;
+
 }
 
 function getTituloDaEtapa(etapaAtual) {
@@ -692,19 +689,19 @@ function encontrarRazaoLabels(x1, y1, x2, y2)
     
 
     if (Math.abs(y1) > Math.abs(y2))
-        maiorValorY = y1;
+        maiorValorY = Math.abs(y1);
     else
-        maiorValorY = y2;
+        maiorValorY = Math.abs(y2);
 
     razaoLabels = Math.max(Math.ceil(maiorValorX/(qtasColunas-1)), Math.ceil(maiorValorY/(qtasLinhas-1)));
 }
 
 function getPosicaoX(ponto){
-    return canvas.width / 2 + ponto * espacoColuna / razaoLabels;
+    return canvas.width / 2 + (ponto * espacoColuna / razaoLabels);
 }
 
 function getPosicaoY(ponto){
-    return canvas.height / 2 - ponto * espacoLinha / razaoLabels;
+    return canvas.height / 2 - (ponto * espacoLinha / razaoLabels);
 }
 
 function desenharGrafico() {
@@ -760,31 +757,40 @@ function desenharGrafico() {
         if (etapaAtual === 7 && jaAnimou) {
             let xFinal1, yFinal1, xFinal2, yFinal2;
 
-            let deltaX = x1 - x2;
-            let deltaY = y1 - y2;
-
-            let razao = Math.abs(deltaY /deltaX);
-        
-            let x = qtasColunas + 1;
-            let y = razao * x;
-
             if (x1 > x2) {
-                xFinal1 = getPosicaoX(x);
-                xFinal2 = getPosicaoX(-x);
+                xFinal1 = (qtasColunas + 1) * razaoLabels;
+                xFinal2 = (qtasColunas + 1) * -razaoLabels;
             }
             else {
-                xFinal1 = getPosicaoX(-x);
-                xFinal2 = getPosicaoX(x);
+                xFinal1 = (qtasColunas + 1) * -razaoLabels;
+                xFinal2 = (qtasColunas + 1) * razaoLabels;
             }
 
             if (y1 > y2) {
-                yFinal1 = getPosicaoY(y);
-                yFinal2 = getPosicaoY(-y);
+                yFinal1 = (qtasLinhas + 1) * razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * -razaoLabels;
             }
             else {
-                yFinal1 = getPosicaoY(-y);
-                yFinal2 = getPosicaoY(y);
+                yFinal1 = (qtasLinhas + 1) * -razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * razaoLabels;
             }
+
+            if (Math.pow( Math.pow(xFinal1, 2) + Math.pow(a * xFinal1 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal1 - b) / a), 2) + Math.pow(yFinal1 , 2) , 1/2))
+                xFinal1 = (yFinal1 - b) / a;
+            else
+                yFinal1 = a * xFinal1 + b;
+            
+            if (Math.pow( Math.pow(xFinal2, 2) + Math.pow(a * xFinal2 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal2 - b) / a), 2) + Math.pow(yFinal2 , 2) , 1/2))
+                xFinal2 = (yFinal2 - b) / a;
+            else
+                yFinal2 = a * xFinal2 + b;   
+
+            yFinal1 = getPosicaoY(yFinal1);
+            yFinal2 = getPosicaoY(yFinal2);
+            xFinal1 = getPosicaoX(xFinal1);
+            xFinal2 = getPosicaoX(xFinal2);
 
             c.strokeStyle = corPrimaria;
             c.lineWidth = 5;
@@ -838,41 +844,48 @@ function desenharGrafico() {
             }, 300);
             intervalos.push(intervaloReta);
         }
-        else if (etapaAtual === 7 && !jaAnimou) { 
+        else if (etapaAtual === 7 && !jaAnimou) {
             let xInicial1 = getPosicaoX(x1);
             let yInicial1 = getPosicaoY(y1);
             let xInicial2 = getPosicaoX(x2);
             let yInicial2 = getPosicaoY(y2);
             let xFinal1, yFinal1, xFinal2, yFinal2;
-            let velocidade = 1;
-
-            let deltaX = x1 - x2;
-            let deltaY = y1 - y2;
-
-            let razao = Math.abs(deltaY /deltaX);
-        
-            let x = qtasColunas + 1;
-            let y = razao * x;
+            let velocidade = 5;
 
             if (x1 > x2) {
-                xFinal1 = getPosicaoX(x);
-                xFinal2 = getPosicaoX(-x);
+                xFinal1 = (qtasColunas + 1) * razaoLabels;
+                xFinal2 = (qtasColunas + 1) * -razaoLabels;
             }
             else {
-                xFinal1 = getPosicaoX(-x);
-                xFinal2 = getPosicaoX(x);
+                xFinal1 = (qtasColunas + 1) * -razaoLabels;
+                xFinal2 = (qtasColunas + 1) * razaoLabels;
             }
 
             if (y1 > y2) {
-                yFinal1 = getPosicaoY(y);
-                yFinal2 = getPosicaoY(-y);
+                yFinal1 = (qtasLinhas + 1) * razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * -razaoLabels;
             }
             else {
-                yFinal1 = getPosicaoY(-y);
-                yFinal2 = getPosicaoY(y);
+                yFinal1 = (qtasLinhas + 1) * -razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * razaoLabels;
             }
 
-            /* TEMPO AINDA NÃO ESTÁ PERFEITO */
+            if (Math.pow( Math.pow(xFinal1, 2) + Math.pow(a * xFinal1 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal1 - b) / a), 2) + Math.pow(yFinal1 , 2) , 1/2))
+                xFinal1 = (yFinal1 - b) / a;
+            else
+                yFinal1 = a * xFinal1 + b;
+            
+            if (Math.pow( Math.pow(xFinal2, 2) + Math.pow(a * xFinal2 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal2 - b) / a), 2) + Math.pow(yFinal2 , 2) , 1/2))
+                xFinal2 = (yFinal2 - b) / a;
+            else
+                yFinal2 = a * xFinal2 + b;   
+            
+            yFinal1 = getPosicaoY(yFinal1);
+            yFinal2 = getPosicaoY(yFinal2);
+            xFinal1 = getPosicaoX(xFinal1);
+            xFinal2 = getPosicaoX(xFinal2);
 
             let tempo1 = desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
             let intervalo1 = setTimeout(function(){
@@ -926,31 +939,40 @@ function desenharGrafico() {
         if (etapaAtual === 7 && jaAnimou) {
             let xFinal1, yFinal1, xFinal2, yFinal2;
 
-            let deltaX = x1 - x2;
-            let deltaY = y1 - y2;
-
-            let razao = Math.abs(deltaY /deltaX);
-        
-            let x = qtasColunas + 1;
-            let y = razao * x;
-
             if (x1 > x2) {
-                xFinal1 = getPosicaoX(x);
-                xFinal2 = getPosicaoX(-x);
+                xFinal1 = (qtasColunas + 1) * razaoLabels;
+                xFinal2 = (qtasColunas + 1) * -razaoLabels;
             }
             else {
-                xFinal1 = getPosicaoX(-x);
-                xFinal2 = getPosicaoX(x);
+                xFinal1 = (qtasColunas + 1) * -razaoLabels;
+                xFinal2 = (qtasColunas + 1) * razaoLabels;
             }
 
             if (y1 > y2) {
-                yFinal1 = getPosicaoY(y);
-                yFinal2 = getPosicaoY(-y);
+                yFinal1 = (qtasLinhas + 1) * razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * -razaoLabels;
             }
             else {
-                yFinal1 = getPosicaoY(-y);
-                yFinal2 = getPosicaoY(y);
+                yFinal1 = (qtasLinhas + 1) * -razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * razaoLabels;
             }
+
+            if (Math.pow( Math.pow(xFinal1, 2) + Math.pow(a * xFinal1 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal1 - b) / a), 2) + Math.pow(yFinal1 , 2) , 1/2))
+                xFinal1 = (yFinal1 - b) / a;
+            else
+                yFinal1 = a * xFinal1 + b;
+            
+            if (Math.pow( Math.pow(xFinal2, 2) + Math.pow(a * xFinal2 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal2 - b) / a), 2) + Math.pow(yFinal2 , 2) , 1/2))
+                xFinal2 = (yFinal2 - b) / a;
+            else
+                yFinal2 = a * xFinal2 + b;   
+
+            yFinal1 = getPosicaoY(yFinal1);
+            yFinal2 = getPosicaoY(yFinal2);
+            xFinal1 = getPosicaoX(xFinal1);
+            xFinal2 = getPosicaoX(xFinal2);
 
             c.strokeStyle = corPrimaria;
             c.lineWidth = 5;
@@ -1013,35 +1035,42 @@ function desenharGrafico() {
             let xInicial2 = getPosicaoX(x2);
             let yInicial2 = getPosicaoY(y2);
             let xFinal1, yFinal1, xFinal2, yFinal2;
-            let velocidade = 1;
-
-            let deltaX = x1 - x2;
-            let deltaY = y1 - y2;
-
-            let razao = Math.abs(deltaY /deltaX);
-        
-            let x = qtasColunas + 1;
-            let y = razao * x;
+            let velocidade = 5;
 
             if (x1 > x2) {
-                xFinal1 = getPosicaoX(x);
-                xFinal2 = getPosicaoX(-x);
+                xFinal1 = (qtasColunas + 1) * razaoLabels;
+                xFinal2 = (qtasColunas + 1) * -razaoLabels;
             }
             else {
-                xFinal1 = getPosicaoX(-x);
-                xFinal2 = getPosicaoX(x);
+                xFinal1 = (qtasColunas + 1) * -razaoLabels;
+                xFinal2 = (qtasColunas + 1) * razaoLabels;
             }
 
             if (y1 > y2) {
-                yFinal1 = getPosicaoY(y);
-                yFinal2 = getPosicaoY(-y);
+                yFinal1 = (qtasLinhas + 1) * razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * -razaoLabels;
             }
             else {
-                yFinal1 = getPosicaoY(-y);
-                yFinal2 = getPosicaoY(y);
+                yFinal1 = (qtasLinhas + 1) * -razaoLabels;
+                yFinal2 = (qtasLinhas + 1) * razaoLabels;
             }
 
-            /* TEMPO AINDA NÃO ESTÁ PERFEITO */
+            if (Math.pow( Math.pow(xFinal1, 2) + Math.pow(a * xFinal1 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal1 - b) / a), 2) + Math.pow(yFinal1 , 2) , 1/2))
+                xFinal1 = (yFinal1 - b) / a;
+            else
+                yFinal1 = a * xFinal1 + b;
+            
+            if (Math.pow( Math.pow(xFinal2, 2) + Math.pow(a * xFinal2 + b , 2) , 1/2) >
+            Math.pow( Math.pow(((yFinal2 - b) / a), 2) + Math.pow(yFinal2 , 2) , 1/2))
+                xFinal2 = (yFinal2 - b) / a;
+            else
+                yFinal2 = a * xFinal2 + b;
+
+            yFinal1 = getPosicaoY(yFinal1);
+            yFinal2 = getPosicaoY(yFinal2);
+            xFinal1 = getPosicaoX(xFinal1);
+            xFinal2 = getPosicaoX(xFinal2);
 
             let tempo1 = desenharReta(xInicial1, yInicial1, xFinal1, yFinal1, velocidade);
             let intervalo1 = setTimeout(function(){
@@ -1052,7 +1081,7 @@ function desenharGrafico() {
                 }, tempo2);
                 intervalos.push(intervalo2);
             }, tempo1);
-            intervalos.push(intervalo1);
+            intervalos.push(intervalo1); 
         }
         else
             desenharMessageBox(getTituloDaEtapa(etapaAtual), getTextoDaEtapa(etapaAtual), botaoAnterior, botaoProximo, messageBoxMinimizado);
