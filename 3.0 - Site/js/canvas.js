@@ -284,6 +284,33 @@ function validarFuncao() {
     }
 }
 
+function validarPontos() {
+    let expressaoReg = /^\(\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\;\s*\-?((\d+(\,|\/)\d+)|\d+)\s*\)$/;
+    
+    let x   = "";
+    let y   = "";
+    let aux = "";
+
+    for(let i = 0; i < ponto.length; i++) {
+        s = ponto.charAt(i);
+        
+        if(s != " ") {
+            if(s == "-")
+                aux = "-";
+            else
+                if(!isNaN(s) || s == "/" || s == ",")
+                    aux += s;
+                else
+                    if(s == ";") {
+                        x = aux;
+                        aux = "";
+                    }
+                    else
+                        if(s == ")")
+                            y = aux;
+        }
+}
+
 function desenharMessageBox(titulo, mensagem, temAnterior, temProximo, minimizado = false) {
 
     messageBoxHabilitado = true;
